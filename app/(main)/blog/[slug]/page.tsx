@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div style={{ marginTop: '60px', paddingTop: '40px', borderTop: '1px solid #e5e7eb' }}>
             <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#111', marginBottom: '20px', fontFamily: "'Inter',sans-serif" }}>Related Posts</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px' }}>
-              {related.map((r: { slug: string; title: string; coverImageUrl?: string | null; category?: string | null }) => (
+              {related.map((r: { slug: string; title: string; coverImageUrl?: string | null; category?: string | null; publishedAt?: Date | string | null }) => (
                 <Link key={r.slug} href={`/blog/${r.slug}`} style={{ textDecoration: 'none' }}>
                   <div style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e5e7eb' }}>
                     {r.coverImageUrl
