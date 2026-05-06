@@ -26,12 +26,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function decodeHtmlEntities(str: string) {
   return str
-    .replace(/&#0*38;/g, '&')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)))
     .replace(/&amp;/g, '&')
-    .replace(/&#0*60;/g, '<')
-    .replace(/&#0*62;/g, '>')
     .replace(/&quot;/g, '"')
-    .replace(/&#0*39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
     .replace(/&nbsp;/g, ' ');
 }
 
@@ -92,7 +92,7 @@ export default async function BlogPostPage({ params }: Props) {
                       : <div style={{ width: '100%', height: '120px', background: '#e5e7eb' }} />
                     }
                     <div style={{ padding: '12px 14px' }}>
-                      <div style={{ fontSize: '13px', fontWeight: 700, color: '#111', fontFamily: "'Inter',sans-serif", lineHeight: 1.4 }}>{r.title}</div>
+                      <div style={{ fontSize: '13px', fontWeight: 700, color: '#111', fontFamily: "'Inter',sans-serif", lineHeight: 1.4 }}>{decodeHtmlEntities(r.title)}</div>
                       <div style={{ fontSize: '11px', color: '#ff6a00', marginTop: '4px', fontFamily: "'Inter',sans-serif", fontWeight: 700 }}>Read More →</div>
                     </div>
                   </div>
