@@ -90,41 +90,48 @@ function Lightbox({
       style={{
         position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.96)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        zIndex: 9999, padding: '20px',
+        zIndex: 9999, padding: '60px 20px 20px',
       }}
     >
+      <style>{`
+        .lb-arrow {
+          position: absolute; top: 50%; transform: translateY(-50%);
+          background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+          border-radius: 50%; width: 48px; height: 48px; cursor: pointer;
+          color: #fff; font-size: 22px; display: flex; align-items: center; justify-content: center;
+          z-index: 10001;
+        }
+        .lb-arrow-prev { left: 16px; }
+        .lb-arrow-next { right: 16px; }
+        @media (max-width: 600px) {
+          .lb-arrow { width: 40px; height: 40px; font-size: 18px; }
+          .lb-arrow-prev { left: 8px; }
+          .lb-arrow-next { right: 8px; }
+        }
+      `}</style>
       {/* Prev */}
       {index > 0 && (
         <button
           onClick={e => { e.stopPropagation(); onNav(index - 1); }}
-          style={{
-            position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)',
-            background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)',
-            borderRadius: '50%', width: '48px', height: '48px', cursor: 'pointer',
-            color: '#fff', fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}
+          className="lb-arrow lb-arrow-prev"
         >‹</button>
       )}
       {/* Next */}
       {index < items.length - 1 && (
         <button
           onClick={e => { e.stopPropagation(); onNav(index + 1); }}
-          style={{
-            position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)',
-            background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)',
-            borderRadius: '50%', width: '48px', height: '48px', cursor: 'pointer',
-            color: '#fff', fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}
+          className="lb-arrow lb-arrow-next"
         >›</button>
       )}
       {/* Close */}
       <button
         onClick={onClose}
         style={{
-          position: 'absolute', top: '20px', right: '20px',
+          position: 'absolute', top: '14px', right: '14px',
           background: 'rgba(255,255,255,0.1)', border: 'none',
           borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer',
           color: '#fff', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 10001,
         }}
       >✕</button>
 

@@ -127,6 +127,20 @@ export default function ContactPageClient() {
 
   return (
     <div style={{ background: '#f8fafc', minHeight: '100vh' }}>
+      <style>{`
+        .contact-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .contact-map-form { display: grid; grid-template-columns: 1fr 1.5fr; gap: 28px; align-items: start; }
+        .contact-form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .contact-form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        @media (max-width: 900px) {
+          .contact-map-form { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 700px) {
+          .contact-info-grid { grid-template-columns: 1fr; }
+          .contact-form-row-3 { grid-template-columns: 1fr; }
+          .contact-form-row-2 { grid-template-columns: 1fr; }
+        }
+      `}</style>
 
       {/* ── Hero ── */}
       <div style={{
@@ -152,7 +166,7 @@ export default function ContactPageClient() {
 
       {/* ── Info Cards ── */}
       <div style={{ maxWidth: '1100px', margin: '-36px auto 0', padding: '0 24px', position: 'relative', zIndex: 10 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px' }}>
+        <div className="contact-info-grid">
 
           {/* Address */}
           <div style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '16px', padding: '24px 24px 24px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
@@ -205,7 +219,7 @@ export default function ContactPageClient() {
 
       {/* ── Map + Form ── */}
       <div style={{ maxWidth: '1100px', margin: '36px auto 80px', padding: '0 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '28px', alignItems: 'start' }}>
+        <div className="contact-map-form">
 
           {/* Map */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
@@ -297,7 +311,7 @@ export default function ContactPageClient() {
                   </div>
 
                   {/* Row 1 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                  <div className="contact-form-row-3">
                     <Field label="Your Name" required error={err('name')}>
                       <input type="text" placeholder="John Doe" value={form.name}
                         onChange={e => set('name', e.target.value)} onBlur={() => touch('name')}
@@ -325,7 +339,7 @@ export default function ContactPageClient() {
                   </div>
 
                   {/* Row 2 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                  <div className="contact-form-row-3">
                     <Field label="Company Name" required error={err('company')}>
                       <input type="text" placeholder="xyz ltd." value={form.company}
                         onChange={e => set('company', e.target.value)} onBlur={() => touch('company')}
@@ -344,7 +358,7 @@ export default function ContactPageClient() {
                   </div>
 
                   {/* Row 3 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                  <div className="contact-form-row-3">
                     <Field label="Target Audiences" required error={err('targetAudiences')}>
                       <input type="text" placeholder="Leadership / Staff" value={form.targetAudiences}
                         onChange={e => set('targetAudiences', e.target.value)} onBlur={() => touch('targetAudiences')}
@@ -363,7 +377,7 @@ export default function ContactPageClient() {
                   </div>
 
                   {/* Row 4 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                  <div className="contact-form-row-3">
                     <Field label="Type of Program">
                       <input type="text" placeholder="Outbound / Team Building" value={form.typeOfProgram}
                         onChange={e => set('typeOfProgram', e.target.value)}
@@ -382,7 +396,7 @@ export default function ContactPageClient() {
                   </div>
 
                   {/* Row 5 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
+                  <div className="contact-form-row-2">
                     <Field label="Additional Requirements">
                       <input type="text" placeholder="Any special requirements..." value={form.additionalRequirements}
                         onChange={e => set('additionalRequirements', e.target.value)}

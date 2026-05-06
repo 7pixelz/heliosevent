@@ -179,7 +179,7 @@ export default function Header() {
         {/* Activities dropdown — hidden for now */}
 
         <li><a href="/portfolio" className={pathname === '/portfolio' ? 'active' : ''} onClick={closeMobileMenu}>Portfolio</a></li>
-        <li><a href="/about" className={pathname === '/about' ? 'active' : ''} onClick={closeMobileMenu}>About</a></li>
+        <li><a href="/about" className={pathname === '/about' ? 'active' : ''} onClick={closeMobileMenu}>About Us</a></li>
         <li><a href="/blog" className={pathname.startsWith('/blog') ? 'active' : ''} onClick={closeMobileMenu}>Blog</a></li>
         <li><a href="/contact" className={pathname === '/contact' ? 'active' : ''} onClick={closeMobileMenu}>Contact</a></li>
         <li className="mobile-cta">
