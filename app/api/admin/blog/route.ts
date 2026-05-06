@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../../lib/prisma';
-import { verifyAdminToken } from '../../../../lib/auth';
+import { verifyToken } from '../../../../lib/auth';
 import { createClient } from '@supabase/supabase-js';
 
 const BUCKET = 'blog-images';
@@ -26,7 +26,7 @@ function slugify(text: string) {
 
 // GET — list all posts
 export async function GET(req: NextRequest) {
-  const admin = await verifyAdminToken(req);
+  const admin = await verifyToken(req);
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const posts = await prisma.blogPost.findMany({
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
 
 // POST — create post (with optional cover image upload)
 export async function POST(req: NextRequest) {
-  const admin = await verifyAdminToken(req);
+  const admin = await verifyToken(req);
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const fd = await req.formData();

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../../../lib/prisma';
-import { verifyAdminToken } from '../../../../../lib/auth';
+import { verifyToken } from '../../../../../lib/auth';
 import { createClient } from '@supabase/supabase-js';
 
 const BUCKET = 'blog-images';
@@ -15,7 +15,7 @@ function supabaseAdmin() {
 
 // PATCH — update post
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const admin = await verifyAdminToken(req);
+  const admin = await verifyToken(req);
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
 
@@ -94,7 +94,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 // DELETE
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const admin = await verifyAdminToken(req);
+  const admin = await verifyToken(req);
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
 
