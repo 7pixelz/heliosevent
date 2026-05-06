@@ -24,6 +24,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
+function decodeHtmlEntities(str: string) {
+  return str
+    .replace(/&#0*38;/g, '&')
+    .replace(/&amp;/g, '&')
+    .replace(/&#0*60;/g, '<')
+    .replace(/&#0*62;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#0*39;/g, "'")
+    .replace(/&nbsp;/g, ' ');
+}
+
+function cleanContent(html: string) {
+  return html
+    .replace(/<h1(\s[^>]*)?>/gi, '<h2$1>').replace(/<\/h1>/gi, '</h2>')
+    .replace(/<[^>]*class="[^"]*(?:social|share|sharedaddy)[^"]*"[^>]*>[\s\S]*?<\/[^>]+>/gi, '')
+    .replace(/<[^>]*(?:social|share|sharedaddy)[^>]*>[\s\S]*?<\/div>/gi, '');
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = await prisma.blogPost.findUnique({ where: { slug } });
@@ -46,11 +64,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,31,46,0.95) 0%, rgba(26,31,46,0.4) 100%)' }} />
         <div style={{ position: 'relative', maxWidth: '820px', margin: '0 auto', padding: '0 24px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '48px' }}>
           {post.category && <span style={{ fontSize: '11px', fontWeight: 700, color: '#ff6a00', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", marginBottom: '12px' }}>{post.category}</span>}
-          <h1 style={{ fontSize: 'clamp(24px,4vw,40px)', fontWeight: 900, color: '#fff', margin: '0 0 16px', lineHeight: 1.2, fontFamily: "'Inter',sans-serif" }}>{post.title}</h1>
-          <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', fontFamily: "'Inter',sans-serif" }}>
-            {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}
-            {post.tags && <> · {post.tags}</>}
-          </div>
+          <h1 style={{ fontSize: 'clamp(24px,4vw,40px)', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.2, fontFamily: "'Inter',sans-serif" }}>{decodeHtmlEntities(post.title)}</h1>
         </div>
       </div>
 
@@ -61,7 +75,7 @@ export default async function BlogPostPage({ params }: Props) {
         </Link>
         <div
           className="blog-content"
-          dangerouslySetInnerHTML={{ __html: post.content.replace(/<h1(\s[^>]*)?>/gi, '<h2$1>').replace(/<\/h1>/gi, '</h2>') }}
+          dangerouslySetInnerHTML={{ __html: cleanContent(post.content) }}
           style={{ fontFamily: "'Inter',sans-serif", fontSize: '16px', lineHeight: 1.8, color: '#333' }}
         />
 
