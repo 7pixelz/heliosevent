@@ -356,6 +356,9 @@ export default function ContactForm() {
                   </>
                 ) : 'Send My Enquiry →'}
               </button>
+              <p style={{ fontSize: '11px', color: '#bbb', textAlign: 'center', marginTop: '10px', fontFamily: "'Inter',sans-serif" }}>
+                Protected by reCAPTCHA · No spam, ever
+              </p>
             </form>
           )}
         </div>
