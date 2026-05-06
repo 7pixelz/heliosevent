@@ -102,10 +102,7 @@ export default async function BlogPage({
                         {post.excerpt.slice(0, 130)}{post.excerpt.length > 130 ? '…' : ''}
                       </p>
                     )}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: '11px', color: '#bbb', fontFamily: "'Inter',sans-serif" }}>
-                        {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
-                      </span>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                       <span style={{ fontSize: '12px', fontWeight: 700, color: '#ff6a00', fontFamily: "'Inter',sans-serif" }}>Read More →</span>
                     </div>
                   </div>

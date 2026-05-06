@@ -38,8 +38,8 @@ function decodeHtmlEntities(str: string) {
 function cleanContent(html: string) {
   return html
     .replace(/<h1(\s[^>]*)?>/gi, '<h2$1>').replace(/<\/h1>/gi, '</h2>')
-    .replace(/<[^>]*class="[^"]*(?:social|share|sharedaddy)[^"]*"[^>]*>[\s\S]*?<\/[^>]+>/gi, '')
-    .replace(/<[^>]*(?:social|share|sharedaddy)[^>]*>[\s\S]*?<\/div>/gi, '');
+    .replace(/<a[^>]*(?:facebook\.com\/helios|instagram\.com\/helios|linkedin\.com\/company\/helios|whatsapp\.com|wa\.me)[^>]*>[\s\S]*?<\/a>/gi, '')
+    .replace(/<[^>]*class="[^"]*(?:social|share|sharedaddy)[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '');
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -93,9 +93,7 @@ export default async function BlogPostPage({ params }: Props) {
                     }
                     <div style={{ padding: '12px 14px' }}>
                       <div style={{ fontSize: '13px', fontWeight: 700, color: '#111', fontFamily: "'Inter',sans-serif", lineHeight: 1.4 }}>{r.title}</div>
-                      <div style={{ fontSize: '11px', color: '#bbb', marginTop: '4px', fontFamily: "'Inter',sans-serif" }}>
-                        {r.publishedAt ? new Date(r.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
-                      </div>
+                      <div style={{ fontSize: '11px', color: '#ff6a00', marginTop: '4px', fontFamily: "'Inter',sans-serif", fontWeight: 700 }}>Read More →</div>
                     </div>
                   </div>
                 </Link>
