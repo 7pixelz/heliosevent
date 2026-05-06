@@ -11,3 +11,6 @@ build/
 
 /generated/prisma
 .env
+.claude/
+helios-branded.html
+helios-service-corporate.html
