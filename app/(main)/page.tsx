@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Hero from '../../components/sections/Hero';
 import Clients from '../../components/sections/Clients';
 import Portfolio from '../../components/sections/Portfolio';
@@ -40,7 +41,7 @@ export default async function Home() {
     <>
       <Hero slides={slides as never} />
       <Clients logos={logos} />
-      <Portfolio />
+      <Suspense fallback={null}><Portfolio /></Suspense>
       <Services mainServices={mainServices} />
       <Stats />
       <Testimonials />
