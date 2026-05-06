@@ -13,20 +13,51 @@ export default function Clients({ logos }: { logos: Logo[] }) {
   if (logos.length === 0) return null;
 
   return (
-    <section style={{ background: '#fff', padding: '80px 56px', borderBottom: '1px solid #eee', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <section className="clients-section">
+      <style>{`
+        .clients-section {
+          background: #fff;
+          padding: 80px 56px;
+          border-bottom: 1px solid #eee;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .clients-grid {
+          width: 100%;
+          max-width: 1200px;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          border: 1px solid #eee;
+        }
+        .clients-grid-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 32px 24px;
+          border-bottom: 1px solid #eee;
+          background: #fff;
+        }
+        @media (max-width: 900px) {
+          .clients-section { padding: 60px 24px; }
+          .clients-grid { grid-template-columns: repeat(3, 1fr); }
+          .clients-grid-item { padding: 24px 16px; }
+        }
+        @media (max-width: 500px) {
+          .clients-section { padding: 48px 16px; }
+          .clients-grid { grid-template-columns: repeat(2, 1fr); }
+          .clients-grid-item { padding: 20px 12px; }
+        }
+      `}</style>
       <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-        <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(28px, 3.5vw, 48px)', fontWeight: 800, color: '#1a1a1a' }}>
+        <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(22px, 3.5vw, 48px)', fontWeight: 800, color: '#1a1a1a' }}>
           Brands That Love Helios
         </h2>
       </div>
-      <div style={{ width: '100%', maxWidth: '1200px', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', border: '1px solid #eee' }}>
+      <div className="clients-grid">
         {visible.map((logo, i) => (
-          <div key={logo.id} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: '32px 24px',
+          <div key={logo.id} className="clients-grid-item" style={{
             borderRight: (i + 1) % 5 === 0 ? 'none' : '1px solid #eee',
-            borderBottom: '1px solid #eee',
-            background: '#fff',
           }}>
             <img
               src={logo.imageUrl}
