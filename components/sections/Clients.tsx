@@ -28,13 +28,15 @@ export default function Clients({ logos }: { logos: Logo[] }) {
           max-width: 1200px;
           display: grid;
           grid-template-columns: repeat(5, 1fr);
-          border: 1px solid #eee;
+          border-top: 1px solid #eee;
+          border-left: 1px solid #eee;
         }
         .clients-grid-item {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 32px 24px;
+          border-right: 1px solid #eee;
           border-bottom: 1px solid #eee;
           background: #fff;
         }
@@ -42,11 +44,14 @@ export default function Clients({ logos }: { logos: Logo[] }) {
           .clients-section { padding: 60px 24px; }
           .clients-grid { grid-template-columns: repeat(3, 1fr); }
           .clients-grid-item { padding: 24px 16px; }
+          .clients-grid-item:last-child:nth-child(3n+1) { grid-column: span 3; }
+          .clients-grid-item:last-child:nth-child(3n+2) { grid-column: span 2; }
         }
         @media (max-width: 500px) {
           .clients-section { padding: 48px 16px; }
           .clients-grid { grid-template-columns: repeat(2, 1fr); }
           .clients-grid-item { padding: 20px 12px; }
+          .clients-grid-item:last-child:nth-child(odd) { grid-column: span 2; }
         }
       `}</style>
       <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -55,10 +60,8 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         </h2>
       </div>
       <div className="clients-grid">
-        {visible.map((logo, i) => (
-          <div key={logo.id} className="clients-grid-item" style={{
-            borderRight: (i + 1) % 5 === 0 ? 'none' : '1px solid #eee',
-          }}>
+        {visible.map((logo) => (
+          <div key={logo.id} className="clients-grid-item">
             <img
               src={logo.imageUrl}
               alt={logo.name}
