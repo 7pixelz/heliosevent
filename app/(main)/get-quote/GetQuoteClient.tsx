@@ -167,6 +167,21 @@ export default function GetQuoteClient() {
 
   return (
     <div style={{ background: '#f8fafc', minHeight: '100vh' }}>
+      <style>{`
+        .gq-layout { display: grid; grid-template-columns: 340px 1fr; gap: 32px; align-items: start; }
+        .gq-sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 100px; }
+        .gq-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .gq-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+        @media (max-width: 900px) {
+          .gq-layout { grid-template-columns: 1fr; }
+          .gq-sidebar { position: static; }
+          .gq-row-3 { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+          .gq-row-3 { grid-template-columns: 1fr; }
+          .gq-row-2 { grid-template-columns: 1fr; margin-bottom: 16px; }
+        }
+      `}</style>
 
       {/* ── Hero ── */}
       <div style={{
@@ -191,10 +206,10 @@ export default function GetQuoteClient() {
       </div>
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 24px 80px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: '32px', alignItems: 'start' }}>
+        <div className="gq-layout">
 
           {/* ── Left Panel ── */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'sticky', top: '100px' }}>
+          <div className="gq-sidebar">
 
             {/* Trust points */}
             <div style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '18px', padding: '28px 24px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
@@ -287,7 +302,7 @@ export default function GetQuoteClient() {
                   </div>
 
                   {/* Row 1 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                  <div className="gq-row-3">
                     <Field label="Your Name" required error={err('name')}>
                       <input type="text" placeholder="John Doe" value={form.name}
                         onChange={e => set('name', e.target.value)} onBlur={() => touch('name')}
@@ -315,7 +330,7 @@ export default function GetQuoteClient() {
                   </div>
 
                   {/* Row 2 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                  <div className="gq-row-3">
                     <Field label="Company Name" required error={err('company')}>
                       <input type="text" placeholder="xyz ltd." value={form.company}
                         onChange={e => set('company', e.target.value)} onBlur={() => touch('company')}
@@ -334,7 +349,7 @@ export default function GetQuoteClient() {
                   </div>
 
                   {/* Row 3 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                  <div className="gq-row-3">
                     <Field label="Target Audiences" required error={err('targetAudiences')}>
                       <input type="text" placeholder="Leadership / Staff" value={form.targetAudiences}
                         onChange={e => set('targetAudiences', e.target.value)} onBlur={() => touch('targetAudiences')}
@@ -353,7 +368,7 @@ export default function GetQuoteClient() {
                   </div>
 
                   {/* Row 4 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                  <div className="gq-row-3">
                     <Field label="Type of Program">
                       <input type="text" placeholder="Outbound / Team Building" value={form.typeOfProgram}
                         onChange={e => set('typeOfProgram', e.target.value)}
@@ -372,7 +387,7 @@ export default function GetQuoteClient() {
                   </div>
 
                   {/* Row 5 */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '28px' }}>
+                  <div className="gq-row-2">
                     <Field label="Additional Requirements">
                       <input type="text" placeholder="Any special requirements..." value={form.additionalRequirements}
                         onChange={e => set('additionalRequirements', e.target.value)}
