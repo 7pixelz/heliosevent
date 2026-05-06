@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corporate Events – Helios Event Productions</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#ADC905;
+  --cta:#FF6A00;
+  --cta-hover:#E55F00;
+  --dark:#0F0F0F;
+  --dark2:#161616;
+  --dark3:#1e1e1e;
+  --light:#FAFAFA;
+  --white:#fff;
+  --text:#1A1A1A;
+  --muted:#6B7280;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--light);color:var(--text);overflow-x:hidden}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:13px 52px;background:rgba(15,15,15,.97);border-bottom:1px solid rgba(173,201,5,.12);backdrop-filter:blur(12px)}
+.nav-logo img{height:44px;width:auto;display:block}
+.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.55);font-size:11px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--primary)}
+.nav-cta{background:var(--cta);color:#fff;font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:11px 22px;border:none;cursor:pointer;border-radius:8px;transition:background .2s}
+.nav-cta:hover{background:var(--cta-hover)}
+
+/* ─── HERO ─── */
+.hero{position:relative;min-height:92vh;display:flex;align-items:flex-end;overflow:hidden;padding-top:72px}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#080d14 0%,#0c160a 45%,#160800 75%,#0f0f0f 100%)}
+.hero-beams{position:absolute;top:0;left:0;right:0;height:85%;pointer-events:none;overflow:hidden}
+.beam{position:absolute;top:0;width:1.5px;transform-origin:top center}
+.b1{left:15%;height:72%;background:linear-gradient(to bottom,rgba(173,201,5,.55),transparent);transform:rotate(-22deg);animation:bp 3.8s ease-in-out infinite alternate}
+.b2{left:30%;height:82%;background:linear-gradient(to bottom,rgba(255,106,0,.4),transparent);transform:rotate(-7deg);animation:bp 3.8s ease-in-out infinite alternate .45s}
+.b3{left:50%;height:92%;background:linear-gradient(to bottom,rgba(173,201,5,.65),transparent);transform:rotate(3deg);animation:bp 3.8s ease-in-out infinite alternate .9s}
+.b4{left:70%;height:80%;background:linear-gradient(to bottom,rgba(255,106,0,.5),transparent);transform:rotate(17deg);animation:bp 3.8s ease-in-out infinite alternate .25s}
+.b5{left:84%;height:68%;background:linear-gradient(to bottom,rgba(173,201,5,.42),transparent);transform:rotate(31deg);animation:bp 3.8s ease-in-out infinite alternate .7s}
+@keyframes bp{from{opacity:.15}to{opacity:.5}}
+.hero-grain{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(105deg,rgba(0,0,0,.82) 35%,transparent 100%)}
+.hero-content{position:relative;z-index:2;padding:0 60px 80px;max-width:780px;animation:heroUp 1s ease both}
+@keyframes heroUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-breadcrumb{position:absolute;top:120px;left:60px;z-index:3;display:flex;align-items:center;gap:8px;width:auto}
+.hero-breadcrumb a{color:rgba(255,255,255,.45);font-size:14px;font-weight:400;text-decoration:none;transition:color .2s;background:none}
+.hero-breadcrumb a:hover{color:rgba(255,255,255,.8)}
+.hero-breadcrumb .sep{color:rgba(255,255,255,.25);font-size:14px;font-weight:300;background:none}
+.hero-breadcrumb .cur{color:var(--primary);font-size:14px;font-weight:600;background:none}
+
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.hero-title{font-family:'Poppins',sans-serif;font-size:clamp(42px,6.5vw,82px);font-weight:800;color:#fff;line-height:1;letter-spacing:-1px;margin-bottom:22px}
+.hero-title .ac{color:var(--primary)}
+.hero-desc{font-size:16px;line-height:1.85;color:rgba(255,255,255,.55);max-width:520px;margin-bottom:38px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-cta{background:var(--cta);color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;padding:14px 30px;border:none;cursor:pointer;border-radius:8px;transition:background .2s;letter-spacing:.3px}
+.btn-cta:hover{background:var(--cta-hover)}
+.btn-ghost{background:transparent;color:#fff;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;padding:14px 30px;border:2px solid rgba(255,255,255,.2);cursor:pointer;border-radius:8px;transition:all .2s}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+.hero-stats{position:absolute;right:0;bottom:0;display:flex;z-index:2;border-top:1px solid rgba(255,255,255,.07);border-left:1px solid rgba(255,255,255,.07)}
+.h-stat{padding:20px 36px;border-right:1px solid rgba(255,255,255,.07);text-align:center}
+.h-stat:last-child{border-right:none}
+.h-stat-n{font-family:'Poppins',sans-serif;font-size:32px;font-weight:800;color:var(--primary);line-height:1}
+.h-stat-l{font-size:10px;color:rgba(255,255,255,.38);letter-spacing:1.8px;text-transform:uppercase;margin-top:4px}
+
+/* ─── SHARED ─── */
+.sec-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--primary);font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.sec-label::before{content:'';width:22px;height:2px;background:var(--primary)}
+.sec-label.cl{justify-content:center}
+.sec-label.cl::before{display:none}
+.sec-title{font-family:'Poppins',sans-serif;font-weight:800;line-height:1.15}
+
+/* ─── OVERVIEW ─── */
+.overview{padding:96px 60px;background:#fff}
+.ov-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ov-text .sec-title{font-size:clamp(26px,3vw,42px);margin-bottom:20px;color:var(--text)}
+.ov-text p{font-size:15px;line-height:1.9;color:var(--muted);margin-bottom:15px}
+.ov-text p:last-child{margin-bottom:0}
+.ov-text b{color:var(--text);font-weight:600}
+.ov-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ovc{background:var(--dark);border-radius:10px;padding:24px 20px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.ovc:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
+.ovc::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--primary)}
+.ovc.orange::after{background:var(--cta)}
+.ovc-icon{font-size:26px;margin-bottom:12px;display:block}
+.ovc-title{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+.ovc-desc{font-size:12px;color:rgba(255,255,255,.42);line-height:1.65}
+
+/* ═══════════════════════════════════════
+   EVENT TYPES — title+desc always visible
+   hover: green border glow + explore link
+   ═══════════════════════════════════════ */
+.event-types{padding:96px 60px;background:var(--dark);position:relative;overflow:hidden}
+.event-types::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--primary) 40%,transparent)}
+.et-inner{max-width:1240px;margin:0 auto}
+.et-header{text-align:center;margin-bottom:60px}
+.et-header .sec-title{font-size:clamp(28px,4vw,50px);color:#fff;margin-bottom:12px}
+.et-header p{font-size:15px;color:rgba(255,255,255,.4);max-width:540px;margin:0 auto;line-height:1.7}
+.et-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+/* card */
+.et-card{
+  border-radius:12px;overflow:hidden;
+  background:var(--dark2);
+  cursor:pointer;
+  position:relative;
+  border:1px solid rgba(255,255,255,.06);
+  transition:border-color .3s,transform .35s,box-shadow .35s;
+}
+.et-card:hover{
+  border-color:rgba(173,201,5,.4);
+  transform:translateY(-6px);
+  box-shadow:0 20px 48px rgba(0,0,0,.55),0 0 0 1px rgba(173,201,5,.1);
+}
+
+/* thumb */
+.et-thumb{position:relative;height:210px;overflow:hidden}
+.et-thumb img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;transition:transform .55s ease}
+.et-card:hover .et-thumb img{transform:scale(1.08)}
+.et-thumb-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.5) 100%);
+  transition:background .35s;
+}
+.et-card:hover .et-thumb-overlay{
+  background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(8,12,4,.78) 100%);
+}
+.et-badge{
+  position:absolute;top:14px;left:14px;
+  background:rgba(173,201,5,.15);border:1px solid rgba(173,201,5,.35);
+  color:var(--primary);font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:1.5px;padding:4px 10px;border-radius:20px;
+  backdrop-filter:blur(6px);z-index:2;
+}
+.et-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+
+/* body — title+desc ALWAYS visible */
+.et-body{padding:20px 22px 22px;position:relative}
+.et-title{
+  font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;
+  color:#fff;margin-bottom:8px;
+  transition:color .3s;
+}
+.et-card:hover .et-title{color:var(--primary)}
+.et-desc{
+  font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;
+  margin-bottom:0;
+  transition:color .3s;
+}
+.et-card:hover .et-desc{color:rgba(255,255,255,.65)}
+
+/* explore link — hidden by default, slides up on hover */
+.et-explore{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--primary);text-decoration:none;
+  margin-top:0;max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .35s ease,opacity .3s ease .05s,margin .3s ease;
+}
+.et-card:hover .et-explore{max-height:40px;opacity:1;margin-top:14px}
+.et-arrow{display:inline-block;transition:transform .25s}
+.et-explore:hover .et-arrow{transform:translateX(4px)}
+
+/* green left accent bar on hover */
+.et-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--primary);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .35s ease;
+  z-index:3;
+}
+.et-card:hover::before{transform:scaleY(1)}
+
+/* ═══════════════════════════════════════
+   PORTFOLIO GALLERY — pure image grid
+   hover: dark overlay + title + link only
+   ═══════════════════════════════════════ */
+.gallery{padding:96px 60px;background:#111}
+.gallery-inner{max-width:1200px;margin:0 auto}
+.gallery-header{margin-bottom:48px}
+.gallery-header .sec-title{font-size:clamp(26px,3.5vw,46px);color:#fff}
+.gallery-header .sec-label{color:rgba(173,201,5,.7)}
+.gallery-header .sec-label::before{background:rgba(173,201,5,.7)}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:240px 240px;gap:12px}
+
+.gi{position:relative;overflow:hidden;border-radius:8px;cursor:pointer}
+.gi.tall{grid-row:span 2}
+.gi-bg{position:absolute;inset:0;transition:transform .55s ease}
+.gi:hover .gi-bg{transform:scale(1.08)}
+
+/* dark gradient overlay — hidden, fades on hover */
+.gi-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.4) 55%,rgba(0,0,0,.08) 100%);
+  opacity:0;transition:opacity .35s ease;
+}
+.gi:hover .gi-overlay{opacity:1}
+
+/* green top bar */
+.gi-bar{
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--primary);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s ease;z-index:3;
+}
+.gi:hover .gi-bar{transform:scaleX(1)}
+
+/* info — bottom, hidden by default */
+.gi-info{
+  position:absolute;bottom:0;left:0;right:0;padding:22px 20px;
+  z-index:2;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .35s ease,transform .35s ease;
+}
+.gi:hover .gi-info{opacity:1;transform:translateY(0)}
+.gi-title{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.3}
+.gi-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--primary);text-decoration:none;
+}
+.gi-arr{display:inline-block;transition:transform .25s}
+.gi-link:hover .gi-arr{transform:translateX(4px)}
+
+.g1{background:linear-gradient(135deg,#0d1025,#1a0d3a)}
+.g2{background:linear-gradient(135deg,#101a0d,#1a3010)}
+.g3{background:linear-gradient(135deg,#1a0d00,#351a00)}
+.g4{background:linear-gradient(135deg,#080d18,#0d1828)}
+.g5{background:linear-gradient(135deg,#100820,#200d35)}
+.gallery-more{text-align:center;margin-top:36px}
+
+/* ─── PROCESS ─── */
+.process{padding:96px 60px;background:var(--light)}
+.process-inner{max-width:1200px;margin:0 auto}
+.process-header{text-align:center;margin-bottom:64px}
+.process-header .sec-title{font-size:clamp(26px,3.5vw,46px);color:var(--text)}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);position:relative;gap:0}
+.steps::before{content:'';position:absolute;top:35px;left:8%;right:8%;height:1px;background:linear-gradient(to right,var(--primary),rgba(173,201,5,.1));z-index:0}
+.step{text-align:center;position:relative;z-index:1;padding:0 12px}
+.step-circle{width:70px;height:70px;border-radius:50%;background:#fff;border:2px solid rgba(173,201,5,.35);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:var(--primary);transition:all .3s;box-shadow:0 4px 18px rgba(173,201,5,.1)}
+.step:hover .step-circle{background:var(--primary);color:var(--dark);border-color:var(--primary);box-shadow:0 8px 28px rgba(173,201,5,.3)}
+.step-icon{font-size:22px;margin-bottom:8px;display:block}
+.step-title{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px}
+.step-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ─── TESTIMONIALS ─── */
+.testimonials{padding:96px 60px;background:var(--dark)}
+.testi-inner{max-width:1200px;margin:0 auto}
+.testi-header{text-align:center;margin-bottom:52px}
+.testi-header .sec-title{font-size:clamp(26px,3.5vw,44px);color:#fff}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:28px 26px;transition:border-color .3s,transform .3s}
+.tc:hover{border-color:rgba(173,201,5,.28);transform:translateY(-4px)}
+.tc-q{font-family:'Poppins',sans-serif;font-size:52px;color:rgba(173,201,5,.12);line-height:.8;margin-bottom:12px;font-weight:800}
+.tc-text{font-size:14px;color:rgba(255,255,255,.5);line-height:1.85;font-style:italic;margin-bottom:24px}
+.tc-author{display:flex;align-items:center;gap:12px}
+.tc-av{width:44px;height:44px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;color:var(--dark);flex-shrink:0}
+.tc-name{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:#fff}
+.tc-role{font-size:11px;color:var(--muted);margin-top:2px}
+.tc-brand{display:inline-block;margin-top:6px;font-size:9px;letter-spacing:2px;font-weight:700;color:var(--primary);text-transform:uppercase;border:1px solid rgba(173,201,5,.25);padding:2px 8px;border-radius:20px}
+
+/* ─── FAQ ─── */
+.faq{padding:96px 60px;background:var(--light)}
+.faq-inner{max-width:860px;margin:0 auto}
+.faq-header{text-align:center;margin-bottom:52px}
+.faq-header .sec-title{font-size:clamp(26px,3.5vw,44px);color:var(--text)}
+.faq-item{border-bottom:1px solid #e5e5e5}
+.faq-btn{width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:22px 0;text-align:left;gap:20px}
+.faq-btn-text{font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;color:var(--text);line-height:1.4}
+.faq-icon{width:30px;height:30px;border-radius:50%;border:2px solid rgba(173,201,5,.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;color:var(--primary);font-size:18px;font-weight:300;line-height:1}
+.faq-item.open .faq-icon{background:var(--primary);color:var(--dark);border-color:var(--primary);transform:rotate(45deg)}
+.faq-ans{max-height:0;overflow:hidden;transition:max-height .42s ease,padding .3s}
+.faq-item.open .faq-ans{max-height:260px;padding-bottom:20px}
+.faq-ans p{font-size:14px;color:var(--muted);line-height:1.85}
+
+/* ─── CONTACT ─── */
+.contact{padding:96px 60px;background:var(--dark);position:relative;overflow:hidden}
+.contact::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--primary) 40%,transparent)}
+.contact-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.15fr;gap:72px;align-items:start}
+.contact-left .sec-title{font-size:clamp(26px,3.5vw,44px);color:#fff;margin-bottom:14px}
+.contact-left>p{font-size:15px;color:rgba(255,255,255,.45);line-height:1.8;margin-bottom:36px}
+.cinfo{display:flex;flex-direction:column;gap:16px}
+.ci{display:flex;align-items:flex-start;gap:14px}
+.ci-icon{width:40px;height:40px;background:rgba(173,201,5,.08);border:1px solid rgba(173,201,5,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ci-lbl{font-size:10px;color:var(--primary);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:3px}
+.ci-val{font-size:13px;color:rgba(255,255,255,.45);line-height:1.5}
+.cform{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:36px 32px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.fg label{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.38)}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:12px 14px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;transition:border-color .2s;outline:none;width:100%}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.2)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--primary);background:rgba(173,201,5,.04)}
+.fg select{cursor:pointer;-webkit-appearance:none}
+.fg select option{background:#1a1a1a;color:#fff}
+.fg textarea{resize:vertical;min-height:100px}
+.fsub{width:100%;background:var(--cta);color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;padding:15px;border:none;cursor:pointer;border-radius:8px;transition:background .2s;margin-top:4px;letter-spacing:.4px}
+.fsub:hover{background:var(--cta-hover)}
+
+/* ─── FOOTER ─── */
+footer{background:#0a0a0a;padding:60px 60px 28px;border-top:1px solid rgba(173,201,5,.1)}
+.fg-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:52px;max-width:1200px;margin:0 auto;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.05)}
+.fb-desc{font-size:13px;color:rgba(255,255,255,.35);line-height:1.85;margin-top:14px;max-width:250px}
+.socs{display:flex;gap:10px;margin-top:18px}
+.soc{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);border-radius:6px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);font-size:12px;cursor:pointer;transition:all .2s;font-weight:600}
+.soc:hover{border-color:var(--primary);color:var(--primary)}
+.fc-ttl{font-family:'Poppins',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--primary);font-weight:700;margin-bottom:16px}
+.flinks{list-style:none}
+.flinks li{margin-bottom:8px}
+.flinks a{color:rgba(255,255,255,.35);text-decoration:none;font-size:13px;transition:color .2s}
+.flinks a:hover{color:#fff}
+.fci{display:flex;gap:10px;margin-bottom:12px;align-items:flex-start}
+.fi-icon{color:var(--primary);font-size:13px;flex-shrink:0;margin-top:2px}
+.fi-txt{font-size:13px;color:rgba(255,255,255,.35);line-height:1.6}
+.fbot{max-width:1200px;margin:22px auto 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.fcopy{font-size:11px;color:rgba(255,255,255,.16)}
+.flegal{display:flex;gap:18px}
+.flegal a{font-size:11px;color:rgba(255,255,255,.16);text-decoration:none;transition:color .2s}
+.flegal a:hover{color:rgba(255,255,255,.5)}
+
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.fade-up.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:1080px){
+  nav{padding:12px 24px}.nav-links{display:none}
+  .hero-content{padding:0 24px 80px}
+  .hero-breadcrumb{left:24px;top:100px}
+  .ov-inner,.contact-inner{grid-template-columns:1fr}
+  .et-grid{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr;gap:28px}.steps::before{display:none}
+  .testi-grid{grid-template-columns:1fr}
+  .fg-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .overview,.event-types,.process,.gallery,.testimonials,.faq,.contact,footer{padding-left:24px!important;padding-right:24px!important}
+  .form-row{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:180px 180px}
+  .gi.tall{grid-row:span 1}
+}
+@media(max-width:640px){
+  .et-grid,.testi-grid,.fg-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr}
+  .ov-cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div><img src="data:image/webp;base64,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" alt="Helios Event Productions" style="height:44px;width:auto;display:block"></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#" class="active">Services</a></li>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Plan Your Event</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-beams"><div class="beam b1"></div><div class="beam b2"></div><div class="beam b3"></div><div class="beam b4"></div><div class="beam b5"></div></div>
+  <div class="hero-grain"></div>
+  <div class="hero-shade"></div>
+  <div class="hero-breadcrumb">
+    <a href="index.html">Home</a><span class="sep">/</span>
+    <a href="#">Services</a><span class="sep">/</span>
+    <span class="cur">Corporate Events</span>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-title">Corporate <span class="ac">Events</span><br>Done Right.</h1>
+    <p class="hero-desc">From high-stakes product launches to immersive employee engagement programs — we craft corporate experiences that align with your brand, energise your people, and leave lasting impressions.</p>
+    <div class="hero-btns">
+      <button class="btn-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a Custom Quote</button>
+      <button class="btn-ghost" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">View Our Work</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="h-stat"><div class="h-stat-n">500+</div><div class="h-stat-l">Events</div></div>
+    <div class="h-stat"><div class="h-stat-n">200+</div><div class="h-stat-l">Clients</div></div>
+    <div class="h-stat"><div class="h-stat-n">15+</div><div class="h-stat-l">Years</div></div>
+    <div class="h-stat"><div class="h-stat-n">50+</div><div class="h-stat-l">Venues</div></div>
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section class="overview" id="overview">
+  <div class="ov-inner">
+    <div class="ov-text fade-up">
+      <div class="sec-label">What We Do</div>
+      <h2 class="sec-title">Chennai's Most Trusted<br>Corporate Event Partner</h2>
+      <p>Helios Event Productions specialises in creating <b>high-impact corporate experiences</b> that resonate with your audience. Whether it's a boardroom strategy offsite or a 3,000-person national conference, we bring the same obsessive attention to detail.</p>
+      <p>We've delivered events for <b>MRF, Philips, TCS, Royal Enfield, Adani</b> and 200+ other brands. Our in-house team handles everything — concept, creative, production, logistics, and on-ground execution.</p>
+    </div>
+    <div class="ov-cards fade-up" style="transition-delay:.15s">
+      <div class="ovc"><span class="ovc-icon">🎯</span><div class="ovc-title">Strategic Concept</div><div class="ovc-desc">Every event starts with your objectives. We build backwards from outcomes.</div></div>
+      <div class="ovc orange"><span class="ovc-icon">🎬</span><div class="ovc-title">End-to-End Production</div><div class="ovc-desc">Venue, AV, décor, catering, entertainment — all under one roof.</div></div>
+      <div class="ovc"><span class="ovc-icon">📐</span><div class="ovc-title">Custom Creative</div><div class="ovc-desc">No templates. Every design, stage, and experience is built for your brand.</div></div>
+      <div class="ovc"><span class="ovc-icon">✅</span><div class="ovc-title">Flawless Execution</div><div class="ovc-desc">On-ground teams ensure zero surprises on event day.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     EVENT TYPES
+     Title + desc always visible
+     Hover → green glow + explore
+     ═══════════════════════════════ -->
+<section class="event-types" id="event-types">
+  <div class="et-inner">
+    <div class="et-header fade-up">
+      <div class="sec-label cl" style="color:rgba(173,201,5,.65)">Corporate Event Types</div>
+      <h2 class="sec-title">Events We Deliver<br>Under Corporate</h2>
+      <p>Each format is a specialisation — built from years of execution experience and a deep understanding of what makes corporate audiences engage.</p>
+    </div>
+    <div class="et-grid">
+
+      <!-- 1 -->
+      <div class="et-card fade-up">
+        <div class="et-thumb">
+          <img src="" alt="Employee Engagement" onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
+          <div class="et-placeholder">
+            <svg viewBox="0 0 380 210" style="width:100%;height:100%;position:absolute;inset:0">
+              <defs><linearGradient id="p1a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#080d14"/><stop offset="100%" stop-color="#0c1a0a"/></linearGradient><radialGradient id="p1b" cx="50%" cy="40%" r="45%"><stop offset="0%" stop-color="#ADC905" stop-opacity=".18"/><stop offset="100%" stop-color="#ADC905" stop-opacity="0"/></radialGradient></defs>
+              <rect width="380" height="210" fill="url(#p1a)"/><rect width="380" height="210" fill="url(#p1b)"/>
+              <g fill="rgba(0,0,0,.65)"><ellipse cx="90" cy="150" rx="14" ry="24"/><ellipse cx="90" cy="124" rx="8" ry="9"/><ellipse cx="130" cy="155" rx="14" ry="22"/><ellipse cx="130" cy="131" rx="8" ry="9"/><ellipse cx="170" cy="148" rx="14" ry="24"/><ellipse cx="170" cy="122" rx="8" ry="9"/><ellipse cx="210" cy="153" rx="14" ry="22"/><ellipse cx="210" cy="129" rx="8" ry="9"/><ellipse cx="250" cy="149" rx="14" ry="24"/><ellipse cx="250" cy="123" rx="8" ry="9"/><ellipse cx="290" cy="154" rx="14" ry="22"/><ellipse cx="290" cy="130" rx="8" ry="9"/></g>
+              <g stroke="rgba(173,201,5,.5)" stroke-width="1.2" fill="none"><line x1="90" y1="124" x2="80" y2="106"/><line x1="90" y1="124" x2="100" y2="104"/><line x1="210" y1="129" x2="200" y2="110"/><line x1="210" y1="129" x2="220" y2="108"/></g>
+              <rect x="120" y="50" width="140" height="26" fill="rgba(255,255,255,.06)" rx="3"/>
+              <text x="190" y="68" text-anchor="middle" fill="rgba(255,255,255,.45)" font-size="11" font-family="sans-serif" letter-spacing="1">ANNUAL DAY</text>
+            </svg>
+          </div>
+          <div class="et-thumb-overlay"></div>
+          <span class="et-badge">01</span>
+        </div>
+        <div class="et-body">
+          <div class="et-title">Employee Engagement</div>
+          <div class="et-desc">Annual days, town halls, team-building events, and cultural programs that unite and energise your workforce at any scale.</div>
+          <a href="#" class="et-explore">Explore <span class="et-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="et-card fade-up" style="transition-delay:.08s">
+        <div class="et-thumb">
+          <img src="" alt="Seminars & Conferences" onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
+          <div class="et-placeholder">
+            <svg viewBox="0 0 380 210" style="width:100%;height:100%;position:absolute;inset:0">
+              <defs><linearGradient id="p2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a0e18"/><stop offset="100%" stop-color="#14100a"/></linearGradient><radialGradient id="p2b" cx="50%" cy="35%" r="40%"><stop offset="0%" stop-color="#FF6A00" stop-opacity=".2"/><stop offset="100%" stop-color="#FF6A00" stop-opacity="0"/></radialGradient></defs>
+              <rect width="380" height="210" fill="url(#p2a)"/><rect width="380" height="210" fill="url(#p2b)"/>
+              <g fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.04)" stroke-width=".5"><rect x="50" y="95" width="280" height="6" rx="2"/><rect x="50" y="108" width="280" height="6" rx="2"/><rect x="50" y="121" width="280" height="6" rx="2"/><rect x="50" y="134" width="220" height="6" rx="2"/></g>
+              <rect x="130" y="46" width="120" height="32" fill="rgba(255,255,255,.08)" rx="3"/>
+              <text x="190" y="66" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="11" font-family="sans-serif">CONFERENCE</text>
+              <circle cx="190" cy="34" r="9" fill="rgba(255,106,0,.35)"/>
+            </svg>
+          </div>
+          <div class="et-thumb-overlay"></div>
+          <span class="et-badge">02</span>
+        </div>
+        <div class="et-body">
+          <div class="et-title">Seminars & Conferences</div>
+          <div class="et-desc">End-to-end conference management — from multi-track summits to intimate leadership roundtables and industry forums.</div>
+          <a href="#" class="et-explore">Explore <span class="et-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="et-card fade-up" style="transition-delay:.16s">
+        <div class="et-thumb">
+          <img src="" alt="Brand & Product Launches" onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
+          <div class="et-placeholder">
+            <svg viewBox="0 0 380 210" style="width:100%;height:100%;position:absolute;inset:0">
+              <defs><linearGradient id="p3a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a0810"/><stop offset="100%" stop-color="#140a00"/></linearGradient><radialGradient id="p3b" cx="50%" cy="38%" r="42%"><stop offset="0%" stop-color="#ADC905" stop-opacity=".22"/><stop offset="100%" stop-color="#ADC905" stop-opacity="0"/></radialGradient></defs>
+              <rect width="380" height="210" fill="url(#p3a)"/><rect width="380" height="210" fill="url(#p3b)"/>
+              <ellipse cx="190" cy="95" rx="55" ry="55" fill="rgba(173,201,5,.06)" stroke="rgba(173,201,5,.15)" stroke-width="1"/>
+              <ellipse cx="190" cy="95" rx="35" ry="35" fill="rgba(173,201,5,.09)" stroke="rgba(173,201,5,.2)" stroke-width="1"/>
+              <circle cx="190" cy="95" r="18" fill="rgba(173,201,5,.18)"/>
+              <line x1="190" y1="40" x2="190" y2="20" stroke="rgba(173,201,5,.5)" stroke-width="1.5"/>
+              <circle cx="190" cy="18" r="4" fill="rgba(173,201,5,.6)"/>
+              <text x="190" y="168" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-family="sans-serif" letter-spacing="2">PRODUCT LAUNCH</text>
+            </svg>
+          </div>
+          <div class="et-thumb-overlay"></div>
+          <span class="et-badge">03</span>
+        </div>
+        <div class="et-body">
+          <div class="et-title">Brand & Product Launches</div>
+          <div class="et-desc">Create maximum buzz — from press-ready unveilings to large-scale consumer activations that put your product centre stage.</div>
+          <a href="#" class="et-explore">Explore <span class="et-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="et-card fade-up" style="transition-delay:.08s">
+        <div class="et-thumb">
+          <img src="" alt="Dealer & Channel Partner Meet" onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
+          <div class="et-placeholder">
+            <svg viewBox="0 0 380 210" style="width:100%;height:100%;position:absolute;inset:0">
+              <defs><linearGradient id="p4a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0c1008"/><stop offset="100%" stop-color="#180c00"/></linearGradient><radialGradient id="p4b" cx="50%" cy="40%" r="45%"><stop offset="0%" stop-color="#FF6A00" stop-opacity=".18"/><stop offset="100%" stop-color="#FF6A00" stop-opacity="0"/></radialGradient></defs>
+              <rect width="380" height="210" fill="url(#p4a)"/><rect width="380" height="210" fill="url(#p4b)"/>
+              <g fill="rgba(255,255,255,.07)"><rect x="60" y="80" width="60" height="80" rx="4"/><rect x="160" y="60" width="60" height="100" rx="4"/><rect x="260" y="90" width="60" height="70" rx="4"/></g>
+              <text x="190" y="176" text-anchor="middle" fill="rgba(255,255,255,.38)" font-size="11" font-family="sans-serif" letter-spacing="1.5">DEALER MEET</text>
+            </svg>
+          </div>
+          <div class="et-thumb-overlay"></div>
+          <span class="et-badge">04</span>
+        </div>
+        <div class="et-body">
+          <div class="et-title">Dealer & Channel Partner Meet</div>
+          <div class="et-desc">Celebrate and motivate your partner network with high-energy meets that strengthen loyalty and drive business results.</div>
+          <a href="#" class="et-explore">Explore <span class="et-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="et-card fade-up" style="transition-delay:.16s">
+        <div class="et-thumb">
+          <img src="" alt="Press Meets" onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
+          <div class="et-placeholder">
+            <svg viewBox="0 0 380 210" style="width:100%;height:100%;position:absolute;inset:0">
+              <defs><linearGradient id="p5a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#080c14"/><stop offset="100%" stop-color="#0e0c10"/></linearGradient><radialGradient id="p5b" cx="50%" cy="38%" r="40%"><stop offset="0%" stop-color="#ADC905" stop-opacity=".2"/><stop offset="100%" stop-color="#ADC905" stop-opacity="0"/></radialGradient></defs>
+              <rect width="380" height="210" fill="url(#p5a)"/><rect width="380" height="210" fill="url(#p5b)"/>
+              <rect x="115" y="52" width="150" height="80" fill="rgba(255,255,255,.06)" stroke="rgba(173,201,5,.15)" stroke-width="1" rx="4"/>
+              <text x="190" y="97" text-anchor="middle" fill="rgba(255,255,255,.45)" font-size="12" font-family="sans-serif">PRESS MEET</text>
+              <g fill="rgba(173,201,5,.2)"><circle cx="130" cy="155" r="7"/><circle cx="153" cy="155" r="7"/><circle cx="176" cy="155" r="7"/><circle cx="199" cy="155" r="7"/><circle cx="222" cy="155" r="7"/><circle cx="245" cy="155" r="7"/></g>
+            </svg>
+          </div>
+          <div class="et-thumb-overlay"></div>
+          <span class="et-badge">05</span>
+        </div>
+        <div class="et-body">
+          <div class="et-title">Press Meets</div>
+          <div class="et-desc">Strategically designed media events that command attention and generate the right headlines for your brand story.</div>
+          <a href="#" class="et-explore">Explore <span class="et-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="et-card fade-up" style="transition-delay:.24s">
+        <div class="et-thumb">
+          <img src="" alt="BTL Activations" onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1">
+          <div class="et-placeholder">
+            <svg viewBox="0 0 380 210" style="width:100%;height:100%;position:absolute;inset:0">
+              <defs><linearGradient id="p6a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0e0808"/><stop offset="100%" stop-color="#0a100a"/></linearGradient><radialGradient id="p6b" cx="50%" cy="38%" r="45%"><stop offset="0%" stop-color="#FF6A00" stop-opacity=".22"/><stop offset="100%" stop-color="#FF6A00" stop-opacity="0"/></radialGradient></defs>
+              <rect width="380" height="210" fill="url(#p6a)"/><rect width="380" height="210" fill="url(#p6b)"/>
+              <g stroke="rgba(173,201,5,.15)" stroke-width="1" fill="none"><circle cx="190" cy="100" r="70"/><circle cx="190" cy="100" r="50"/><circle cx="190" cy="100" r="30"/></g>
+              <g fill="rgba(255,106,0,.25)"><circle cx="130" cy="100" r="5"/><circle cx="250" cy="100" r="5"/><circle cx="190" cy="40" r="5"/><circle cx="190" cy="160" r="5"/></g>
+              <text x="190" y="105" text-anchor="middle" fill="rgba(255,255,255,.45)" font-size="11" font-family="sans-serif" letter-spacing="1.5">BTL ACTIVATIONS</text>
+            </svg>
+          </div>
+          <div class="et-thumb-overlay"></div>
+          <span class="et-badge">06</span>
+        </div>
+        <div class="et-body">
+          <div class="et-title">BTL Activations</div>
+          <div class="et-desc">Below-the-line activations that forge direct, tangible connections between your brand and your target audience on the ground.</div>
+          <a href="#" class="et-explore">Explore <span class="et-arrow">→</span></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div class="process-header fade-up">
+      <div class="sec-label cl">How We Work</div>
+      <h2 class="sec-title" style="font-size:clamp(26px,3.5vw,46px)">Our Proven 5-Step Process</h2>
+    </div>
+    <div class="steps">
+      <div class="step fade-up"><div class="step-circle">01</div><span class="step-icon">💬</span><div class="step-title">Discovery Call</div><div class="step-desc">We learn your goals, audience, budget, and brand vision.</div></div>
+      <div class="step fade-up" style="transition-delay:.1s"><div class="step-circle">02</div><span class="step-icon">✏️</span><div class="step-title">Concept & Design</div><div class="step-desc">Custom event blueprint built for your objectives and brand identity.</div></div>
+      <div class="step fade-up" style="transition-delay:.2s"><div class="step-circle">03</div><span class="step-icon">🏗️</span><div class="step-title">Production</div><div class="step-desc">Venue, AV, stage, décor, and vendor coordination — fully managed.</div></div>
+      <div class="step fade-up" style="transition-delay:.3s"><div class="step-circle">04</div><span class="step-icon">🎤</span><div class="step-title">Event Day</div><div class="step-desc">On-ground team ensures flawless execution from setup to close.</div></div>
+      <div class="step fade-up" style="transition-delay:.4s"><div class="step-circle">05</div><span class="step-icon">📊</span><div class="step-title">Post-Event Report</div><div class="step-desc">Detailed debrief with highlights, metrics, and learnings.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO GALLERY -->
+<section class="gallery" id="portfolio">
+  <div class="gallery-inner">
+    <div class="gallery-header fade-up">
+      <div class="sec-label">Our Portfolio</div>
+      <h2 class="sec-title">Corporate Events We've Delivered</h2>
+    </div>
+    <div class="gallery-grid">
+
+      <!-- tall -->
+      <div class="gi tall fade-up">
+        <div class="gi-bg g1">
+          <svg viewBox="0 0 400 496" style="width:100%;height:100%;opacity:.6">
+            <defs><radialGradient id="gg1" cx="50%" cy="40%" r="40%"><stop offset="0%" stop-color="#ADC905" stop-opacity=".35"/><stop offset="100%" stop-color="#ADC905" stop-opacity="0"/></radialGradient></defs>
+            <rect width="400" height="496" fill="url(#gg1)"/>
+            <g fill="rgba(255,255,255,.07)"><rect x="60" y="90" width="280" height="7" rx="2"/><rect x="60" y="106" width="280" height="7" rx="2"/><rect x="60" y="122" width="240" height="7" rx="2"/></g>
+            <rect x="130" y="42" width="140" height="30" fill="rgba(255,255,255,.08)" rx="3"/>
+            <text x="200" y="62" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="12" font-family="sans-serif">EMPLOYEE ENGAGEMENT</text>
+            <g fill="rgba(0,0,0,.7)"><ellipse cx="80" cy="300" rx="15" ry="25"/><ellipse cx="80" cy="273" rx="8" ry="9"/><ellipse cx="120" cy="305" rx="15" ry="23"/><ellipse cx="120" cy="280" rx="8" ry="9"/><ellipse cx="160" cy="298" rx="15" ry="25"/><ellipse cx="160" cy="271" rx="8" ry="9"/><ellipse cx="200" cy="303" rx="15" ry="23"/><ellipse cx="200" cy="278" rx="8" ry="9"/><ellipse cx="240" cy="299" rx="15" ry="25"/><ellipse cx="240" cy="272" rx="8" ry="9"/><ellipse cx="280" cy="304" rx="15" ry="23"/><ellipse cx="280" cy="279" rx="8" ry="9"/><ellipse cx="320" cy="299" rx="15" ry="25"/><ellipse cx="320" cy="272" rx="8" ry="9"/></g>
+            <g stroke="rgba(173,201,5,.55)" stroke-width="1.2" fill="none"><line x1="80" y1="273" x2="68" y2="252"/><line x1="80" y1="273" x2="92" y2="250"/><line x1="200" y1="278" x2="188" y2="257"/><line x1="200" y1="278" x2="212" y2="255"/><line x1="320" y1="272" x2="308" y2="252"/><line x1="320" y1="272" x2="332" y2="250"/></g>
+          </svg>
+        </div>
+        <div class="gi-bar"></div>
+        <div class="gi-overlay"></div>
+        <div class="gi-info">
+          <div class="gi-title">Annual Employee Day — Philips India</div>
+          <a href="#" class="gi-link">View Project <span class="gi-arr">→</span></a>
+        </div>
+      </div>
+
+      <!-- small 1 -->
+      <div class="gi fade-up" style="transition-delay:.08s">
+        <div class="gi-bg g2">
+          <svg viewBox="0 0 400 240" style="width:100%;height:100%;opacity:.65">
+            <defs><radialGradient id="gg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FF6A00" stop-opacity=".35"/><stop offset="100%" stop-color="#FF6A00" stop-opacity="0"/></radialGradient></defs>
+            <rect width="400" height="240" fill="url(#gg2)"/>
+            <g fill="rgba(255,255,255,.07)"><rect x="50" y="70" width="300" height="6" rx="2"/><rect x="50" y="84" width="280" height="6" rx="2"/><rect x="50" y="98" width="200" height="6" rx="2"/></g>
+            <rect x="140" y="36" width="120" height="24" fill="rgba(255,255,255,.08)" rx="3"/>
+            <text x="200" y="52" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="11" font-family="sans-serif">SEMINAR 2024</text>
+          </svg>
+        </div>
+        <div class="gi-bar"></div>
+        <div class="gi-overlay"></div>
+        <div class="gi-info">
+          <div class="gi-title">Leadership Summit — TCS India</div>
+          <a href="#" class="gi-link">View Project <span class="gi-arr">→</span></a>
+        </div>
+      </div>
+
+      <!-- small 2 -->
+      <div class="gi fade-up" style="transition-delay:.14s">
+        <div class="gi-bg g3">
+          <svg viewBox="0 0 400 240" style="width:100%;height:100%;opacity:.65">
+            <defs><radialGradient id="gg3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ADC905" stop-opacity=".3"/><stop offset="100%" stop-color="#ADC905" stop-opacity="0"/></radialGradient></defs>
+            <rect width="400" height="240" fill="url(#gg3)"/>
+            <ellipse cx="200" cy="100" rx="55" ry="55" fill="rgba(173,201,5,.06)" stroke="rgba(173,201,5,.2)" stroke-width="1"/>
+            <ellipse cx="200" cy="100" rx="34" ry="34" fill="rgba(173,201,5,.1)"/><circle cx="200" cy="100" r="16" fill="rgba(173,201,5,.2)"/>
+            <text x="200" y="185" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-family="sans-serif">PRODUCT LAUNCH</text>
+          </svg>
+        </div>
+        <div class="gi-bar"></div>
+        <div class="gi-overlay"></div>
+        <div class="gi-info">
+          <div class="gi-title">New Model Unveil — Royal Enfield</div>
+          <a href="#" class="gi-link">View Project <span class="gi-arr">→</span></a>
+        </div>
+      </div>
+
+      <!-- small 3 -->
+      <div class="gi fade-up" style="transition-delay:.2s">
+        <div class="gi-bg g4">
+          <svg viewBox="0 0 400 240" style="width:100%;height:100%;opacity:.65">
+            <defs><radialGradient id="gg4" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FF6A00" stop-opacity=".3"/><stop offset="100%" stop-color="#FF6A00" stop-opacity="0"/></radialGradient></defs>
+            <rect width="400" height="240" fill="url(#gg4)"/>
+            <g fill="rgba(255,255,255,.08)"><rect x="60" y="60" width="55" height="110" rx="4"/><rect x="172" y="40" width="55" height="130" rx="4"/><rect x="286" y="72" width="55" height="98" rx="4"/></g>
+            <text x="200" y="210" text-anchor="middle" fill="rgba(255,255,255,.42)" font-size="11" font-family="sans-serif">DEALER MEET</text>
+          </svg>
+        </div>
+        <div class="gi-bar"></div>
+        <div class="gi-overlay"></div>
+        <div class="gi-info">
+          <div class="gi-title">Annual Partner Meet — Adani Group</div>
+          <a href="#" class="gi-link">View Project <span class="gi-arr">→</span></a>
+        </div>
+      </div>
+
+      <!-- small 4 -->
+      <div class="gi fade-up" style="transition-delay:.26s">
+        <div class="gi-bg g5">
+          <svg viewBox="0 0 400 240" style="width:100%;height:100%;opacity:.65">
+            <defs><radialGradient id="gg5" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ADC905" stop-opacity=".25"/><stop offset="100%" stop-color="#ADC905" stop-opacity="0"/></radialGradient></defs>
+            <rect width="400" height="240" fill="url(#gg5)"/>
+            <g stroke="rgba(173,201,5,.15)" stroke-width="1" fill="none"><circle cx="200" cy="105" r="65"/><circle cx="200" cy="105" r="44"/><circle cx="200" cy="105" r="25"/></g>
+            <g fill="rgba(255,106,0,.3)"><circle cx="135" cy="105" r="5"/><circle cx="265" cy="105" r="5"/><circle cx="200" cy="40" r="5"/><circle cx="200" cy="170" r="5"/></g>
+            <text x="200" y="109" text-anchor="middle" fill="rgba(255,255,255,.42)" font-size="11" font-family="sans-serif">BTL ACTIVATION</text>
+          </svg>
+        </div>
+        <div class="gi-bar"></div>
+        <div class="gi-overlay"></div>
+        <div class="gi-info">
+          <div class="gi-title">Pan-India Activation — MRF Tyres</div>
+          <a href="#" class="gi-link">View Project <span class="gi-arr">→</span></a>
+        </div>
+      </div>
+
+    </div>
+    <div class="gallery-more fade-up">
+      <button class="btn-cta">View All Corporate Projects →</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="testi-inner">
+    <div class="testi-header fade-up">
+      <div class="sec-label cl" style="color:rgba(173,201,5,.65)">Client Stories</div>
+      <h2 class="sec-title" style="font-size:clamp(26px,3.5vw,44px);color:#fff">Hear It Straight From Our Clients</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="tc fade-up"><div class="tc-q">"</div><p class="tc-text">Thanks for all your support for the huge success of the South Hub Event. Everyone appreciated the stage setup and the evening lawn setup. Feedback from participants is really good — thank you once again.</p><div class="tc-author"><div class="tc-av">C</div><div><div class="tc-name">Mr. Christopher</div><div class="tc-role">Marriott Hotel, Chennai</div><span class="tc-brand">Airtel</span></div></div></div>
+      <div class="tc fade-up" style="transition-delay:.1s"><div class="tc-q">"</div><p class="tc-text">The Helios team delivered our product launch flawlessly. The stage design, AV quality, and overall production exceeded our expectations. Our brand looked spectacular on day one.</p><div class="tc-author"><div class="tc-av">R</div><div><div class="tc-name">Rajesh Menon</div><div class="tc-role">Marketing Head</div><span class="tc-brand">Royal Enfield</span></div></div></div>
+      <div class="tc fade-up" style="transition-delay:.2s"><div class="tc-q">"</div><p class="tc-text">We've worked with Helios for 3 consecutive annual conferences. Their ability to manage 1,000+ guests with zero hiccups is what keeps us coming back. Truly a world-class team.</p><div class="tc-author"><div class="tc-av">S</div><div><div class="tc-name">Sundar Krishnan</div><div class="tc-role">VP Operations</div><span class="tc-brand">TCS</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="faq-header fade-up">
+      <div class="sec-label cl">FAQs</div>
+      <h2 class="sec-title" style="font-size:clamp(26px,3.5vw,44px)">Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><span class="faq-btn-text">What types of corporate events does Helios manage?</span><span class="faq-icon">+</span></button><div class="faq-ans"><p>We manage the full spectrum — employee engagement, seminars & conferences, brand launches, dealer meets, press meets, and BTL activations. No event is too large or too niche for our team.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><span class="faq-btn-text">How far in advance should I contact Helios?</span><span class="faq-icon">+</span></button><div class="faq-ans"><p>For large events (500+ attendees), 8–12 weeks in advance is ideal. For smaller events, 4–6 weeks usually works. We also handle fast-turnaround projects — reach out and we'll assess feasibility together.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><span class="faq-btn-text">Do you handle venue sourcing as well?</span><span class="faq-icon">+</span></button><div class="faq-ans"><p>Absolutely. We have strong relationships with leading venues across Chennai and pan-India. We shortlist venues based on your guest count, format, and budget — then manage all contracts and logistics directly.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><span class="faq-btn-text">Can Helios handle pan-India or multi-city events?</span><span class="faq-icon">+</span></button><div class="faq-ans"><p>Yes. We've executed simultaneous multi-city activations and national roadshows. Our operations team coordinates across locations to maintain consistent brand quality everywhere.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><span class="faq-btn-text">What does your end-to-end service include?</span><span class="faq-icon">+</span></button><div class="faq-ans"><p>Concept, creative design, venue management, stage & AV production, décor, guest management, catering coordination, entertainment, on-ground execution, and post-event reporting. We manage every touchpoint.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><span class="faq-btn-text">How do you price your services?</span><span class="faq-icon">+</span></button><div class="faq-ans"><p>Pricing is customised to each event based on scale, format, venue, and requirements. We provide a transparent, itemised proposal after an initial discovery call — no hidden charges, ever.</p></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left fade-up">
+      <div class="sec-label" style="color:rgba(173,201,5,.65)">Let's Talk</div>
+      <h2 class="sec-title">Ready to Plan Your Next<br>Corporate Event?</h2>
+      <p>Tell us about your event. Our team will respond within 24 hours with a custom proposal tailored to your objectives.</p>
+      <div class="cinfo">
+        <div class="ci"><div class="ci-icon">📍</div><div><div class="ci-lbl">Location</div><div class="ci-val">26, Judge Jambulingam Road,<br>Mylapore, Chennai, Tamil Nadu</div></div></div>
+        <div class="ci"><div class="ci-icon">📞</div><div><div class="ci-lbl">Phone</div><div class="ci-val">+91 98765 43210</div></div></div>
+        <div class="ci"><div class="ci-icon">✉️</div><div><div class="ci-lbl">Email</div><div class="ci-val">plan@heliosevent.co</div></div></div>
+      </div>
+    </div>
+    <div class="cform fade-up" style="transition-delay:.15s">
+      <div class="form-row">
+        <div class="fg"><label>Your Name *</label><input type="text" placeholder="e.g. Arun Kumar"></div>
+        <div class="fg"><label>Company Name</label><input type="text" placeholder="e.g. TCS India"></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label>Email *</label><input type="email" placeholder="arun@company.com"></div>
+        <div class="fg"><label>Phone *</label><input type="tel" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label>Event Type</label>
+          <select><option value="">Select Event Type</option><option>Employee Engagement</option><option>Seminar / Conference</option><option>Brand / Product Launch</option><option>Dealer & Channel Partner Meet</option><option>Press Meet</option><option>BTL Activation</option><option>Other</option></select>
+        </div>
+        <div class="fg"><label>Event Date</label><input type="date"></div>
+      </div>
+      <div class="fg"><label>Budget Range</label>
+        <select><option value="">Select Budget</option><option>Under ₹5 Lakhs</option><option>₹5 – ₹15 Lakhs</option><option>₹15 – ₹50 Lakhs</option><option>₹50 Lakhs – ₹1 Crore</option><option>Above ₹1 Crore</option></select>
+      </div>
+      <div class="fg"><label>Tell Us About Your Event</label><textarea placeholder="Describe your event goals, expected attendance, and any specific requirements..."></textarea></div>
+      <button class="fsub">Send My Enquiry →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fg-grid">
+    <div>
+      <img src="data:image/webp;base64,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" alt="Helios Event" style="height:42px;width:auto">
+      <p class="fb-desc">Chennai's leading premium event production agency. Cinematic experiences for global brands and private clients.</p>
+      <div class="socs"><div class="soc">f</div><div class="soc">in</div><div class="soc">yt</div></div>
+    </div>
+    <div><div class="fc-ttl">Quick Links</div><ul class="flinks"><li><a href="#">Home</a></li><li><a href="#">About Us</a></li><li><a href="#">Portfolio</a></li><li><a href="#">Client Stories</a></li><li><a href="#">Careers</a></li></ul></div>
+    <div><div class="fc-ttl">Our Services</div><ul class="flinks"><li><a href="#">Corporate Events</a></li><li><a href="#">Entertainment Events</a></li><li><a href="#">Exhibitions</a></li><li><a href="#">MICE Management</a></li><li><a href="#">Wedding & Social</a></li></ul></div>
+    <div>
+      <div class="fc-ttl">Get In Touch</div>
+      <div class="fci"><div class="fi-icon">📍</div><div class="fi-txt">26, Judge Jambulingam Road, Mylapore, Chennai, TN</div></div>
+      <div class="fci"><div class="fi-icon">📞</div><div class="fi-txt">+91 98765 43210</div></div>
+      <div class="fci"><div class="fi-icon">✉️</div><div class="fi-txt">plan@heliosevent.co</div></div>
+    </div>
+  </div>
+  <div class="fbot">
+    <div class="fcopy">© 2025 Helios Event Productions. All Rights Reserved.</div>
+    <div class="flegal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+  </div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('vis')})},{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item'),isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+</script>
+</body>
+</html>

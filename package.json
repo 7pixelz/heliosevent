@@ -1,0 +1,57 @@
+{
+  "name": "heliosevent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "screenshot": "node scripts/capture-screenshot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@supabase/supabase-js": "^2.105.1",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@tiptap/extension-image": "^3.22.5",
+    "@tiptap/extension-link": "^3.22.5",
+    "@tiptap/extension-placeholder": "^3.22.5",
+    "@tiptap/react": "^3.22.5",
+    "@tiptap/starter-kit": "^3.22.5",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^25.5.0",
+    "@types/nodemailer": "^8.0.0",
+    "@types/pg": "^8.20.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.27",
+    "bcryptjs": "^3.0.3",
+    "framer-motion": "^12.38.0",
+    "jose": "^6.2.3",
+    "next": "^16.2.1",
+    "nodemailer": "^8.0.7",
+    "pg": "^8.20.0",
+    "postcss": "^8.5.8",
+    "prisma": "^7.8.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-google-recaptcha-v3": "^1.11.0",
+    "react-hook-form": "^7.72.0",
+    "shadcn-ui": "^0.9.5",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "puppeteer": "^24.40.0"
+  }
+}

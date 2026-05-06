@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+}
+
+enum QuoteStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HeroSlide {
+  id           String    @id @default(cuid())
+  type         MediaType @default(IMAGE)
+  mediaUrl     String
+  storagePath  String
+  title        String?
+  subtitle     String?
+  ctaText      String?
+  ctaLink      String?
+  displayOrder Int       @default(0)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+}
+
+model ClientLogo {
+  id           String   @id @default(cuid())
+  name         String
+  imageUrl     String
+  storagePath  String
+  displayOrder Int      @default(0)
+  isVisible    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Service {
+  id              String   @id @default(cuid())
+  type            String   @default("MAIN")
+  icon            String
+  name            String
+  slug            String   @unique
+  description     String
+  heroHeadline    String?
+  heroSubtitle    String?  @db.Text
+  whatWeDo        String?  @db.Text
+  signatureEvents String?  @db.Text
+  differentiators String?  @db.Text
+  faqs            String?  @db.Text
+  coverImageUrl   String?
+  storagePath     String?
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?
+  displayOrder    Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model BlogPost {
+  id            String    @id @default(cuid())
+  title         String
+  slug          String    @unique
+  content       String    @db.Text
+  excerpt       String?   @db.Text
+  coverImageUrl String?
+  storagePath   String?
+  category      String?
+  tags          String?
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?
+  isPublished   Boolean   @default(false)
+  publishedAt   DateTime?
+  wpId          Int?      @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model PortfolioItem {
+  id           String   @id @default(cuid())
+  title        String?
+  category     String
+  imageUrl     String
+  storagePath  String?
+  displayOrder Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PortfolioEvent {
+  id            String           @id @default(cuid())
+  title         String
+  slug          String           @unique
+  description   String?          @db.Text
+  category      String
+  clientName    String?
+  eventDate     DateTime?
+  coverImageUrl   String?
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?
+  displayOrder    Int              @default(0)
+  isActive        Boolean          @default(true)
+  media           PortfolioMedia[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model PortfolioMedia {
+  id           String         @id @default(cuid())
+  eventId      String
+  event        PortfolioEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  type         String         @default("IMAGE")
+  url          String
+  storagePath  String?
+  displayOrder Int            @default(0)
+  createdAt    DateTime       @default(now())
+}
+
+model PageSeo {
+  id              String   @id @default(cuid())
+  pageKey         String   @unique
+  pageLabel       String
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  metaKeywords    String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Quote {
+  id                     String      @id @default(cuid())
+  name                   String
+  email                  String
+  phoneCode              String      @default("+91")
+  phone                  String
+  company                String
+  location               String
+  teamSize               String
+  targetAudiences        String
+  preferredDate          String?
+  duration               String?
+  typeOfProgram          String?
+  objectives             String?
+  budget                 String
+  additionalRequirements String?
+  howDidYouHear          String?
+  status                 QuoteStatus @default(NEW)
+  contactedAt            DateTime?
+  notes                  String?
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+}
