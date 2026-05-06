@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { prisma } from '../../../lib/prisma';
 import { getPageSeo, buildMeta } from '../../../lib/seo';
 import type { Metadata } from 'next';
-import type { Service } from '../../../generated/prisma';
+
+type Service = { id: string; name: string; slug: string; icon: string; description: string; type: string; displayOrder: number; isActive: boolean; heroHeadline?: string | null; coverImageUrl?: string | null };
 
 export const dynamic = 'force-dynamic';
 
