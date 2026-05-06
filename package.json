@@ -7,10 +7,11 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "screenshot": "node scripts/capture-screenshot.js"
+    "screenshot": "node scripts/capture-screenshot.js",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
