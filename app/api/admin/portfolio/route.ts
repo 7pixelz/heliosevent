@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
   const maxOrder = await prisma.portfolioItem.aggregate({ _max: { displayOrder: true }, where: { category } });
   let displayOrder = (maxOrder._max.displayOrder ?? 0) + 1;
 
-  const created: { url: string }[] = [];
+  const created: Record<string, unknown>[] = [];
   for (const file of files) {
     if (!file.size) continue;
     const ext = file.name.split('.').pop() || 'jpg';

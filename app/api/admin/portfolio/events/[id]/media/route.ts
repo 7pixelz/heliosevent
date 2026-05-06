@@ -70,7 +70,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     if (error) continue;
     const url = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
     const media = await prisma.portfolioMedia.create({ data: { eventId, type: 'IMAGE', url, storagePath: path, displayOrder } });
-    created.push(media);
+    created.push({ ...media, url: media.url });
     displayOrder++;
   }
 
