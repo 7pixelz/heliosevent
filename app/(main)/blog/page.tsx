@@ -75,7 +75,7 @@ export default async function BlogPage({
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '28px' }}>
-            {posts.map(post => (
+            {posts.map((post: { id: string; title: string; slug: string; excerpt?: string | null; coverImageUrl?: string | null; category?: string | null; publishedAt?: Date | null }) => (
               <Link key={post.id} href={`/blog/${post.slug}`} style={{ textDecoration: 'none' }}>
                 <article className="blog-card">
                   <div style={{ height: '200px', background: '#e5e7eb', overflow: 'hidden' }}>
