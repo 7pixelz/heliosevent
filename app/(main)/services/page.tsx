@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { prisma } from '../../../lib/prisma';
 import { getPageSeo, buildMeta } from '../../../lib/seo';
 import type { Metadata } from 'next';
+import type { Service } from '../../../generated/prisma';
 
 export const dynamic = 'force-dynamic';
 
@@ -85,7 +86,7 @@ export default async function ServicesPage() {
           </div>
 
           <div className="svc-grid">
-            {mainServices.map((svc, i) => (
+            {mainServices.map((svc: Service, i: number) => (
               <Link key={svc.id} href={`/services/${svc.slug}`} style={{ textDecoration: 'none' }}>
                 <div className={`svc-card ${colorClasses[i % colorClasses.length]}`} style={{ cursor: 'pointer' }}>
                   <div className="svc-bg"></div>
@@ -129,7 +130,7 @@ export default async function ServicesPage() {
           </div>
 
           <div className="act-cards-grid">
-            {activities.map((item) => (
+            {activities.map((item: Service) => (
               <Link key={item.id} href={`/services/${item.slug}`} style={{ textDecoration: 'none' }}>
                 <div className="act-card" style={{ cursor: 'pointer' }}>
                   <div className="act-card-img">
