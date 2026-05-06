@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
-import { verifyToken } from '../../../../../lib/auth';
+import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
 import { createClient } from '@supabase/supabase-js';
 
 const BUCKET = 'blog-images';
@@ -13,9 +14,16 @@ function supabaseAdmin() {
   );
 }
 
+async function requireAdmin() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+  if (!token) return null;
+  return await verifyToken(token);
+}
+
 // PATCH — update post
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const admin = await verifyToken(req);
+  const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
 
@@ -93,8 +101,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 }
 
 // DELETE
-export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const admin = await verifyToken(req);
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
 

@@ -16,14 +16,6 @@ const FALLBACK_MAIN: ServiceItem[] = [
   { id: 'f8', icon: '💒', name: 'Wedding & Social Events', slug: 'wedding-social-events' },
 ];
 
-const FALLBACK_ACTIVITIES: ServiceItem[] = [
-  { id: 'a1', icon: '🏆', name: 'Team Building Activities', slug: 'team-building-activities' },
-  { id: 'a2', icon: '🎯', name: 'Corporate Games & Sports', slug: 'corporate-games-sports' },
-  { id: 'a3', icon: '🎭', name: 'Cultural Performances', slug: 'cultural-performances' },
-  { id: 'a4', icon: '💡', name: 'Employee Engagement', slug: 'employee-engagement' },
-  { id: 'a5', icon: '🎤', name: 'Conferences & Seminars', slug: 'conferences-seminars' },
-  { id: 'a6', icon: '🚀', name: 'Brand Activations', slug: 'brand-activations' },
-];
 
 function DropdownMenu({ items, visible }: { items: ServiceItem[]; visible: boolean }) {
   return (
@@ -110,14 +102,10 @@ function MobileAccordion({ items, open }: { items: ServiceItem[]; open: boolean 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [activitiesOpen, setActivitiesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [mobileActivitiesOpen, setMobileActivitiesOpen] = useState(false);
   const [mainServices, setMainServices] = useState<ServiceItem[]>(FALLBACK_MAIN);
-  const [activities, setActivities] = useState<ServiceItem[]>(FALLBACK_ACTIVITIES);
 
   const servicesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const activitiesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const pathname = usePathname();
 
@@ -126,7 +114,6 @@ export default function Header() {
       .then(r => r.ok ? r.json() : null)
       .then(data => {
         if (data?.main?.length) setMainServices(data.main);
-        if (data?.activities?.length) setActivities(data.activities);
       })
       .catch(() => {});
   }, []);
@@ -134,7 +121,6 @@ export default function Header() {
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
     setMobileServicesOpen(false);
-    setMobileActivitiesOpen(false);
   };
 
   const isServicesActive = pathname.startsWith('/services');

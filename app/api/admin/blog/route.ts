@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
-import { verifyToken } from '../../../../lib/auth';
+import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
 import { createClient } from '@supabase/supabase-js';
 
 const BUCKET = 'blog-images';
@@ -24,9 +25,16 @@ function slugify(text: string) {
   return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
 }
 
+async function requireAdmin() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+  if (!token) return null;
+  return await verifyToken(token);
+}
+
 // GET — list all posts
-export async function GET(req: NextRequest) {
-  const admin = await verifyToken(req);
+export async function GET() {
+  const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const posts = await prisma.blogPost.findMany({
@@ -37,8 +45,8 @@ export async function GET(req: NextRequest) {
 }
 
 // POST — create post (with optional cover image upload)
-export async function POST(req: NextRequest) {
-  const admin = await verifyToken(req);
+export async function POST(req: Request) {
+  const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const fd = await req.formData();

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 
 interface AdminUser {
   id: string;
@@ -23,7 +23,6 @@ const card: React.CSSProperties = {
 };
 
 export default function UsersClient({ users: initial }: Props) {
-  const router = useRouter();
   const [users, setUsers] = useState(initial);
   const [showAdd, setShowAdd] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'ADMIN' });

@@ -90,14 +90,6 @@ export default function BlogAdminClient({ posts: initial }: Props) {
     resetCreate(); setCreating(false);
   }
 
-  // ── Edit ──
-  function openEdit(post: Post) {
-    setEditPost(post);
-    setEditForm({ title: post.title, excerpt: post.excerpt || '', content: '', category: post.category || '', tags: post.tags || '', isPublished: post.isPublished });
-    setEditFile(null); setEditPreview(null); setEditError('');
-    if (editFileRef.current) editFileRef.current.value = '';
-  }
-
   function resetEdit() {
     setEditPost(null); setEditForm(emptyForm);
     setEditFile(null); setEditPreview(null); setEditError('');

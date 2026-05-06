@@ -4,7 +4,7 @@ import Portfolio from '../../components/sections/Portfolio';
 import Services from '../../components/sections/Services';
 import Stats from '../../components/sections/Stats';
 import Testimonials from '../../components/sections/Testimonials';
-import Pricing from '../../components/sections/Pricing';
+
 import CtaBanner from '../../components/sections/CtaBanner';
 import Locations from '../../components/sections/Locations';
 import ContactForm from '../../components/sections/ContactForm';
