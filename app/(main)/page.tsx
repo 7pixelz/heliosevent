@@ -19,23 +19,31 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [slides, logos, mainServices] = await Promise.all([
-    prisma.heroSlide.findMany({
-      where: { isActive: true },
-      orderBy: { displayOrder: 'asc' },
-      select: { id: true, type: true, mediaUrl: true, title: true, subtitle: true, ctaText: true, ctaLink: true },
-    }),
-    prisma.clientLogo.findMany({
-      where: { isVisible: true },
-      orderBy: { displayOrder: 'asc' },
-      select: { id: true, name: true, imageUrl: true },
-    }),
-    prisma.service.findMany({
-      where: { isActive: true, type: 'MAIN' },
-      orderBy: { displayOrder: 'asc' },
-      select: { id: true, icon: true, name: true, slug: true, description: true },
-    }),
-  ]);
+  let slides: { id: string; type: string; mediaUrl: string; title: string | null; subtitle: string | null; ctaText: string | null; ctaLink: string | null }[] = [];
+  let logos: { id: string; name: string; imageUrl: string }[] = [];
+  let mainServices: { id: string; icon: string; name: string; slug: string; description: string }[] = [];
+
+  try {
+    [slides, logos, mainServices] = await Promise.all([
+      prisma.heroSlide.findMany({
+        where: { isActive: true },
+        orderBy: { displayOrder: 'asc' },
+        select: { id: true, type: true, mediaUrl: true, title: true, subtitle: true, ctaText: true, ctaLink: true },
+      }),
+      prisma.clientLogo.findMany({
+        where: { isVisible: true },
+        orderBy: { displayOrder: 'asc' },
+        select: { id: true, name: true, imageUrl: true },
+      }),
+      prisma.service.findMany({
+        where: { isActive: true, type: 'MAIN' },
+        orderBy: { displayOrder: 'asc' },
+        select: { id: true, icon: true, name: true, slug: true, description: true },
+      }),
+    ]);
+  } catch {
+    // DB unavailable — components use their own fallback data
+  }
 
   return (
     <>
