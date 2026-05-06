@@ -356,8 +356,11 @@ export default function ContactForm() {
                   </>
                 ) : 'Send My Enquiry →'}
               </button>
-              <p style={{ fontSize: '11px', color: '#bbb', textAlign: 'center', marginTop: '10px', fontFamily: "'Inter',sans-serif" }}>
-                Protected by reCAPTCHA · No spam, ever
+              <p style={{ fontSize: '11px', color: '#bbb', textAlign: 'center', marginTop: '10px', fontFamily: "'Inter',sans-serif", lineHeight: 1.6 }}>
+                Protected by reCAPTCHA —{' '}
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Privacy Policy</a>
+                {' & '}
+                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Terms of Service</a>
               </p>
             </form>
           )}
