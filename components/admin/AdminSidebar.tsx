@@ -195,6 +195,23 @@ export default function AdminSidebar({ user }: Props) {
           </div>
         </div>
 
+        <a
+          href="/admin/account"
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            width: '100%', padding: '11px', marginBottom: '8px',
+            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '8px', color: 'rgba(255,255,255,0.7)',
+            fontSize: '13px', fontWeight: 600, textDecoration: 'none',
+            fontFamily: "'Inter', sans-serif", boxSizing: 'border-box',
+          }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          Change Password
+        </a>
+
         <button
           onClick={handleLogout}
           style={{
