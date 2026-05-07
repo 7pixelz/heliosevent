@@ -17,7 +17,7 @@ const nextConfig = {
     return [
       {
         source: '/wp-content/uploads/:path*',
-        destination: 'http://69.62.80.189/wp-content/uploads/:path*',
+        destination: '/api/wp-media/:path*',
       },
     ];
   },
