@@ -58,7 +58,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ pat
     return new Response('Not found', { status: 404 });
   }
 
-  return new Response(result.data, {
+  return new Response(result.data.buffer as ArrayBuffer, {
     headers: {
       'Content-Type': result.contentType,
       'Cache-Control': 'public, max-age=31536000, immutable',
