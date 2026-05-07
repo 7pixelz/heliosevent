@@ -11,10 +11,10 @@ const CAT_LABELS: Record<string, string> = {
 };
 
 const FALLBACK = [
-  { id: 'f1', title: 'GYPROC Corporate Dealers Meet', slug: 'gyproc-corporate-dealers-meet', category: 'corporate-events', clientName: 'GYPROC', coverImageUrl: 'https://www.heliosevent.in/wp-content/uploads/2025/07/GYPROC-Corporate-Dealers-Meet-Eventing.jpg' },
-  { id: 'f2', title: 'RBI Conference', slug: 'rbi-conference', category: 'seminars-conferences', clientName: 'Reserve Bank of India', coverImageUrl: 'https://www.heliosevent.in/wp-content/uploads/2025/05/Case-Study-on-RBI-Conference-Execution3.jpg' },
-  { id: 'f3', title: 'Weddings & Social Events', slug: 'weddings-social-events', category: 'social-wedding', clientName: null, coverImageUrl: 'https://www.heliosevent.in/wp-content/uploads/2025/07/wedding1.png' },
-  { id: 'f4', title: 'ISUZU Exhibition Event', slug: 'isuzu-exhibition', category: 'exhibitions', clientName: 'ISUZU', coverImageUrl: 'https://www.heliosevent.in/wp-content/uploads/2025/07/ISUZU-Car-Exibition-Event.jpg' },
+  { id: 'cmossftzf0000m40k1wvej8ut', title: 'GYPROC Corporate Dealers Meet', slug: 'gyproc-corporate-dealers-meet', category: 'corporate-events', clientName: 'GYPROC', coverImageUrl: 'https://dndigemwjlbukfauxyqx.supabase.co/storage/v1/object/public/portfolio-media/events/cmossftzf0000m40k1wvej8ut/1778154202618-jh6vds4q3h.jpg' },
+  { id: 'cmossfuoc0003m40krrny4cx6', title: 'Corporate Events Portfolio', slug: 'corporate-events-portfolio', category: 'corporate-events', clientName: null, coverImageUrl: 'https://dndigemwjlbukfauxyqx.supabase.co/storage/v1/object/public/portfolio-media/events/cmossfuoc0003m40krrny4cx6/1778154204853-1elw5ck5m3e.jpg' },
+  { id: 'cmossfvd60006m40kfv104n23', title: 'Employee Engagement Events', slug: 'employee-engagement-events', category: 'employee-engagement', clientName: null, coverImageUrl: 'https://dndigemwjlbukfauxyqx.supabase.co/storage/v1/object/public/portfolio-media/events/cmossfvd60006m40kfv104n23/1778154207431-138bxpzsqvk.png' },
+  { id: 'cmossfw1x000im40kgkhkoh2q', title: 'RBI Conference', slug: 'rbi-conference', category: 'seminars-conferences', clientName: 'Reserve Bank of India', coverImageUrl: 'https://dndigemwjlbukfauxyqx.supabase.co/storage/v1/object/public/portfolio-media/events/cmossfw1x000im40kgkhkoh2q/1778154215070-k3x25mbqiyg.jpg' },
 ];
 
 export default async function Portfolio() {
