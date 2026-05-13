@@ -20,10 +20,21 @@ async function ensureBucket(sb: ReturnType<typeof supabaseAdmin>) {
   }
 }
 
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+  });
+  const data = await res.json();
+  return data.success && data.score >= 0.5;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const fd = await req.formData();
 
+    const recaptchaToken = (fd.get('recaptchaToken') as string || '').trim();
     const name = (fd.get('name') as string || '').trim();
     const email = (fd.get('email') as string || '').trim();
     const phone = (fd.get('phone') as string || '').trim();
@@ -35,6 +46,13 @@ export async function POST(req: NextRequest) {
 
     if (!name || !email || !phone || !position || !experience) {
       return NextResponse.json({ error: 'Please fill in all required fields.' }, { status: 400 });
+    }
+
+    if (recaptchaToken) {
+      const valid = await verifyRecaptcha(recaptchaToken);
+      if (!valid) {
+        return NextResponse.json({ error: 'reCAPTCHA verification failed. Please try again.' }, { status: 400 });
+      }
     }
 
     let resumeUrl: string | null = null;

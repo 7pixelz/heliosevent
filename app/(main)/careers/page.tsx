@@ -1,6 +1,26 @@
 'use client';
 
 import { useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { z } from 'zod';
+
+const FormSchema = z.object({
+  name:       z.string().min(2, 'Please enter your full name'),
+  email:      z.string().email('Please enter a valid email address'),
+  phone:      z.string().min(6, 'Please enter a valid phone number'),
+  position:   z.string().min(2, 'Please enter the position you are applying for'),
+  experience: z.string().min(1, 'Please select your experience level'),
+});
+
+type FormErrors = Partial<Record<keyof typeof FormSchema.shape, string>>;
+
+const EXPERIENCE_OPTIONS = [
+  'Fresher (0–1 years)',
+  '1–2 years',
+  '2–4 years',
+  '4–7 years',
+  '7+ years',
+];
 
 const BENEFITS = [
   { icon: '📚', title: 'Learning Opportunities', desc: 'We encourage our team members to learn continuously and add more skills to their arsenal.' },
@@ -11,71 +31,107 @@ const BENEFITS = [
   { icon: '🎁', title: 'Perks & Bonuses', desc: "We've built a work culture that enables employees to enjoy exclusive and unique benefits." },
 ];
 
-const POSITIONS = [
-  'Event Manager',
-  'Event Coordinator',
-  'Creative Designer',
-  'Business Development Executive',
-  'Marketing Executive',
-  'Operations Executive',
-  'Audio Visual Technician',
-  'Other / Internship',
-];
-
-const EXPERIENCE_OPTIONS = [
-  'Fresher (0–1 years)',
-  '1–2 years',
-  '2–4 years',
-  '4–7 years',
-  '7+ years',
-];
-
-const inp: React.CSSProperties = {
-  width: '100%', padding: '11px 14px', borderRadius: '10px',
-  border: '1px solid #e0e0e0', fontSize: '14px',
-  fontFamily: "'Inter',sans-serif", color: '#111',
-  outline: 'none', boxSizing: 'border-box', background: '#fff',
+const labelSt: React.CSSProperties = {
+  display: 'block', fontSize: '10px', fontWeight: 700,
+  letterSpacing: '1.6px', textTransform: 'uppercase',
+  color: 'rgba(0,0,0,0.4)', fontFamily: "'Inter',sans-serif", marginBottom: '5px',
 };
-const label: React.CSSProperties = {
-  display: 'block', fontSize: '11px', fontWeight: 700,
-  letterSpacing: '1.5px', textTransform: 'uppercase',
-  color: 'rgba(0,0,0,0.45)', fontFamily: "'Inter',sans-serif", marginBottom: '6px',
+
+function Field({ label, required = false, error, children }: {
+  label: string; required?: boolean; error?: string; children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <label style={labelSt}>{label}{required && ' *'}</label>
+      {children}
+      {error && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <span style={{ fontSize: '11px', color: '#e53e3e', fontFamily: "'Inter',sans-serif", fontWeight: 500 }}>{error}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function inp(hasError: boolean): React.CSSProperties {
+  return {
+    width: '100%', background: '#fff',
+    border: `1px solid ${hasError ? '#e53e3e' : '#e0e0e0'}`,
+    borderRadius: '10px', padding: '11px 12px', fontSize: '13px',
+    fontFamily: "'Inter',sans-serif", color: '#111', outline: 'none',
+    boxSizing: 'border-box',
+    boxShadow: hasError ? '0 0 0 3px rgba(229,62,62,0.1)' : 'none',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+  };
+}
+
+const initialForm = {
+  name: '', email: '', phone: '', position: '',
+  experience: '', currentRole: '', message: '',
 };
 
 export default function CareersPage() {
-  const [form, setForm] = useState({
-    name: '', email: '', phone: '', position: '', experience: '',
-    currentRole: '', message: '',
-  });
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const [form, setForm] = useState(initialForm);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<Partial<Record<string, boolean>>>({});
   const [resume, setResume] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [submitError, setSubmitError] = useState('');
 
   function set(field: string, value: string) {
     setForm(p => ({ ...p, [field]: value }));
+    if (errors[field as keyof FormErrors]) {
+      setErrors(p => ({ ...p, [field]: undefined }));
+    }
   }
+
+  function touch(field: string) {
+    setTouched(p => ({ ...p, [field]: true }));
+    const result = FormSchema.safeParse(form);
+    if (!result.success) {
+      const fe = result.error.flatten().fieldErrors[field as keyof FormErrors]?.[0];
+      if (fe) setErrors(p => ({ ...p, [field]: fe }));
+    }
+  }
+
+  function validate(): boolean {
+    const result = FormSchema.safeParse(form);
+    if (result.success) { setErrors({}); return true; }
+    const fe: FormErrors = {};
+    for (const [k, msgs] of Object.entries(result.error.flatten().fieldErrors)) {
+      if (msgs?.[0]) fe[k as keyof FormErrors] = msgs[0];
+    }
+    setErrors(fe);
+    setTouched({ name: true, email: true, phone: true, position: true, experience: true });
+    return false;
+  }
+
+  const inpSt = (field: keyof FormErrors) => inp(!!errors[field] && !!touched[field]);
+  const err = (field: keyof FormErrors) => touched[field] ? errors[field] : undefined;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError('');
-    if (!form.name || !form.email || !form.phone || !form.position || !form.experience) {
-      setError('Please fill in all required fields.');
-      return;
-    }
-    setLoading(true);
+    if (!validate()) return;
+    if (!executeRecaptcha) { setSubmitError('reCAPTCHA not ready, please try again.'); return; }
+    setLoading(true); setSubmitError('');
     try {
+      const recaptchaToken = await executeRecaptcha('career_application');
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+      fd.append('recaptchaToken', recaptchaToken);
       if (resume) fd.append('resume', resume);
       const res = await fetch('/api/careers', { method: 'POST', body: fd });
       const data = await res.json();
-      if (!res.ok) { setError(data.error || 'Something went wrong.'); return; }
+      if (!res.ok) { setSubmitError(data.error || 'Something went wrong.'); return; }
       setSuccess(true);
-      setForm({ name: '', email: '', phone: '', position: '', experience: '', currentRole: '', message: '' });
-      setResume(null);
+      setForm(initialForm); setErrors({}); setTouched({}); setResume(null);
     } catch {
-      setError('Network error. Please try again.');
+      setSubmitError('Network error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -85,12 +141,11 @@ export default function CareersPage() {
     <main style={{ background: '#f8f9fa', minHeight: '100vh' }}>
       <style>{`
         .career-benefits { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-        .career-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .career-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px; }
         @media(max-width:768px) {
           .career-benefits { grid-template-columns: 1fr; }
           .career-form-row { grid-template-columns: 1fr; }
         }
-        input:focus, select:focus, textarea:focus { border-color: #adc905 !important; box-shadow: 0 0 0 3px rgba(173,201,5,0.1); }
       `}</style>
 
       {/* Hero */}
@@ -119,7 +174,6 @@ export default function CareersPage() {
             With customer delight at the core of our business ethos, our practices are strongly rooted in our values.
           </p>
         </div>
-
         <div className="career-benefits">
           {BENEFITS.map(b => (
             <div key={b.title} style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '16px', padding: '28px 24px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
@@ -131,14 +185,14 @@ export default function CareersPage() {
         </div>
       </div>
 
-      {/* Join section */}
+      {/* Join strip */}
       <div style={{ background: 'linear-gradient(135deg,#1a1f2e,#0f1318)', padding: '64px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3vw,34px)', color: '#fff', margin: '0 0 16px' }}>
             Your journey toward professional growth starts here.
           </h2>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.55)', fontFamily: "'Inter',sans-serif", lineHeight: 1.8, margin: 0 }}>
-            Join a passionate team that thrives on creativity, precision, and turning big ideas into unforgettable experiences. Give your career a head start by associating with the leading event management service providers.
+            Join a passionate team that thrives on creativity, precision, and turning big ideas into unforgettable experiences.
           </p>
         </div>
       </div>
@@ -169,65 +223,73 @@ export default function CareersPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate>
-                {error && (
-                  <div style={{ background: 'rgba(229,62,62,0.05)', border: '1px solid rgba(229,62,62,0.2)', borderRadius: '8px', padding: '12px 14px', marginBottom: '20px', fontSize: '13px', color: '#e53e3e', fontFamily: "'Inter',sans-serif" }}>
-                    {error}
-                  </div>
-                )}
-
-                <div className="career-form-row" style={{ marginBottom: '16px' }}>
-                  <div>
-                    <label style={label}>Full Name *</label>
-                    <input type="text" placeholder="John Doe" value={form.name} onChange={e => set('name', e.target.value)} style={inp} required />
-                  </div>
-                  <div>
-                    <label style={label}>Email Address *</label>
-                    <input type="email" placeholder="you@example.com" value={form.email} onChange={e => set('email', e.target.value)} style={inp} required />
-                  </div>
+                <div style={{ marginBottom: '20px' }}>
+                  <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '20px', color: '#111', margin: '0 0 4px' }}>Your Details</h2>
+                  <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
                 </div>
 
-                <div className="career-form-row" style={{ marginBottom: '16px' }}>
-                  <div>
-                    <label style={label}>Phone Number *</label>
-                    <input type="tel" placeholder="+91 00000 00000" value={form.phone} onChange={e => set('phone', e.target.value)} style={inp} required />
-                  </div>
-                  <div>
-                    <label style={label}>Position Applying For *</label>
-                    <input type="text" placeholder="e.g. Event Manager, Designer…" value={form.position} onChange={e => set('position', e.target.value)} style={inp} required />
-                  </div>
+                {/* Row 1 */}
+                <div className="career-form-row">
+                  <Field label="Full Name" required error={err('name')}>
+                    <input type="text" placeholder="John Doe" value={form.name}
+                      onChange={e => set('name', e.target.value)} onBlur={() => touch('name')}
+                      style={inpSt('name')} />
+                  </Field>
+                  <Field label="Email Address" required error={err('email')}>
+                    <input type="email" placeholder="you@example.com" value={form.email}
+                      onChange={e => set('email', e.target.value)} onBlur={() => touch('email')}
+                      style={inpSt('email')} />
+                  </Field>
                 </div>
 
-                <div className="career-form-row" style={{ marginBottom: '16px' }}>
-                  <div>
-                    <label style={label}>Years of Experience *</label>
-                    <select value={form.experience} onChange={e => set('experience', e.target.value)} style={{ ...inp, appearance: 'none' }} required>
+                {/* Row 2 */}
+                <div className="career-form-row">
+                  <Field label="Phone Number" required error={err('phone')}>
+                    <input type="tel" placeholder="+91 00000 00000" value={form.phone}
+                      onChange={e => set('phone', e.target.value)} onBlur={() => touch('phone')}
+                      style={inpSt('phone')} />
+                  </Field>
+                  <Field label="Position Applying For" required error={err('position')}>
+                    <input type="text" placeholder="e.g. Event Manager, Designer…" value={form.position}
+                      onChange={e => set('position', e.target.value)} onBlur={() => touch('position')}
+                      style={inpSt('position')} />
+                  </Field>
+                </div>
+
+                {/* Row 3 */}
+                <div className="career-form-row">
+                  <Field label="Years of Experience" required error={err('experience')}>
+                    <select value={form.experience}
+                      onChange={e => set('experience', e.target.value)} onBlur={() => touch('experience')}
+                      style={{ ...inpSt('experience'), appearance: 'none' }}>
                       <option value="">Select experience</option>
                       {EXPERIENCE_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
                     </select>
-                  </div>
-                  <div>
-                    <label style={label}>Current Role / Company</label>
-                    <input type="text" placeholder="e.g. Event Coordinator at XYZ" value={form.currentRole} onChange={e => set('currentRole', e.target.value)} style={inp} />
-                  </div>
+                  </Field>
+                  <Field label="Current Role / Company">
+                    <input type="text" placeholder="e.g. Event Coordinator at XYZ" value={form.currentRole}
+                      onChange={e => set('currentRole', e.target.value)}
+                      style={inp(false)} />
+                  </Field>
                 </div>
 
-                <div style={{ marginBottom: '16px' }}>
-                  <label style={label}>Cover Letter / Message</label>
-                  <textarea
-                    placeholder="Tell us why you'd be a great fit for Helios Event..."
-                    value={form.message}
-                    onChange={e => set('message', e.target.value)}
-                    rows={4}
-                    style={{ ...inp, resize: 'vertical', lineHeight: 1.6 }}
-                  />
+                {/* Cover Letter */}
+                <div style={{ marginBottom: '12px' }}>
+                  <Field label="Cover Letter / Message">
+                    <textarea placeholder="Tell us why you'd be a great fit for Helios Event…"
+                      value={form.message} onChange={e => set('message', e.target.value)}
+                      rows={4} style={{ ...inp(false), resize: 'vertical', lineHeight: 1.6 }} />
+                  </Field>
                 </div>
 
+                {/* Resume Upload */}
                 <div style={{ marginBottom: '24px' }}>
-                  <label style={label}>Resume / CV (PDF, DOC — max 5MB)</label>
-                  <div style={{ border: '2px dashed #e0e0e0', borderRadius: '10px', padding: '20px', textAlign: 'center', cursor: 'pointer', transition: 'border-color 0.2s' }}
+                  <label style={labelSt}>Resume / CV (PDF, DOC — max 5MB)</label>
+                  <div
+                    style={{ border: `2px dashed ${resume ? '#adc905' : '#e0e0e0'}`, borderRadius: '10px', padding: '20px', textAlign: 'center', transition: 'border-color 0.2s' }}
                     onDragOver={e => { e.preventDefault(); (e.currentTarget as HTMLDivElement).style.borderColor = '#adc905'; }}
-                    onDragLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#e0e0e0'; }}
-                    onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) setResume(f); (e.currentTarget as HTMLDivElement).style.borderColor = '#e0e0e0'; }}
+                    onDragLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = resume ? '#adc905' : '#e0e0e0'; }}
+                    onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) setResume(f); }}
                   >
                     {resume ? (
                       <div style={{ fontFamily: "'Inter',sans-serif" }}>
@@ -242,22 +304,44 @@ export default function CareersPage() {
                         <div style={{ fontSize: '13px', color: '#666', fontFamily: "'Inter',sans-serif", marginBottom: '8px' }}>Drag & drop your resume here or</div>
                         <label style={{ display: 'inline-block', padding: '8px 20px', background: '#f0f4e8', borderRadius: '8px', fontSize: '13px', fontWeight: 600, color: '#adc905', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
                           Browse File
-                          <input type="file" accept=".pdf,.doc,.docx" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) setResume(f); }} />
+                          <input type="file" accept=".pdf,.doc,.docx" style={{ display: 'none' }}
+                            onChange={e => { const f = e.target.files?.[0]; if (f) setResume(f); }} />
                         </label>
                       </>
                     )}
                   </div>
                 </div>
 
+                {submitError && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(229,62,62,0.05)', border: '1px solid rgba(229,62,62,0.2)', borderRadius: '8px', padding: '12px 14px', marginBottom: '16px' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span style={{ fontSize: '13px', color: '#e53e3e', fontFamily: "'Inter',sans-serif" }}>{submitError}</span>
+                  </div>
+                )}
+
                 <button type="submit" disabled={loading} style={{
                   width: '100%', padding: '15px', borderRadius: '10px',
                   background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(90deg,#ff6a00,#ff8c38)',
                   color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700,
                   fontSize: '15px', border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                   boxShadow: loading ? 'none' : '0 4px 16px rgba(255,106,0,0.3)',
                 }}>
-                  {loading ? 'Submitting…' : 'Submit Application →'}
+                  {loading ? (
+                    <>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                      </svg>
+                      Submitting…
+                    </>
+                  ) : 'Submit Application →'}
                 </button>
+
+                <p style={{ fontSize: '11px', color: '#aaa', textAlign: 'center', marginTop: '12px', fontFamily: "'Inter',sans-serif" }}>
+                  Protected by reCAPTCHA · Your data is safe with us
+                </p>
               </form>
             )}
           </div>
