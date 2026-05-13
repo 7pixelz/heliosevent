@@ -180,7 +180,6 @@ export default function Header() {
 
         <li><a href="/portfolio" className={pathname === '/portfolio' ? 'active' : ''} onClick={closeMobileMenu}>Portfolio</a></li>
         <li><a href="/about" className={pathname === '/about' ? 'active' : ''} onClick={closeMobileMenu}>About Us</a></li>
-        <li><a href="/blog" className={pathname.startsWith('/blog') ? 'active' : ''} onClick={closeMobileMenu}>Blog</a></li>
         <li><a href="/careers" className={pathname === '/careers' ? 'active' : ''} onClick={closeMobileMenu}>Careers</a></li>
         <li><a href="/contact" className={pathname === '/contact' ? 'active' : ''} onClick={closeMobileMenu}>Contact</a></li>
         <li className="mobile-cta">
