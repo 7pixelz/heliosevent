@@ -66,7 +66,8 @@ export async function POST(req: NextRequest) {
         upsert: false,
       });
       if (!error) {
-        resumeUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`;
+        // Store the storage path — admin uses signed URL endpoint to download
+        resumeUrl = path;
       }
     }
 

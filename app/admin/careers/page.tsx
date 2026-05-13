@@ -58,11 +58,19 @@ export default async function CareersAdminPage() {
                   <div style={{ fontSize: '11px', color: '#aaa', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap' }}>
                     {new Date(app.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </div>
-                  {app.resumeUrl && (
-                    <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', fontWeight: 700, color: '#fff', background: '#adc905', padding: '6px 14px', borderRadius: '7px', textDecoration: 'none', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap' }}>
-                      Download Resume
-                    </a>
-                  )}
+                  {app.resumeUrl && (() => {
+                    // New records store just the path; old records store full URL
+                    const match = app.resumeUrl.match(/\/object\/career-resumes\/(.+)$/);
+                    const storagePath = match ? match[1] : app.resumeUrl.startsWith('http') ? null : app.resumeUrl;
+                    const href = storagePath
+                      ? `/api/admin/resume?path=${encodeURIComponent(storagePath)}`
+                      : app.resumeUrl;
+                    return (
+                      <a href={href} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', fontWeight: 700, color: '#fff', background: '#adc905', padding: '6px 14px', borderRadius: '7px', textDecoration: 'none', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap' }}>
+                        Download Resume
+                      </a>
+                    );
+                  })()}
                 </div>
               </div>
             </div>
