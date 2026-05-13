@@ -18,12 +18,12 @@ interface Application {
 }
 
 const STATUSES = [
-  { value: 'NEW',        label: 'New',        color: '#adc905', bg: 'rgba(173,201,5,0.1)' },
-  { value: 'REVIEWING',  label: 'Reviewing',  color: '#ff6a00', bg: 'rgba(255,106,0,0.1)' },
-  { value: 'SHORTLISTED',label: 'Shortlisted',color: '#2563eb', bg: 'rgba(37,99,235,0.1)' },
-  { value: 'ON_HOLD',    label: 'On Hold',    color: '#d97706', bg: 'rgba(217,119,6,0.1)' },
-  { value: 'REJECTED',   label: 'Rejected',   color: '#e53e3e', bg: 'rgba(229,62,62,0.1)' },
-  { value: 'HIRED',      label: 'Hired',      color: '#22c55e', bg: 'rgba(34,197,94,0.1)' },
+  { value: 'NEW',         label: 'New',         color: '#adc905', bg: 'rgba(173,201,5,0.1)' },
+  { value: 'REVIEWING',   label: 'Reviewing',   color: '#ff6a00', bg: 'rgba(255,106,0,0.1)' },
+  { value: 'SHORTLISTED', label: 'Shortlisted', color: '#2563eb', bg: 'rgba(37,99,235,0.1)' },
+  { value: 'ON_HOLD',     label: 'On Hold',     color: '#d97706', bg: 'rgba(217,119,6,0.1)' },
+  { value: 'REJECTED',    label: 'Rejected',    color: '#e53e3e', bg: 'rgba(229,62,62,0.1)' },
+  { value: 'HIRED',       label: 'Hired',       color: '#22c55e', bg: 'rgba(34,197,94,0.1)' },
 ];
 
 function statusStyle(value: string) {
@@ -38,34 +38,44 @@ function resumeHref(resumeUrl: string) {
 
 export default function CareersAdminClient({ applications: initial }: { applications: Application[] }) {
   const router = useRouter();
+  const [apps, setApps] = useState<Application[]>(initial);
   const [filter, setFilter] = useState('ALL');
-  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
+  const [savingId, setSavingId] = useState<string | null>(null);
 
   async function updateStatus(id: string, status: string) {
-    setActionLoading(id + '_status');
-    await fetch(`/api/admin/careers/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status }),
-    });
-    setActionLoading(null);
-    router.refresh();
+    // Optimistic update — instant UI change, no page reload
+    setApps(prev => prev.map(a => a.id === id ? { ...a, status } : a));
+    setSavingId(id);
+    try {
+      await fetch(`/api/admin/careers/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+    } catch {
+      // Revert on error
+      setApps(initial);
+    } finally {
+      setSavingId(null);
+    }
   }
 
   async function deleteApplication(id: string, name: string) {
     if (!confirm(`Delete application from "${name}"? This cannot be undone.`)) return;
-    setActionLoading(id + '_delete');
+    setDeleteLoading(id);
     await fetch(`/api/admin/careers/${id}`, { method: 'DELETE' });
-    setActionLoading(null);
+    setDeleteLoading(null);
+    setApps(prev => prev.filter(a => a.id !== id));
     router.refresh();
   }
 
   const counts = STATUSES.reduce((acc, s) => {
-    acc[s.value] = initial.filter(a => a.status === s.value).length;
+    acc[s.value] = apps.filter(a => a.status === s.value).length;
     return acc;
   }, {} as Record<string, number>);
 
-  const visible = filter === 'ALL' ? initial : initial.filter(a => a.status === filter);
+  const visible = filter === 'ALL' ? apps : apps.filter(a => a.status === filter);
 
   return (
     <div>
@@ -73,9 +83,8 @@ export default function CareersAdminClient({ applications: initial }: { applicat
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '22px', fontWeight: 800, color: '#1a1f2e', margin: '0 0 4px', fontFamily: "'Inter',sans-serif" }}>Career Applications</h1>
-          <p style={{ fontSize: '13px', color: '#888', margin: 0, fontFamily: "'Inter',sans-serif" }}>{initial.length} total application{initial.length !== 1 ? 's' : ''}</p>
+          <p style={{ fontSize: '13px', color: '#888', margin: 0, fontFamily: "'Inter',sans-serif" }}>{apps.length} total application{apps.length !== 1 ? 's' : ''}</p>
         </div>
-        {/* Summary chips */}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {STATUSES.filter(s => counts[s.value] > 0).map(s => (
             <div key={s.value} style={{ padding: '6px 14px', borderRadius: '999px', background: s.bg, color: s.color, fontSize: '12px', fontWeight: 700, fontFamily: "'Inter',sans-serif" }}>
@@ -86,12 +95,12 @@ export default function CareersAdminClient({ applications: initial }: { applicat
       </div>
 
       {/* Filter tabs */}
-      <div style={{ display: 'flex', gap: '4px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '10px', padding: '4px', marginBottom: '20px', width: 'fit-content', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-        {[{ value: 'ALL', label: 'All', count: initial.length }, ...STATUSES.map(s => ({ ...s, count: counts[s.value] }))].map(tab => (
+      <div style={{ display: 'flex', gap: '4px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '10px', padding: '4px', marginBottom: '20px', width: 'fit-content', overflowX: 'auto', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        {[{ value: 'ALL', label: 'All', count: apps.length }, ...STATUSES.map(s => ({ ...s, count: counts[s.value] }))].map(tab => (
           <button key={tab.value} onClick={() => setFilter(tab.value)}
             style={{
               padding: '7px 14px', borderRadius: '7px', fontSize: '12px', fontWeight: 600,
-              cursor: 'pointer', border: 'none', fontFamily: "'Inter',sans-serif",
+              cursor: 'pointer', border: 'none', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap',
               background: filter === tab.value ? '#f0f7d4' : 'transparent',
               color: filter === tab.value ? '#7a9200' : '#888',
               transition: 'all 0.15s',
@@ -111,10 +120,10 @@ export default function CareersAdminClient({ applications: initial }: { applicat
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {visible.map(app => {
             const st = statusStyle(app.status);
-            const isStatusLoading = actionLoading === app.id + '_status';
-            const isDeleteLoading = actionLoading === app.id + '_delete';
+            const isSaving = savingId === app.id;
+            const isDeleting = deleteLoading === app.id;
             return (
-              <div key={app.id} style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '14px', padding: '20px 24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+              <div key={app.id} style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '14px', padding: '20px 24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', opacity: isDeleting ? 0.5 : 1, transition: 'opacity 0.2s' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
 
                   {/* Left: applicant info */}
@@ -124,6 +133,9 @@ export default function CareersAdminClient({ applications: initial }: { applicat
                       <span style={{ fontSize: '11px', fontWeight: 700, padding: '2px 10px', borderRadius: '999px', background: st.bg, color: st.color, fontFamily: "'Inter',sans-serif", letterSpacing: '1px', textTransform: 'uppercase' }}>
                         {st.label}
                       </span>
+                      {isSaving && (
+                        <span style={{ fontSize: '11px', color: '#aaa', fontFamily: "'Inter',sans-serif" }}>saving…</span>
+                      )}
                     </div>
                     <div style={{ fontSize: '13px', color: '#ff6a00', fontWeight: 600, fontFamily: "'Inter',sans-serif", marginBottom: '8px' }}>{app.position}</div>
                     <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: app.message ? '8px' : '0' }}>
@@ -148,13 +160,11 @@ export default function CareersAdminClient({ applications: initial }: { applicat
                     {/* Status selector */}
                     <select
                       value={app.status}
-                      disabled={isStatusLoading}
                       onChange={e => updateStatus(app.id, e.target.value)}
                       style={{
                         padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: 600,
                         fontFamily: "'Inter',sans-serif", border: `1px solid ${st.color}40`,
                         background: st.bg, color: st.color, cursor: 'pointer', outline: 'none',
-                        opacity: isStatusLoading ? 0.6 : 1,
                       }}
                     >
                       {STATUSES.map(s => (
@@ -171,13 +181,13 @@ export default function CareersAdminClient({ applications: initial }: { applicat
                       )}
                       <button
                         onClick={() => deleteApplication(app.id, app.name)}
-                        disabled={isDeleteLoading}
+                        disabled={isDeleting}
                         style={{
                           padding: '6px 10px', background: '#fee2e2', border: '1px solid #fca5a5',
                           borderRadius: '7px', color: '#b91c1c', fontSize: '13px', cursor: 'pointer',
-                          fontFamily: "'Inter',sans-serif", opacity: isDeleteLoading ? 0.6 : 1,
+                          fontFamily: "'Inter',sans-serif", opacity: isDeleting ? 0.6 : 1,
                         }}>
-                        {isDeleteLoading ? '…' : '🗑'}
+                        {isDeleting ? '…' : '🗑'}
                       </button>
                     </div>
                   </div>
