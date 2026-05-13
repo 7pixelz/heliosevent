@@ -156,3 +156,102 @@ export async function sendEnquiryNotification(data: EnquiryData) {
     html: confirmHtml,
   });
 }
+
+export interface CareerData {
+  name: string;
+  email: string;
+  phone: string;
+  position: string;
+  experience: string;
+  currentRole?: string | null;
+  message?: string | null;
+  resumeUrl?: string | null;
+}
+
+export async function sendCareerNotification(data: CareerData) {
+  const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f5f6fa;font-family:'Inter',Arial,sans-serif">
+  <div style="max-width:600px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08)">
+    <div style="background:#1a1f2e;padding:28px 32px">
+      <div style="font-size:20px;font-weight:800;color:#fff">New Job Application</div>
+      <div style="font-size:12px;color:#adc905;margin-top:4px;letter-spacing:2px;text-transform:uppercase">Helios Event Careers</div>
+    </div>
+    <div style="height:3px;background:linear-gradient(90deg,#adc905,#ff6a00)"></div>
+    <div style="padding:24px 32px 0">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#adc905;margin-bottom:12px">Applicant Details</div>
+      <table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:10px;overflow:hidden">
+        ${row('Name', data.name)}
+        ${row('Email', data.email)}
+        ${row('Phone', data.phone)}
+        ${row('Position', data.position)}
+        ${row('Experience', data.experience)}
+        ${row('Current Role', data.currentRole)}
+        ${row('Cover Letter', data.message)}
+      </table>
+    </div>
+    ${data.resumeUrl ? `
+    <div style="padding:20px 32px 0">
+      <a href="${data.resumeUrl}" style="display:inline-block;background:#adc905;color:#fff;font-weight:700;font-size:13px;padding:10px 24px;border-radius:8px;text-decoration:none">
+        Download Resume →
+      </a>
+    </div>` : ''}
+    <div style="padding:24px 32px 32px;text-align:center">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/admin/careers"
+        style="display:inline-block;background:#1a1f2e;color:#fff;font-weight:700;font-size:14px;padding:14px 32px;border-radius:10px;text-decoration:none">
+        View in Admin Panel →
+      </a>
+    </div>
+    <div style="background:#f5f6fa;padding:16px 32px;text-align:center;font-size:12px;color:#aaa">
+      This is an automated notification from Helios Event Admin.
+    </div>
+  </div>
+</body>
+</html>`;
+
+  await transporter.sendMail({
+    from: `"Helios Event" <${process.env.GMAIL_USER}>`,
+    to: process.env.NOTIFY_EMAIL,
+    subject: `New Application: ${data.position} — ${data.name}`,
+    html,
+  });
+
+  // Confirmation to applicant
+  await transporter.sendMail({
+    from: `"Helios Event Productions" <${process.env.GMAIL_USER}>`,
+    to: data.email,
+    subject: `Application Received — Helios Event Productions`,
+    html: `
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f5f6fa;font-family:'Inter',Arial,sans-serif">
+  <div style="max-width:600px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08)">
+    <div style="background:#1a1f2e;padding:28px 32px">
+      <div style="font-size:20px;font-weight:800;color:#fff">Thank You, ${data.name}!</div>
+      <div style="font-size:12px;color:#adc905;margin-top:4px;letter-spacing:2px;text-transform:uppercase">Helios Event Productions</div>
+    </div>
+    <div style="height:3px;background:linear-gradient(90deg,#adc905,#ff6a00)"></div>
+    <div style="padding:32px">
+      <p style="font-size:15px;color:#333;line-height:1.8;margin:0 0 16px">
+        We've received your application for <strong>${data.position}</strong>. Our HR team will review your profile and reach out if there's a match.
+      </p>
+      <p style="font-size:14px;color:#555;line-height:1.8;margin:0 0 28px">
+        We typically respond within <strong>5–7 business days</strong>.
+      </p>
+      <div style="text-align:center">
+        <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://heliosevent.in'}"
+          style="display:inline-block;background:#adc905;color:#0d1117;font-weight:700;font-size:14px;padding:14px 32px;border-radius:10px;text-decoration:none">
+          Visit Our Website →
+        </a>
+      </div>
+    </div>
+    <div style="background:#f5f6fa;padding:16px 32px;text-align:center;font-size:12px;color:#aaa">
+      © 2026 Helios Event Productions. All Rights Reserved.
+    </div>
+  </div>
+</body>
+</html>`,
+  });
+}

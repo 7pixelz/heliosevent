@@ -153,6 +153,20 @@ model PageSeo {
   updatedAt       DateTime @updatedAt
 }
 
+model CareerApplication {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  position    String
+  experience  String
+  currentRole String?
+  message     String?  @db.Text
+  resumeUrl   String?
+  status      String   @default("NEW")
+  createdAt   DateTime @default(now())
+}
+
 model Quote {
   id                     String      @id @default(cuid())
   name                   String
