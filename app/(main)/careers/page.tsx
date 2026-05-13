@@ -7,7 +7,7 @@ import { z } from 'zod';
 const FormSchema = z.object({
   name:       z.string().min(2, 'Please enter your full name'),
   email:      z.string().email('Please enter a valid email address'),
-  phone:      z.string().min(6, 'Please enter a valid phone number'),
+  phone:      z.string().min(6, 'Please enter a valid phone number').regex(/^[0-9+\s\-()]+$/, 'Phone number can only contain digits'),
   position:   z.string().min(2, 'Please enter the position you are applying for'),
   experience: z.string().min(1, 'Please select your experience level'),
 });
@@ -246,7 +246,8 @@ export default function CareersPage() {
                 <div className="career-form-row">
                   <Field label="Phone Number" required error={err('phone')}>
                     <input type="tel" placeholder="+91 00000 00000" value={form.phone}
-                      onChange={e => set('phone', e.target.value)} onBlur={() => touch('phone')}
+                      onChange={e => { const v = e.target.value.replace(/[^0-9+\s\-()]/g, ''); set('phone', v); }}
+                      onBlur={() => touch('phone')}
                       style={inpSt('phone')} />
                   </Field>
                   <Field label="Position Applying For" required error={err('position')}>
