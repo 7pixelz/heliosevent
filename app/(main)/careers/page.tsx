@@ -193,10 +193,7 @@ export default function CareersPage() {
                   </div>
                   <div>
                     <label style={label}>Position Applying For *</label>
-                    <select value={form.position} onChange={e => set('position', e.target.value)} style={{ ...inp, appearance: 'none' }} required>
-                      <option value="">Select a position</option>
-                      {POSITIONS.map(p => <option key={p} value={p}>{p}</option>)}
-                    </select>
+                    <input type="text" placeholder="e.g. Event Manager, Designer…" value={form.position} onChange={e => set('position', e.target.value)} style={inp} required />
                   </div>
                 </div>
 
