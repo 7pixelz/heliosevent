@@ -10,20 +10,26 @@ const FormSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   phone: z.string().min(6, 'Please enter a valid phone number'),
   company: z.string().min(1, 'Company name is required'),
-  location: z.string().min(1, 'Location / venue is required'),
-  teamSize: z.string().min(1, 'Team size is required'),
-  targetAudiences: z.string().min(1, 'Target audience is required'),
-  budget: z.string().min(1, 'Budget is required'),
+  location: z.string().min(1, 'Location is required'),
+  typeOfProgram: z.string().min(1, 'Please select a type of event'),
 });
 
 type FormErrors = Partial<Record<keyof typeof FormSchema.shape, string>>;
 
 const initialForm = {
   name: '', email: '', phoneCode: '+91', phone: '',
-  company: '', location: '', teamSize: '', targetAudiences: '',
-  preferredDate: '', duration: '', typeOfProgram: '', objectives: '',
-  budget: '', additionalRequirements: '', howDidYouHear: '',
+  company: '', location: '', typeOfProgram: '',
+  teamSize: '', budget: '', preferredDate: '', howDidYouHear: '',
 };
+
+const EVENT_TYPES = [
+  'Corporate Events', 'Entertainment Events', 'Exhibitions',
+  'Government Protocol Events', 'Trade Body Association Events',
+  'MICE Events', 'Sports Events', 'Wedding & Social Events',
+  'Team Building', 'Corporate Games', 'Cultural Performances',
+  'Employee Engagement', 'Conferences & Seminars', 'Brand Activations',
+  'Other',
+];
 
 const trustPoints = [
   {
@@ -33,7 +39,7 @@ const trustPoints = [
         <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
       </svg>
     ),
-    title: '500+ Events Delivered',
+    title: '1000+ Events Delivered',
     desc: 'From intimate boardroom meets to 2000-person galas — we\'ve done it all.',
   },
   {
@@ -135,7 +141,7 @@ export default function GetQuoteClient() {
       if (msgs?.[0]) fe[k as keyof FormErrors] = msgs[0];
     }
     setErrors(fe);
-    setTouched({ name: true, email: true, phone: true, company: true, location: true, teamSize: true, targetAudiences: true, budget: true });
+    setTouched({ name: true, email: true, phone: true, company: true, location: true, typeOfProgram: true });
     return false;
   }
 
@@ -170,8 +176,8 @@ export default function GetQuoteClient() {
       <style>{`
         .gq-layout { display: grid; grid-template-columns: 340px 1fr; gap: 32px; align-items: start; }
         .gq-sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 100px; }
-        .gq-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-        .gq-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+        .gq-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .gq-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
         @media (max-width: 900px) {
           .gq-layout { grid-template-columns: 1fr; }
           .gq-sidebar { position: static; }
@@ -179,7 +185,7 @@ export default function GetQuoteClient() {
         }
         @media (max-width: 600px) {
           .gq-row-3 { grid-template-columns: 1fr; }
-          .gq-row-2 { grid-template-columns: 1fr; margin-bottom: 16px; }
+          .gq-row-2 { grid-template-columns: 1fr; }
         }
       `}</style>
 
@@ -301,7 +307,7 @@ export default function GetQuoteClient() {
                     <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
                   </div>
 
-                  {/* Row 1 */}
+                  {/* Required fields */}
                   <div className="gq-row-3">
                     <Field label="Your Name" required error={err('name')}>
                       <input type="text" placeholder="John Doe" value={form.name}
@@ -323,16 +329,16 @@ export default function GetQuoteClient() {
                       }}>
                         <CountryPicker onSelect={code => set('phoneCode', code)} />
                         <input type="tel" placeholder="00000 00000" value={form.phone}
-                          onChange={e => set('phone', e.target.value)} onBlur={() => touch('phone')}
+                          onChange={e => set('phone', e.target.value.replace(/[^0-9+\s\-()]/g, ''))}
+                          onBlur={() => touch('phone')}
                           style={{ flex: 1, background: 'transparent', border: 'none', color: '#111', fontSize: '13px', fontFamily: "'Inter',sans-serif", outline: 'none', minWidth: 0, marginLeft: '8px' }} />
                       </div>
                     </Field>
                   </div>
 
-                  {/* Row 2 */}
                   <div className="gq-row-3">
                     <Field label="Company Name" required error={err('company')}>
-                      <input type="text" placeholder="xyz ltd." value={form.company}
+                      <input type="text" placeholder="Acme Corp" value={form.company}
                         onChange={e => set('company', e.target.value)} onBlur={() => touch('company')}
                         style={inpSt('company')} />
                     </Field>
@@ -341,60 +347,54 @@ export default function GetQuoteClient() {
                         onChange={e => set('location', e.target.value)} onBlur={() => touch('location')}
                         style={inpSt('location')} />
                     </Field>
-                    <Field label="Team Size" required error={err('teamSize')}>
-                      <input type="text" placeholder="30 / 50 / 100 / 200" value={form.teamSize}
-                        onChange={e => set('teamSize', e.target.value)} onBlur={() => touch('teamSize')}
-                        style={inpSt('teamSize')} />
+                    <Field label="Type of Event" required error={err('typeOfProgram')}>
+                      <select value={form.typeOfProgram}
+                        onChange={e => { set('typeOfProgram', e.target.value); touch('typeOfProgram'); }}
+                        style={{ ...inpSt('typeOfProgram'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
+                        <option value="">Select event type…</option>
+                        {EVENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                      </select>
                     </Field>
                   </div>
 
-                  {/* Row 3 */}
+                  {/* Justification line */}
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: 'rgba(173,201,5,0.06)', border: '1px solid rgba(173,201,5,0.2)', borderRadius: '10px', padding: '12px 16px', marginBottom: '24px' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#adc905" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '1px' }}>
+                      <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="8" /><line x1="12" y1="12" x2="12" y2="16" />
+                    </svg>
+                    <p style={{ fontSize: '12px', color: '#5a6800', fontFamily: "'Inter',sans-serif", lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                      The more details you share, the more curated and personalized we can make the package.
+                    </p>
+                  </div>
+
+                  {/* Optional section */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                    <div style={{ height: '1px', flex: 1, background: '#e8edf2' }} />
+                    <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#bbb', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap' }}>Optional details</span>
+                    <div style={{ height: '1px', flex: 1, background: '#e8edf2' }} />
+                  </div>
+
                   <div className="gq-row-3">
-                    <Field label="Target Audiences" required error={err('targetAudiences')}>
-                      <input type="text" placeholder="Leadership / Staff" value={form.targetAudiences}
-                        onChange={e => set('targetAudiences', e.target.value)} onBlur={() => touch('targetAudiences')}
-                        style={inpSt('targetAudiences')} />
+                    <Field label="Team Size">
+                      <input type="text" placeholder="30 / 50 / 100 / 200+" value={form.teamSize}
+                        onChange={e => set('teamSize', e.target.value)}
+                        style={inputStyle(false)} />
+                    </Field>
+                    <Field label="Budget">
+                      <input type="text" placeholder="₹50K / ₹2L / ₹5L+" value={form.budget}
+                        onChange={e => set('budget', e.target.value)}
+                        style={inputStyle(false)} />
                     </Field>
                     <Field label="Preferred Date">
                       <input type="date" value={form.preferredDate}
                         onChange={e => set('preferredDate', e.target.value)}
                         style={inputStyle(false)} />
                     </Field>
-                    <Field label="Duration">
-                      <input type="text" placeholder="2-Hours / Full Day" value={form.duration}
-                        onChange={e => set('duration', e.target.value)}
-                        style={inputStyle(false)} />
-                    </Field>
                   </div>
 
-                  {/* Row 4 */}
-                  <div className="gq-row-3">
-                    <Field label="Type of Program">
-                      <input type="text" placeholder="Outbound / Team Building" value={form.typeOfProgram}
-                        onChange={e => set('typeOfProgram', e.target.value)}
-                        style={inputStyle(false)} />
-                    </Field>
-                    <Field label="Objectives">
-                      <input type="text" placeholder="Team bonding, Communication" value={form.objectives}
-                        onChange={e => set('objectives', e.target.value)}
-                        style={inputStyle(false)} />
-                    </Field>
-                    <Field label="Budget" required error={err('budget')}>
-                      <input type="text" placeholder="Only for Team Activities" value={form.budget}
-                        onChange={e => set('budget', e.target.value)} onBlur={() => touch('budget')}
-                        style={inpSt('budget')} />
-                    </Field>
-                  </div>
-
-                  {/* Row 5 */}
-                  <div className="gq-row-2">
-                    <Field label="Additional Requirements">
-                      <input type="text" placeholder="Any special requirements..." value={form.additionalRequirements}
-                        onChange={e => set('additionalRequirements', e.target.value)}
-                        style={inputStyle(false)} />
-                    </Field>
+                  <div style={{ marginBottom: '24px' }}>
                     <Field label="How Did You Hear About Us?">
-                      <input type="text" placeholder="Google / LinkedIn / Referral" value={form.howDidYouHear}
+                      <input type="text" placeholder="Google / LinkedIn / Referral / Word of mouth" value={form.howDidYouHear}
                         onChange={e => set('howDidYouHear', e.target.value)}
                         style={inputStyle(false)} />
                     </Field>
@@ -431,9 +431,9 @@ export default function GetQuoteClient() {
 
                   <p style={{ fontSize: '11px', color: '#bbb', textAlign: 'center', marginTop: '12px', fontFamily: "'Inter',sans-serif" }}>
                     Protected by reCAPTCHA —{' '}
-                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Privacy Policy</a>
-                  {' & '}
-                  <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Terms of Service</a>
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Privacy Policy</a>
+                    {' & '}
+                    <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Terms of Service</a>
                   </p>
                 </form>
               )}

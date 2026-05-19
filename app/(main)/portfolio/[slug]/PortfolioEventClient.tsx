@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import LeadForm from '../../../../components/sections/LeadForm';
 
 interface MediaItem {
   id: string;
@@ -491,6 +492,8 @@ export default function PortfolioEventPage() {
           </div>
         </div>
       </section>
+
+      <LeadForm />
 
       {/* Lightbox */}
       {lightboxIndex !== null && (

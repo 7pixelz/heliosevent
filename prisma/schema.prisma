@@ -154,17 +154,19 @@ model PageSeo {
 }
 
 model CareerApplication {
-  id          String   @id @default(cuid())
-  name        String
-  email       String
-  phone       String
-  position    String
-  experience  String
-  currentRole String?
-  message     String?  @db.Text
-  resumeUrl   String?
-  status      String   @default("NEW")
-  createdAt   DateTime @default(now())
+  id              String   @id @default(cuid())
+  name            String
+  email           String
+  phone           String
+  position        String
+  experience      String
+  currentCompany  String?
+  currentLocation String?
+  currentRole     String?
+  message         String?  @db.Text
+  resumeUrl       String?
+  status          String   @default("NEW")
+  createdAt       DateTime @default(now())
 }
 
 model Quote {
@@ -175,14 +177,11 @@ model Quote {
   phone                  String
   company                String
   location               String
-  teamSize               String
-  targetAudiences        String
+  teamSize               String?
+  targetAudiences        String?
   preferredDate          String?
-  duration               String?
   typeOfProgram          String?
-  objectives             String?
-  budget                 String
-  additionalRequirements String?
+  budget                 String?
   howDidYouHear          String?
   status                 QuoteStatus @default(NEW)
   contactedAt            DateTime?

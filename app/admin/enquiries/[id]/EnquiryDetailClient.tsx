@@ -11,18 +11,15 @@ interface Quote {
   phoneCode: string;
   company: string;
   location: string;
-  teamSize: string;
-  targetAudiences: string;
-  budget: string;
+  teamSize: string | null;
+  targetAudiences: string | null;
+  budget: string | null;
   status: 'NEW' | 'CONTACTED' | 'CLOSED';
   createdAt: string;
   contactedAt: string | null;
   notes: string | null;
   preferredDate: string | null;
-  duration: string | null;
   typeOfProgram: string | null;
-  objectives: string | null;
-  additionalRequirements: string | null;
   howDidYouHear: string | null;
 }
 
@@ -113,16 +110,12 @@ export default function EnquiryDetailClient({ quote }: Props) {
           <div style={card}>
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#aaa', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '20px' }}>Event Details</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 32px' }}>
+              <Field label="Type of Event" value={quote.typeOfProgram} />
               <Field label="Team Size" value={quote.teamSize} />
               <Field label="Budget" value={quote.budget} />
-              <Field label="Target Audience" value={quote.targetAudiences} />
-              <Field label="Type of Program" value={quote.typeOfProgram} />
               <Field label="Preferred Date" value={quote.preferredDate} />
-              <Field label="Duration" value={quote.duration} />
+              <Field label="How Did You Hear" value={quote.howDidYouHear} />
             </div>
-            <Field label="Objectives" value={quote.objectives} />
-            <Field label="Additional Requirements" value={quote.additionalRequirements} />
-            <Field label="How Did You Hear" value={quote.howDidYouHear} />
           </div>
         </div>
 

@@ -40,6 +40,8 @@ export async function POST(req: NextRequest) {
     const phone = (fd.get('phone') as string || '').trim();
     const position = (fd.get('position') as string || '').trim();
     const experience = (fd.get('experience') as string || '').trim();
+    const currentCompany = (fd.get('currentCompany') as string || '').trim() || null;
+    const currentLocation = (fd.get('currentLocation') as string || '').trim() || null;
     const currentRole = (fd.get('currentRole') as string || '').trim() || null;
     const message = (fd.get('message') as string || '').trim() || null;
     const resumeFile = fd.get('resume') as File | null;
@@ -72,11 +74,11 @@ export async function POST(req: NextRequest) {
     }
 
     const application = await prisma.careerApplication.create({
-      data: { name, email, phone, position, experience, currentRole, message, resumeUrl },
+      data: { name, email, phone, position, experience, currentCompany, currentLocation, currentRole, message, resumeUrl },
     });
 
     try {
-      await sendCareerNotification({ name, email, phone, position, experience, currentRole, message, resumeUrl });
+      await sendCareerNotification({ name, email, phone, position, experience, currentCompany, currentLocation, currentRole, message, resumeUrl });
     } catch (e) {
       console.error('Career email failed:', e);
     }

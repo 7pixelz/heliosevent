@@ -14,6 +14,25 @@ const FormSchema = z.object({
 
 type FormErrors = Partial<Record<keyof typeof FormSchema.shape, string>>;
 
+const POSITION_OPTIONS = [
+  'Event Manager',
+  'Senior Event Manager',
+  'Event Coordinator',
+  'Production Manager',
+  'Creative Director',
+  'Operations Executive',
+  'Logistics Coordinator',
+  'Marketing Executive',
+  'Business Development Executive',
+  'Client Servicing Executive',
+  'Graphic Designer / Visual Designer',
+  'Social Media Executive',
+  'Accounts Executive',
+  'HR Executive',
+  'Intern / Trainee',
+  'Other',
+];
+
 const EXPERIENCE_OPTIONS = [
   'Fresher (0–1 years)',
   '1–2 years',
@@ -70,7 +89,7 @@ function inp(hasError: boolean): React.CSSProperties {
 
 const initialForm = {
   name: '', email: '', phone: '', position: '',
-  experience: '', currentRole: '', message: '',
+  experience: '', currentCompany: '', currentLocation: '', currentRole: '', message: '',
 };
 
 export default function CareersPage() {
@@ -251,9 +270,12 @@ export default function CareersPage() {
                       style={inpSt('phone')} />
                   </Field>
                   <Field label="Position Applying For" required error={err('position')}>
-                    <input type="text" placeholder="e.g. Event Manager, Designer…" value={form.position}
-                      onChange={e => set('position', e.target.value)} onBlur={() => touch('position')}
-                      style={inpSt('position')} />
+                    <select value={form.position}
+                      onChange={e => { set('position', e.target.value); touch('position'); }}
+                      style={{ ...inpSt('position'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
+                      <option value="">Select position…</option>
+                      {POSITION_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
                   </Field>
                 </div>
 
@@ -262,22 +284,36 @@ export default function CareersPage() {
                   <Field label="Years of Experience" required error={err('experience')}>
                     <select value={form.experience}
                       onChange={e => set('experience', e.target.value)} onBlur={() => touch('experience')}
-                      style={{ ...inpSt('experience'), appearance: 'none' }}>
+                      style={{ ...inpSt('experience'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
                       <option value="">Select experience</option>
                       {EXPERIENCE_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
                     </select>
                   </Field>
-                  <Field label="Current Role / Company">
-                    <input type="text" placeholder="e.g. Event Coordinator at XYZ" value={form.currentRole}
+                  <Field label="Current Company">
+                    <input type="text" placeholder="e.g. XYZ Events Pvt. Ltd." value={form.currentCompany}
+                      onChange={e => set('currentCompany', e.target.value)}
+                      style={inp(false)} />
+                  </Field>
+                </div>
+
+                {/* Row 4 */}
+                <div className="career-form-row">
+                  <Field label="Current Location">
+                    <input type="text" placeholder="e.g. Chennai, Bangalore" value={form.currentLocation}
+                      onChange={e => set('currentLocation', e.target.value)}
+                      style={inp(false)} />
+                  </Field>
+                  <Field label="Current Role / Designation">
+                    <input type="text" placeholder="e.g. Event Coordinator" value={form.currentRole}
                       onChange={e => set('currentRole', e.target.value)}
                       style={inp(false)} />
                   </Field>
                 </div>
 
-                {/* Cover Letter */}
+                {/* About yourself */}
                 <div style={{ marginBottom: '12px' }}>
-                  <Field label="Cover Letter / Message">
-                    <textarea placeholder="Tell us why you'd be a great fit for Helios Event…"
+                  <Field label="A Few Words About Yourself (Optional)">
+                    <textarea placeholder="Tell us a bit about yourself and why you'd be a great fit for Helios Event…"
                       value={form.message} onChange={e => set('message', e.target.value)}
                       rows={4} style={{ ...inp(false), resize: 'vertical', lineHeight: 1.6 }} />
                   </Field>

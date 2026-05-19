@@ -9,8 +9,8 @@ import Stats from '../../components/sections/Stats';
 import Testimonials from '../../components/sections/Testimonials';
 
 import CtaBanner from '../../components/sections/CtaBanner';
-import Locations from '../../components/sections/Locations';
-import ContactForm from '../../components/sections/ContactForm';
+import Locations from '../../components/sections/LocationsClient';
+import LeadForm from '../../components/sections/LeadForm';
 import { prisma } from '../../lib/prisma';
 import { getPageSeo, buildMeta } from '../../lib/seo';
 import type { Metadata } from 'next';
@@ -58,7 +58,7 @@ export default async function Home() {
       {/* <Pricing /> */}
       <CtaBanner />
       <Locations />
-      <ContactForm />
+      <LeadForm />
     </>
   );
 }

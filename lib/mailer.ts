@@ -15,14 +15,10 @@ export interface EnquiryData {
   phone: string;
   company: string;
   location: string;
-  teamSize: string;
-  targetAudiences: string;
-  budget: string;
+  teamSize?: string | null;
+  budget?: string | null;
   preferredDate?: string | null;
-  duration?: string | null;
   typeOfProgram?: string | null;
-  objectives?: string | null;
-  additionalRequirements?: string | null;
   howDidYouHear?: string | null;
 }
 
@@ -70,14 +66,10 @@ export async function sendEnquiryNotification(data: EnquiryData) {
     <div style="padding:20px 32px 0">
       <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#adc905;margin-bottom:12px">Event Details</div>
       <table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:10px;overflow:hidden">
+        ${row('Type of Event', data.typeOfProgram)}
         ${row('Team Size', data.teamSize)}
-        ${row('Target Audience', data.targetAudiences)}
         ${row('Budget', data.budget)}
-        ${row('Type of Program', data.typeOfProgram)}
         ${row('Preferred Date', data.preferredDate)}
-        ${row('Duration', data.duration)}
-        ${row('Objectives', data.objectives)}
-        ${row('Addl. Requirements', data.additionalRequirements)}
         ${row('How Did You Hear', data.howDidYouHear)}
       </table>
     </div>
@@ -163,6 +155,8 @@ export interface CareerData {
   phone: string;
   position: string;
   experience: string;
+  currentCompany?: string | null;
+  currentLocation?: string | null;
   currentRole?: string | null;
   message?: string | null;
   resumeUrl?: string | null;
@@ -188,8 +182,10 @@ export async function sendCareerNotification(data: CareerData) {
         ${row('Phone', data.phone)}
         ${row('Position', data.position)}
         ${row('Experience', data.experience)}
+        ${row('Current Company', data.currentCompany)}
+        ${row('Current Location', data.currentLocation)}
         ${row('Current Role', data.currentRole)}
-        ${row('Cover Letter', data.message)}
+        ${row('About Themselves', data.message)}
       </table>
     </div>
     ${data.resumeUrl ? `

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getPageSeo, buildMeta } from '../../../lib/seo';
+import LeadForm from '../../../components/sections/LeadForm';
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo('about');
@@ -44,7 +45,7 @@ const stats = [
   { number: '20+', label: 'Years of Experience' },
   { number: '100+', label: 'Brands Served' },
   { number: '20+', label: 'Countries' },
-  { number: '500+', label: 'Events Delivered' },
+  { number: '1000+', label: 'Events Delivered' },
 ];
 
 const destinations = [
@@ -180,6 +181,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <LeadForm />
 
     </main>
   );

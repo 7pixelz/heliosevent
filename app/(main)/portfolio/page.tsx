@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import LeadForm from '../../../components/sections/LeadForm';
 
 interface PortfolioEvent {
   id: string;
@@ -308,6 +309,7 @@ export default function PortfolioPage() {
           </Link>
         </div>
       </section>
+      <LeadForm />
     </>
   );
 }

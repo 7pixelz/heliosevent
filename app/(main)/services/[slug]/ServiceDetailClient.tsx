@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import LeadForm from '../../../../components/sections/LeadForm';
 
 interface SignatureEvent { icon: string; title: string; desc: string }
 interface Differentiator { title: string; desc: string }
@@ -516,6 +517,8 @@ export default function ServiceDetailPage() {
           </div>
         </div>
       </section>
+
+      <LeadForm />
     </>
   );
 }

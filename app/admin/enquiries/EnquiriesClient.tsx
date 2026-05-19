@@ -11,8 +11,8 @@ interface Quote {
   phoneCode: string;
   company: string;
   location: string;
-  teamSize: string;
-  budget: string;
+  teamSize: string | null;
+  budget: string | null;
   status: 'NEW' | 'CONTACTED' | 'CLOSED';
   createdAt: string;
   contactedAt: string | null;
@@ -142,7 +142,7 @@ export default function EnquiriesClient({ quotes, statusCounts, currentStatus, c
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ background: '#fafafa', borderBottom: '1px solid #f0f0f0' }}>
-                {['Name & Company', 'Contact', 'Team Size', 'Date', 'Status', 'Actions'].map(h => (
+                {['Name & Company', 'Contact', 'Type of Event', 'Date', 'Status', 'Actions'].map(h => (
                   <th key={h} style={{ padding: '12px 20px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: '#aaa', letterSpacing: '1px', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{h}</th>
                 ))}
               </tr>
@@ -163,7 +163,7 @@ export default function EnquiriesClient({ quotes, statusCounts, currentStatus, c
                       <div style={{ fontSize: '13px', color: '#444' }}>{q.email}</div>
                       <div style={{ fontSize: '12px', color: '#aaa', marginTop: '2px' }}>{q.phoneCode} {q.phone}</div>
                     </td>
-                    <td style={{ padding: '14px 20px', fontSize: '13px', color: '#555' }}>{q.teamSize}</td>
+                    <td style={{ padding: '14px 20px', fontSize: '13px', color: '#555' }}>{q.typeOfProgram ?? '—'}</td>
                     <td style={{ padding: '14px 20px', fontSize: '12px', color: '#aaa', whiteSpace: 'nowrap' }}>{fmt(q.createdAt)}</td>
                     <td style={{ padding: '14px 20px' }}>
                       <span style={{ padding: '3px 10px', borderRadius: '999px', fontSize: '11px', fontWeight: 700, background: s.bg, color: s.color, display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
