@@ -293,7 +293,7 @@ export default function PortfolioEventPage() {
           <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{
               width: '48px', height: '4px', borderRadius: '2px',
-              background: 'linear-gradient(to right, #adc905, #d4f007)',
+              background: 'linear-gradient(to right, #adc905, #c8e606)',
               marginBottom: '24px',
             }} />
             <p style={{

@@ -644,7 +644,7 @@ export default function CorporateEvents() {
                 <div>
                   <div className="ci-lbl">Location</div>
                   <div className="ci-val">
-                    26, Judge Jambulingam Road, Mylapore, Chennai, Tamil Nadu
+                    28, Judge Jambulingam Road, Mylapore, Chennai, Tamil Nadu
                   </div>
                 </div>
               </div>
@@ -748,7 +748,7 @@ export default function CorporateEvents() {
             <div className="fci">
               <div className="fci-icon">📍</div>
               <div className="fci-text">
-                26, Judge Jambulingam Road, Mylapore, Chennai, Tamil Nadu
+                28, Judge Jambulingam Road, Mylapore, Chennai, Tamil Nadu
               </div>
             </div>
             <div className="fci">

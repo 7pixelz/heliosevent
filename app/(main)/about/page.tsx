@@ -153,7 +153,7 @@ export default function AboutPage() {
                 {/* Accent bar */}
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: i === 0 ? '#ff6a00' : i === 1 ? '#adc905' : '#1a1f2e' }} />
                 {/* Icon */}
-                <div style={{ width: '60px', height: '60px', borderRadius: '16px', background: i === 0 ? 'rgba(255,106,0,0.08)' : i === 1 ? 'rgba(173,201,5,0.1)' : 'rgba(26,31,46,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', color: i === 0 ? '#ff6a00' : i === 1 ? '#7a9000' : '#1a1f2e' }}>
+                <div style={{ width: '60px', height: '60px', borderRadius: '16px', background: i === 0 ? 'rgba(255,106,0,0.08)' : i === 1 ? 'rgba(173,201,5,0.1)' : 'rgba(26,31,46,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', color: i === 0 ? '#ff6a00' : i === 1 ? '#7a9200' : '#1a1f2e' }}>
                   {v.icon}
                 </div>
                 <h3 style={{ fontSize: '22px', fontWeight: 900, color: '#1a1f2e', margin: '0 0 8px', fontFamily: "'Inter',sans-serif" }}>{v.label}</h3>
@@ -174,7 +174,7 @@ export default function AboutPage() {
           <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, color: '#fff', margin: '0 0 28px', lineHeight: 1.15, fontFamily: "'Inter',sans-serif" }}>
             Turning Visions Into<br /><span style={{ color: '#ff6a00' }}>Reality</span>
           </h2>
-          <Link href="/get-quote" style={{ display: 'inline-block', padding: '14px 36px', background: '#ff6a00', color: '#fff', textDecoration: 'none', borderRadius: '50px', fontSize: '14px', fontWeight: 700, fontFamily: "'Inter',sans-serif", letterSpacing: '0.5px' }}>
+          <Link href="/get-quote" style={{ display: 'inline-block', padding: '14px 36px', background: 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)', color: '#fff', textDecoration: 'none', borderRadius: '50px', fontSize: '15px', fontWeight: 700, fontFamily: "'Inter',sans-serif", letterSpacing: '0.5px', boxShadow: '0 6px 20px rgba(255,106,0,0.35)' }}>
             Plan Your Event
           </Link>
         </div>

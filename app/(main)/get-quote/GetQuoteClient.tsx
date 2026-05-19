@@ -290,7 +290,7 @@ export default function GetQuoteClient() {
                   <p style={{ fontSize: '13px', color: '#aaa', fontFamily: "'Inter',sans-serif", marginBottom: '32px' }}>
                     Check your inbox at <strong style={{ color: '#555' }}>{form.email || 'your email'}</strong>
                   </p>
-                  <button onClick={() => setSuccess(false)} style={{ padding: '12px 32px', background: 'linear-gradient(90deg,#ff6a00,#ff8c38)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter',sans-serif", boxShadow: '0 4px 16px rgba(255,106,0,0.3)' }}>
+                  <button onClick={() => setSuccess(false)} style={{ padding: '12px 32px', background: 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter',sans-serif", boxShadow: '0 4px 16px rgba(255,106,0,0.3)' }}>
                     Submit Another Request
                   </button>
                 </div>
@@ -411,7 +411,7 @@ export default function GetQuoteClient() {
 
                   <button type="submit" disabled={loading} style={{
                     width: '100%',
-                    background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(90deg,#ff6a00,#ff8c38)',
+                    background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)',
                     color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700,
                     fontSize: '15px', padding: '16px', border: 'none', borderRadius: '10px',
                     cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '0.5px',

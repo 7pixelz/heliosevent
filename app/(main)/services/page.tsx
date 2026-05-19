@@ -217,7 +217,7 @@ export default async function ServicesPage() {
 
       {/* CTA Banner */}
       <section style={{
-        background: 'linear-gradient(135deg, #adc905 0%, #8fa804 100%)',
+        background: 'linear-gradient(135deg, #adc905 0%, #c8e606 100%)',
         padding: '64px 24px', textAlign: 'center',
       }}>
         <h2 style={{

@@ -243,7 +243,7 @@ export default function ServiceDetailPage() {
               </h2>
               <div style={{
                 width: '60px', height: '4px', borderRadius: '2px',
-                background: 'linear-gradient(to right, #adc905, #d4f007)',
+                background: 'linear-gradient(to right, #adc905, #c8e606)',
                 marginBottom: '32px',
               }} />
               <div style={{

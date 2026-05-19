@@ -72,7 +72,7 @@ export default function AdminLogin() {
               </div>
             )}
 
-            <button type="submit" disabled={loading} style={{ width: '100%', background: loading ? 'rgba(173,201,5,0.5)' : 'linear-gradient(90deg,#adc905,#c8e205)', color: '#000', fontWeight: 700, fontSize: '14px', padding: '13px', border: 'none', borderRadius: '10px', cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '0.3px' }}>
+            <button type="submit" disabled={loading} style={{ width: '100%', background: loading ? 'rgba(173,201,5,0.5)' : 'linear-gradient(135deg,#adc905 0%,#c8e606 100%)', color: '#000', fontWeight: 700, fontSize: '14px', padding: '13px', border: 'none', borderRadius: '10px', cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '0.3px' }}>
               {loading ? 'Signing in…' : 'Sign in →'}
             </button>
           </form>

@@ -50,7 +50,7 @@ export default function Footer() {
         </div>
         <div>
           <div className="fc-title">Get In Touch</div>
-          <div className="fci"><div className="fci-icon">📍</div><div className="fci-text">28, Judge Jubilee Hills Road, Jagadambal Colony, Mylapore, Chennai – 600 004</div></div>
+          <div className="fci"><div className="fci-icon">📍</div><div className="fci-text">28, Judge Jambulingam Road, Mylapore, Chennai – 600 004</div></div>
           <div className="fci"><div className="fci-icon">📞</div><div className="fci-text"><a href="tel:+917401030000" style={{ color: 'inherit', textDecoration: 'none' }}>+91 7401 030 000</a></div></div>
           <div className="fci"><div className="fci-icon">✉️</div><div className="fci-text"><a href="mailto:plan@heliosevent.net" style={{ color: 'inherit', textDecoration: 'none' }}>plan@heliosevent.net</a></div></div>
         </div>

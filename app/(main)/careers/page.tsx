@@ -324,7 +324,7 @@ export default function CareersPage() {
 
                 <button type="submit" disabled={loading} style={{
                   width: '100%', padding: '15px', borderRadius: '10px',
-                  background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(90deg,#ff6a00,#ff8c38)',
+                  background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)',
                   color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700,
                   fontSize: '15px', border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',

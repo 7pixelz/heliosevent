@@ -172,7 +172,7 @@ export default function EnquiryDetailClient({ quote }: Props) {
               style={{ width: '100%', background: '#fafafa', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 12px', fontSize: '13px', color: '#333', resize: 'vertical', outline: 'none', fontFamily: "'Inter',sans-serif", boxSizing: 'border-box' }}
             />
             <button onClick={saveNotes} disabled={savingNotes}
-              style={{ marginTop: '8px', width: '100%', padding: '9px', background: savingNotes ? '#d4e84a' : '#adc905', color: '#fff', border: 'none', borderRadius: '7px', fontSize: '12px', fontWeight: 700, cursor: savingNotes ? 'not-allowed' : 'pointer', fontFamily: "'Inter',sans-serif" }}>
+              style={{ marginTop: '8px', width: '100%', padding: '9px', background: savingNotes ? 'rgba(173,201,5,0.5)' : '#adc905', color: '#fff', border: 'none', borderRadius: '7px', fontSize: '12px', fontWeight: 700, cursor: savingNotes ? 'not-allowed' : 'pointer', fontFamily: "'Inter',sans-serif" }}>
               {savingNotes ? 'Saving…' : 'Save Notes'}
             </button>
           </div>

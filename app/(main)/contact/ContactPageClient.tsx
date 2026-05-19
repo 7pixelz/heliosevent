@@ -178,7 +178,7 @@ export default function ContactPageClient() {
             <div>
               <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '6px' }}>Office Address</div>
               <div style={{ fontSize: '13px', color: '#444', fontFamily: "'Inter',sans-serif", lineHeight: 1.6 }}>
-                28, Judge Jubilee Hills Road,<br />Jagadambal Colony Durgapam,<br />Mylapore, Chennai – 600 004<br />Tamil Nadu, India
+                28, Judge Jambulingam Road,<br />Mylapore, Chennai – 600 004<br />Tamil Nadu, India
               </div>
             </div>
           </div>
@@ -419,7 +419,7 @@ export default function ContactPageClient() {
                   )}
 
                   <button type="submit" disabled={loading} style={{
-                    width: '100%', background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(90deg,#ff6a00,#ff8c38)',
+                    width: '100%', background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)',
                     color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700,
                     fontSize: '15px', padding: '15px', border: 'none', borderRadius: '10px',
                     cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '0.5px',
