@@ -8,6 +8,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const ENQUIRY_NOTIFY = ['bala@heliosevent.net', 'mktg@heliosevent.net', 'nakshatra@heliosevent.net'];
+const CAREER_NOTIFY  = ['bala@heliosevent.net', 'rajula@heliosevent.net', 'nakshatra@heliosevent.net'];
+
 export interface EnquiryData {
   name: string;
   email: string;
@@ -93,7 +96,7 @@ export async function sendEnquiryNotification(data: EnquiryData) {
   // Admin notification
   await transporter.sendMail({
     from: `"Helios Event" <${process.env.GMAIL_USER}>`,
-    to: process.env.NOTIFY_EMAIL,
+    to: ENQUIRY_NOTIFY,
     subject: `New Enquiry from ${data.name} — ${data.company}`,
     html,
   });
@@ -207,7 +210,7 @@ export async function sendCareerNotification(data: CareerData) {
 
   await transporter.sendMail({
     from: `"Helios Event" <${process.env.GMAIL_USER}>`,
-    to: process.env.NOTIFY_EMAIL,
+    to: CAREER_NOTIFY,
     subject: `New Application: ${data.position} — ${data.name}`,
     html,
   });
