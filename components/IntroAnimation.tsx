@@ -67,13 +67,7 @@ export default function IntroAnimation() {
           font-weight: 300;
           letter-spacing: 6px;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.85);
-        }
-        .hel-tagline span {
-          background: linear-gradient(135deg, #ff6a00, #ee0979);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          font-weight: 700;
+          color: rgba(255,255,255,0.9);
         }
         .hel-skip {
           position: fixed; bottom: 32px; right: 32px;
@@ -92,11 +86,11 @@ export default function IntroAnimation() {
           <img
             src="/assets/heliosevent_logo_white.webp"
             alt="Helios Event Productions"
-            style={{ height: 'clamp(60px, 10vw, 100px)', width: 'auto', display: 'block' }}
+            style={{ height: 'clamp(90px, 15vw, 160px)', width: 'auto', display: 'block' }}
           />
         </div>
         <div className="hel-tagline">
-          <span>Create</span> Experiences.
+          Create Experiences.
         </div>
         <button
           className="hel-skip"

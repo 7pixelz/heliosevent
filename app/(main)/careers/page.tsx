@@ -98,6 +98,7 @@ export default function CareersPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Partial<Record<string, boolean>>>({});
   const [resume, setResume] = useState<File | null>(null);
+  const [resumeError, setResumeError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -119,15 +120,21 @@ export default function CareersPage() {
   }
 
   function validate(): boolean {
+    let valid = true;
     const result = FormSchema.safeParse(form);
-    if (result.success) { setErrors({}); return true; }
-    const fe: FormErrors = {};
-    for (const [k, msgs] of Object.entries(result.error.flatten().fieldErrors)) {
-      if (msgs?.[0]) fe[k as keyof FormErrors] = msgs[0];
+    if (!result.success) {
+      const fe: FormErrors = {};
+      for (const [k, msgs] of Object.entries(result.error.flatten().fieldErrors)) {
+        if (msgs?.[0]) fe[k as keyof FormErrors] = msgs[0];
+      }
+      setErrors(fe);
+      valid = false;
+    } else {
+      setErrors({});
     }
-    setErrors(fe);
     setTouched({ name: true, email: true, phone: true, position: true, experience: true });
-    return false;
+    if (!resume) { setResumeError('Please upload your resume.'); valid = false; }
+    return valid;
   }
 
   const inpSt = (field: keyof FormErrors) => inp(!!errors[field] && !!touched[field]);
@@ -321,12 +328,12 @@ export default function CareersPage() {
 
                 {/* Resume Upload */}
                 <div style={{ marginBottom: '24px' }}>
-                  <label style={labelSt}>Resume / CV (PDF, DOC — max 5MB)</label>
+                  <label style={labelSt}>Resume / CV * (PDF, DOC — max 5MB)</label>
                   <div
-                    style={{ border: `2px dashed ${resume ? '#adc905' : '#e0e0e0'}`, borderRadius: '10px', padding: '20px', textAlign: 'center', transition: 'border-color 0.2s' }}
+                    style={{ border: `2px dashed ${resumeError ? '#e53e3e' : resume ? '#adc905' : '#e0e0e0'}`, borderRadius: '10px', padding: '20px', textAlign: 'center', transition: 'border-color 0.2s', boxShadow: resumeError ? '0 0 0 3px rgba(229,62,62,0.1)' : 'none' }}
                     onDragOver={e => { e.preventDefault(); (e.currentTarget as HTMLDivElement).style.borderColor = '#adc905'; }}
-                    onDragLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = resume ? '#adc905' : '#e0e0e0'; }}
-                    onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) setResume(f); }}
+                    onDragLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = resumeError ? '#e53e3e' : resume ? '#adc905' : '#e0e0e0'; }}
+                    onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) { setResume(f); setResumeError(''); } }}
                   >
                     {resume ? (
                       <div style={{ fontFamily: "'Inter',sans-serif" }}>
@@ -335,18 +342,26 @@ export default function CareersPage() {
                       </div>
                     ) : (
                       <>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#adc905" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '8px' }}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={resumeError ? '#e53e3e' : '#adc905'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '8px' }}>
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
                         <div style={{ fontSize: '13px', color: '#666', fontFamily: "'Inter',sans-serif", marginBottom: '8px' }}>Drag & drop your resume here or</div>
                         <label style={{ display: 'inline-block', padding: '8px 20px', background: '#f0f4e8', borderRadius: '8px', fontSize: '13px', fontWeight: 600, color: '#adc905', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
                           Browse File
                           <input type="file" accept=".pdf,.doc,.docx" style={{ display: 'none' }}
-                            onChange={e => { const f = e.target.files?.[0]; if (f) setResume(f); }} />
+                            onChange={e => { const f = e.target.files?.[0]; if (f) { setResume(f); setResumeError(''); } }} />
                         </label>
                       </>
                     )}
                   </div>
+                  {resumeError && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+                      </svg>
+                      <span style={{ fontSize: '11px', color: '#e53e3e', fontFamily: "'Inter',sans-serif", fontWeight: 500 }}>{resumeError}</span>
+                    </div>
+                  )}
                 </div>
 
                 {submitError && (

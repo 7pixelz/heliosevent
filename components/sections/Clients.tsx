@@ -1,83 +1,103 @@
 'use client';
 
-import { useState } from 'react';
-
 interface Logo { id: string; name: string; imageUrl: string; }
 
-const PAGE_SIZE = 25;
-
 export default function Clients({ logos }: { logos: Logo[] }) {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? logos : logos.slice(0, PAGE_SIZE);
-
   if (logos.length === 0) return null;
 
+  // Split logos into two rows; pad with extras from the start if uneven
+  const half = Math.ceil(logos.length / 2);
+  const row1 = logos.slice(0, half);
+  const row2 = logos.slice(half);
+  // Ensure each row has enough items to fill the viewport when duplicated
+  while (row1.length < 6) row1.push(...row1);
+  while (row2.length < 6) row2.push(...row2);
+
   return (
-    <section className="clients-section">
+    <section style={{ background: '#fff', padding: '80px 0', overflow: 'hidden', borderBottom: '1px solid #eee' }}>
       <style>{`
-        .clients-section {
-          background: #fff;
-          padding: 80px 56px;
-          border-bottom: 1px solid #eee;
+        @keyframes marquee-left {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        @keyframes marquee-right {
+          from { transform: translateX(-50%); }
+          to   { transform: translateX(0); }
+        }
+        .marquee-viewport {
+          overflow: hidden;
+          -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+        }
+        .marquee-track {
           display: flex;
-          flex-direction: column;
-          align-items: center;
+          width: max-content;
+          will-change: transform;
         }
-        .clients-grid {
-          width: 100%;
-          max-width: 1200px;
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          border-top: 1px solid #eee;
-          border-left: 1px solid #eee;
-        }
-        .clients-grid-item {
+        .marquee-track-left  { animation: marquee-left  38s linear infinite; }
+        .marquee-track-right { animation: marquee-right 44s linear infinite; }
+        .marquee-viewport:hover .marquee-track { animation-play-state: paused; }
+        .brand-logo-item {
+          flex-shrink: 0;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 32px 24px;
-          border-right: 1px solid #eee;
-          border-bottom: 1px solid #eee;
+          padding: 20px 36px;
+          border: 1px solid #f0f0f0;
+          border-radius: 14px;
+          margin: 0 10px;
           background: #fff;
+          transition: box-shadow 0.2s, border-color 0.2s;
+          cursor: default;
         }
-        @media (max-width: 900px) {
-          .clients-section { padding: 60px 24px; }
-          .clients-grid { grid-template-columns: repeat(3, 1fr); }
-          .clients-grid-item { padding: 24px 16px; }
-          .clients-grid-item:last-child:nth-child(3n+1) { grid-column: span 3; }
-          .clients-grid-item:last-child:nth-child(3n+2) { grid-column: span 2; }
+        .brand-logo-item:hover {
+          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+          border-color: #e0e0e0;
         }
-        @media (max-width: 500px) {
-          .clients-section { padding: 48px 16px; }
-          .clients-grid { grid-template-columns: repeat(2, 1fr); }
-          .clients-grid-item { padding: 20px 12px; }
-          .clients-grid-item:last-child:nth-child(odd) { grid-column: span 2; }
+        .brand-logo-item img {
+          height: 44px;
+          width: auto;
+          max-width: 120px;
+          object-fit: contain;
+          filter: grayscale(40%) opacity(0.75);
+          transition: filter 0.2s;
+        }
+        .brand-logo-item:hover img {
+          filter: grayscale(0%) opacity(1);
         }
       `}</style>
-      <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-        <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(22px, 3.5vw, 48px)', fontWeight: 800, color: '#1a1a1a' }}>
+
+      {/* Heading */}
+      <div style={{ textAlign: 'center', marginBottom: '48px', padding: '0 24px' }}>
+        <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(22px, 3.5vw, 44px)', fontWeight: 800, color: '#1a1a1a', margin: 0 }}>
           Brands That Love Helios
         </h2>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '15px', color: '#888', marginTop: '10px' }}>
+          Trusted by {logos.length}+ leading organisations across industries
+        </p>
       </div>
-      <div className="clients-grid">
-        {visible.map((logo) => (
-          <div key={logo.id} className="clients-grid-item">
-            <img
-              src={logo.imageUrl}
-              alt={logo.name}
-              style={{ maxHeight: '70px', width: 'auto', maxWidth: '130px', objectFit: 'contain', filter: 'grayscale(30%)', transition: 'filter 0.2s' }}
-            />
-          </div>
-        ))}
+
+      {/* Row 1 — scrolls left */}
+      <div className="marquee-viewport" style={{ marginBottom: '16px' }}>
+        <div className="marquee-track marquee-track-left">
+          {[...row1, ...row1].map((logo, i) => (
+            <div key={`r1-${logo.id}-${i}`} className="brand-logo-item">
+              <img src={logo.imageUrl} alt={logo.name} />
+            </div>
+          ))}
+        </div>
       </div>
-      {logos.length > PAGE_SIZE && (
-        <button
-          onClick={() => setExpanded(e => !e)}
-          style={{ marginTop: '36px', padding: '12px 40px', fontFamily: "'Inter', sans-serif", fontSize: '13px', fontWeight: 700, color: '#111', background: '#fff', border: '1.5px solid #ccc', borderRadius: '8px', cursor: 'pointer', letterSpacing: '0.5px' }}
-        >
-          {expanded ? 'Show Less ↑' : 'Load More ↓'}
-        </button>
-      )}
+
+      {/* Row 2 — scrolls right */}
+      <div className="marquee-viewport">
+        <div className="marquee-track marquee-track-right">
+          {[...row2, ...row2].map((logo, i) => (
+            <div key={`r2-${logo.id}-${i}`} className="brand-logo-item">
+              <img src={logo.imageUrl} alt={logo.name} />
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
