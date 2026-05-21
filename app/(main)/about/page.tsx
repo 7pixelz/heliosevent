@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getPageSeo, buildMeta } from '../../../lib/seo';
 import LeadForm from '../../../components/sections/LeadForm';
+import TeamGallery from './TeamGallery';
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo('about');
@@ -176,22 +177,7 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <style>{`
-            .team-card img { transition: transform 0.4s ease; }
-            .team-card:hover img { transform: scale(1.05); }
-          `}</style>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '1200px', margin: '0 auto' }}>
-            {['team1.jpeg', 'team2.jpeg', 'team3.jpeg'].map((file, i) => (
-              <div key={i} className="team-card" style={{ borderRadius: '20px', overflow: 'hidden', aspectRatio: '4/3', position: 'relative', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
-                <img
-                  src={`/assets/teams/${file}`}
-                  alt="Helios Event Team"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,31,46,0.5) 0%, transparent 50%)' }} />
-              </div>
-            ))}
-          </div>
+          <TeamGallery />
         </div>
       </section>
 
