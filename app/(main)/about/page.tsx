@@ -166,6 +166,33 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── Team ── */}
+      <section style={{ background: '#1a1f2e', padding: 'clamp(60px,8vw,100px) 40px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '14px' }}>The People Behind The Magic</p>
+            <h2 style={{ fontSize: 'clamp(28px,3.5vw,42px)', fontWeight: 900, color: '#fff', margin: 0, fontFamily: "'Inter',sans-serif", lineHeight: 1.15 }}>
+              Meet Our <span style={{ color: '#adc905' }}>Team</span>
+            </h2>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '900px', margin: '0 auto' }}>
+            {['team1.jpeg', 'team2.jpeg', 'team3.jpeg'].map((file, i) => (
+              <div key={i} style={{ borderRadius: '20px', overflow: 'hidden', aspectRatio: '3/4', position: 'relative', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
+                <img
+                  src={`/assets/teams/${file}`}
+                  alt="Helios Event Team"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block', transition: 'transform 0.4s ease' }}
+                  onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.04)')}
+                  onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,31,46,0.5) 0%, transparent 50%)' }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Video Strip ── */}
       <section style={{ position: 'relative', height: '400px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} src="/assets/videos/HYUNDAI_Partnership.mp4" />
