@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const SEEN_KEY = 'helios_intro_seen';
+const SEEN_KEY = 'helios_intro_seen_v2';
 
 export default function IntroAnimation() {
   const [phase, setPhase] = useState<'visible' | 'fadeout' | 'done'>('visible');
