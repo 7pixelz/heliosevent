@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic';
 
 import { Suspense } from 'react';
 import { preload } from 'react-dom';
-import { sbImg } from '../../lib/sbImg';
 import Hero from '../../components/sections/Hero';
 import Clients from '../../components/sections/Clients';
 import Portfolio from '../../components/sections/Portfolio';
@@ -49,7 +48,7 @@ export default async function Home() {
     // DB unavailable — components use their own fallback data
   }
 
-  const firstSlideUrl = sbImg(slides[0]?.mediaUrl ?? '/assets/banners/img1.jpg', 1600, 75);
+  const firstSlideUrl = slides[0]?.mediaUrl ?? '/assets/banners/img1.jpg';
   preload(firstSlideUrl, { as: 'image', fetchPriority: 'high' });
 
   return (
