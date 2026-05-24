@@ -1,5 +1,7 @@
 'use client';
 
+import { sbImg } from '../../lib/sbImg';
+
 interface Logo { id: string; name: string; imageUrl: string; }
 
 export default function Clients({ logos }: { logos: Logo[] }) {
@@ -82,7 +84,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         <div className="marquee-track marquee-track-left">
           {[...row1, ...row1].map((logo, i) => (
             <div key={`r1-${logo.id}-${i}`} className="brand-logo-item">
-              <img src={logo.imageUrl} alt={logo.name} />
+              <img src={sbImg(logo.imageUrl, 240)} alt={logo.name} />
             </div>
           ))}
         </div>
@@ -93,7 +95,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         <div className="marquee-track marquee-track-right">
           {[...row2, ...row2].map((logo, i) => (
             <div key={`r2-${logo.id}-${i}`} className="brand-logo-item">
-              <img src={logo.imageUrl} alt={logo.name} />
+              <img src={sbImg(logo.imageUrl, 240)} alt={logo.name} />
             </div>
           ))}
         </div>

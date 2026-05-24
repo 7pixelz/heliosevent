@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { sbImg } from '../../lib/sbImg';
 
 interface HeroSlide {
   id: string;
@@ -49,7 +50,7 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           ) : (
-            <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${slide.mediaUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+            <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${sbImg(slide.mediaUrl, 1600, 75)})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
           )}
         </div>
       ))}

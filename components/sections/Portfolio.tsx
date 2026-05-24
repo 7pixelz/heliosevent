@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { prisma } from '../../lib/prisma';
+import { sbImg } from '../../lib/sbImg';
 
 const CAT_LABELS: Record<string, string> = {
   'corporate-events': 'Corporate',
@@ -56,7 +57,7 @@ export default async function Portfolio() {
               >
                 {ev.coverImageUrl && (
                   <img
-                    src={ev.coverImageUrl}
+                    src={sbImg(ev.coverImageUrl, 800)}
                     alt={ev.title}
                     style={{
                       position: 'absolute', inset: 0,
