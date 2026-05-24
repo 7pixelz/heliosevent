@@ -190,7 +190,7 @@ export default function Header() {
       </ul>
 
       <a href="/get-quote" className="nav-btn hide-mobile" style={{ textDecoration: 'none' }}>Plan Your Event</a>
-      <button className="hamburger" onClick={() => setMobileMenuOpen(o => !o)}>
+      <button className="hamburger" aria-label="Toggle navigation menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(o => !o)}>
         <span className={`ham-line ${mobileMenuOpen ? 'active' : ''}`}></span>
         <span className={`ham-line ${mobileMenuOpen ? 'active' : ''}`}></span>
         <span className={`ham-line ${mobileMenuOpen ? 'active' : ''}`}></span>

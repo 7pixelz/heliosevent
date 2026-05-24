@@ -171,21 +171,21 @@ export default function LeadForm() {
               {/* Required fields */}
               <div className="lf-grid">
                 <div>
-                  <label style={lbl}>Your Name *</label>
-                  <input className="lf-inp" type="text" placeholder="John Doe" value={form.name}
+                  <label htmlFor="lf-name" style={lbl}>Your Name *</label>
+                  <input id="lf-name" className="lf-inp" type="text" placeholder="John Doe" value={form.name}
                     onChange={ex => set('name', ex.target.value)} onBlur={() => touch('name')}
                     style={i('name')} />
                   <FieldErr msg={e('name')} />
                 </div>
                 <div>
-                  <label style={lbl}>Email *</label>
-                  <input className="lf-inp" type="email" placeholder="example@domain.com" value={form.email}
+                  <label htmlFor="lf-email" style={lbl}>Email *</label>
+                  <input id="lf-email" className="lf-inp" type="email" placeholder="example@domain.com" value={form.email}
                     onChange={ex => set('email', ex.target.value)} onBlur={() => touch('email')}
                     style={i('email')} />
                   <FieldErr msg={e('email')} />
                 </div>
                 <div>
-                  <label style={lbl}>Phone Number *</label>
+                  <label htmlFor="lf-phone" style={lbl}>Phone Number *</label>
                   <div style={{
                     display: 'flex', alignItems: 'center',
                     border: `1px solid ${errors.phone && touched.phone ? '#e53e3e' : 'rgba(255,255,255,0.15)'}`,
@@ -197,7 +197,7 @@ export default function LeadForm() {
                     <input className="lf-inp" type="tel" placeholder="00000 00000" value={form.phone}
                       onChange={ex => set('phone', ex.target.value.replace(/[^0-9+\s\-()]/g, ''))}
                       onBlur={() => touch('phone')}
-                      style={{ flex: 1, background: 'transparent', border: 'none', color: '#fff', fontSize: '13px', fontFamily: "'Inter',sans-serif", outline: 'none', minWidth: 0, marginLeft: '8px' }} />
+                      id="lf-phone" style={{ flex: 1, background: 'transparent', border: 'none', color: '#fff', fontSize: '13px', fontFamily: "'Inter',sans-serif", outline: 'none', minWidth: 0, marginLeft: '8px' }} />
                   </div>
                   <FieldErr msg={e('phone')} />
                 </div>
@@ -205,22 +205,22 @@ export default function LeadForm() {
 
               <div className="lf-grid">
                 <div>
-                  <label style={lbl}>Company Name *</label>
-                  <input className="lf-inp" type="text" placeholder="Acme Corp" value={form.company}
+                  <label htmlFor="lf-company" style={lbl}>Company Name *</label>
+                  <input id="lf-company" className="lf-inp" type="text" placeholder="Acme Corp" value={form.company}
                     onChange={ex => set('company', ex.target.value)} onBlur={() => touch('company')}
                     style={i('company')} />
                   <FieldErr msg={e('company')} />
                 </div>
                 <div>
-                  <label style={lbl}>Location / Venue *</label>
-                  <input className="lf-inp" type="text" placeholder="Chennai / Bangalore" value={form.location}
+                  <label htmlFor="lf-location" style={lbl}>Location / Venue *</label>
+                  <input id="lf-location" className="lf-inp" type="text" placeholder="Chennai / Bangalore" value={form.location}
                     onChange={ex => set('location', ex.target.value)} onBlur={() => touch('location')}
                     style={i('location')} />
                   <FieldErr msg={e('location')} />
                 </div>
                 <div>
-                  <label style={lbl}>Type of Event *</label>
-                  <select className="lf-inp lf-sel" value={form.typeOfProgram}
+                  <label htmlFor="lf-event-type" style={lbl}>Type of Event *</label>
+                  <select id="lf-event-type" className="lf-inp lf-sel" value={form.typeOfProgram}
                     onChange={ex => { set('typeOfProgram', ex.target.value); touch('typeOfProgram'); }}
                     style={{ ...i('typeOfProgram'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
                     <option value="">Select event type…</option>
@@ -249,25 +249,25 @@ export default function LeadForm() {
 
               <div className="lf-grid">
                 <div>
-                  <label style={lbl}>Team Size</label>
-                  <input className="lf-inp" type="text" placeholder="30 / 50 / 100 / 200+" value={form.teamSize}
+                  <label htmlFor="lf-team-size" style={lbl}>Team Size</label>
+                  <input id="lf-team-size" className="lf-inp" type="text" placeholder="30 / 50 / 100 / 200+" value={form.teamSize}
                     onChange={ex => set('teamSize', ex.target.value)} style={inp(false)} />
                 </div>
                 <div>
-                  <label style={lbl}>Budget</label>
-                  <input className="lf-inp" type="text" placeholder="₹50K / ₹2L / ₹5L+" value={form.budget}
+                  <label htmlFor="lf-budget" style={lbl}>Budget</label>
+                  <input id="lf-budget" className="lf-inp" type="text" placeholder="₹50K / ₹2L / ₹5L+" value={form.budget}
                     onChange={ex => set('budget', ex.target.value)} style={inp(false)} />
                 </div>
                 <div>
-                  <label style={lbl}>Preferred Date</label>
-                  <input className="lf-inp" type="date" value={form.preferredDate}
+                  <label htmlFor="lf-date" style={lbl}>Preferred Date</label>
+                  <input id="lf-date" className="lf-inp" type="date" value={form.preferredDate}
                     onChange={ex => set('preferredDate', ex.target.value)} style={inp(false)} />
                 </div>
               </div>
 
               <div style={{ marginBottom: '24px' }}>
-                <label style={lbl}>How Did You Hear About Us?</label>
-                <input className="lf-inp" type="text" placeholder="Google / LinkedIn / Referral / Word of mouth" value={form.howDidYouHear}
+                <label htmlFor="lf-hear" style={lbl}>How Did You Hear About Us?</label>
+                <input id="lf-hear" className="lf-inp" type="text" placeholder="Google / LinkedIn / Referral / Word of mouth" value={form.howDidYouHear}
                   onChange={ex => set('howDidYouHear', ex.target.value)} style={inp(false)} />
               </div>
 
