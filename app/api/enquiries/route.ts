@@ -5,6 +5,7 @@ import { sendEnquiryNotification } from '../../../lib/mailer';
 
 const EnquirySchema = z.object({
   recaptchaToken: z.string().min(1, 'reCAPTCHA token missing'),
+  website: z.string().max(0).optional(), // honeypot — must be empty
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   phoneCode: z.string().default('+91'),
@@ -25,7 +26,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
   });
   const data = await res.json();
-  return data.success && data.score >= 0.5;
+  return data.success && data.score >= 0.7;
 }
 
 export async function POST(req: NextRequest) {
@@ -38,7 +39,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: message }, { status: 400 });
     }
 
-    const { recaptchaToken, ...fields } = parsed.data;
+    const { recaptchaToken, website, ...fields } = parsed.data;
+
+    // Honeypot — bots fill this, humans don't
+    if (website) return NextResponse.json({ success: true }); // silently discard
 
     const valid = await verifyRecaptcha(recaptchaToken);
     if (!valid) {

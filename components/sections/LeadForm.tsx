@@ -106,7 +106,7 @@ export default function LeadForm() {
       const res = await fetch('/api/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, recaptchaToken }),
+        body: JSON.stringify({ ...form, recaptchaToken, website: '' }),
       });
       const data = await res.json();
       if (!res.ok) { setSubmitError(data.error || 'Something went wrong.'); return; }
