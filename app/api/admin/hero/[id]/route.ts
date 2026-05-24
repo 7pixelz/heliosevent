@@ -40,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
       const { error } = await supabaseAdmin().storage
         .from(BUCKET_HERO)
-        .upload(storagePath, file, { contentType: file.type, upsert: false });
+        .upload(storagePath, file, { contentType: file.type, upsert: false, cacheControl: '31536000' });
       if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
       const { data: urlData } = supabaseAdmin().storage.from(BUCKET_HERO).getPublicUrl(storagePath);

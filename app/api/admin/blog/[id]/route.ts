@@ -55,7 +55,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       }
       const ext = file.name.split('.').pop() || 'jpg';
       const path = `covers/${Date.now()}.${ext}`;
-      const { error } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true });
+      const { error } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
       if (!error) {
         storagePath = path;
         coverImageUrl = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;

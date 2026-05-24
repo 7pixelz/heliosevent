@@ -66,7 +66,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     if (!file.size) continue;
     const ext = file.name.split('.').pop() || 'jpg';
     const path = `events/${eventId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true });
+    const { error } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
     if (error) continue;
     const url = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
     const media = await prisma.portfolioMedia.create({ data: { eventId, type: 'IMAGE', url, storagePath: path, displayOrder } });

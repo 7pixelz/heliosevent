@@ -59,7 +59,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       const sb = supabaseAdmin();
       const ext = file.name.split('.').pop() || 'jpg';
       const path = `covers/${id}-${Date.now()}.${ext}`;
-      await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true });
+      await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
       updateData.coverImageUrl = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
     }
 
