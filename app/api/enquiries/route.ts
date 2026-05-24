@@ -9,7 +9,7 @@ const EnquirySchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   phoneCode: z.string().default('+91'),
-  phone: z.string().min(6, 'Invalid phone number'),
+  phone: z.string().min(6, 'Invalid phone number').regex(/^[0-9+\s\-()]+$/, 'Invalid phone number'),
   company: z.string().min(1, 'Company name is required'),
   location: z.string().min(1, 'Location is required'),
   typeOfProgram: z.string().min(1, 'Type of event is required'),
