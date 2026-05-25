@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface HeroSlide {
   id: string;
@@ -49,7 +50,15 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           ) : (
-            <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${slide.mediaUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+            <Image
+              src={slide.mediaUrl}
+              alt={slide.title || 'Helios Event Productions'}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              quality={75}
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+            />
           )}
         </div>
       ))}
