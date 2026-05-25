@@ -55,6 +55,7 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
               alt={slide.title || 'Helios Event Productions'}
               fill
               priority={i === 0}
+              fetchPriority={i === 0 ? 'high' : 'auto'}
               sizes="100vw"
               quality={75}
               style={{ objectFit: 'cover', objectPosition: 'center' }}
