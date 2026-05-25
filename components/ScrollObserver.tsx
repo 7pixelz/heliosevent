@@ -7,8 +7,10 @@ export default function ScrollObserver() {
   const pathname = usePathname();
 
   useEffect(() => {
-    function observe() {
-      const obs = new IntersectionObserver(
+    let obs: IntersectionObserver | null = null;
+
+    function start() {
+      obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((el) => {
             if (el.isIntersecting) el.target.classList.add('vis');
@@ -16,21 +18,20 @@ export default function ScrollObserver() {
         },
         { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
       );
-      document.querySelectorAll('.fade-up').forEach((el) => obs.observe(el));
-      return obs;
+      document.querySelectorAll('.fade-up').forEach((el) => obs!.observe(el));
     }
 
-    // Run immediately for elements already in DOM
-    let obs = observe();
-
-    // Re-run after a short delay to catch async-rendered sections
-    const t1 = setTimeout(() => { obs.disconnect(); obs = observe(); }, 300);
-    const t2 = setTimeout(() => { obs.disconnect(); obs = observe(); }, 800);
+    // Defer past React's hydration pass to avoid className mismatch warnings.
+    // Re-run later to catch sections that stream in after initial render.
+    const t0 = setTimeout(start, 0);
+    const t1 = setTimeout(() => { obs?.disconnect(); start(); }, 300);
+    const t2 = setTimeout(() => { obs?.disconnect(); start(); }, 800);
 
     return () => {
+      clearTimeout(t0);
       clearTimeout(t1);
       clearTimeout(t2);
-      obs.disconnect();
+      obs?.disconnect();
     };
   }, [pathname]);
 
