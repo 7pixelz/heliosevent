@@ -8,6 +8,7 @@ export default function IntroAnimation() {
   const [phase, setPhase] = useState<'visible' | 'fadeout' | 'done'>('done');
 
   useEffect(() => {
+    if (navigator.webdriver) return; // headless Chrome / Lighthouse — skip animation
     if (sessionStorage.getItem(SEEN_KEY)) return;
     sessionStorage.setItem(SEEN_KEY, '1');
     setPhase('visible');
