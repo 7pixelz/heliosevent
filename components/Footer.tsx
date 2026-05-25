@@ -5,7 +5,7 @@ export default function Footer() {
     <footer>
       <div className="footer-grid">
         <div>
-          <Image src="/assets/heliosevent_logo_white.webp" alt="Helios Event" width={220} height={60} style={{ height: '60px', width: 'auto' }} />
+          <Image src="/assets/heliosevent_logo_white.webp" alt="Helios Event" width={220} height={60} sizes="(max-width:640px) 160px, 220px" style={{ height: '60px', width: 'auto' }} />
           <p className="fb-desc">Chennai's leading premium event production agency. Cinematic experiences for global brands and private clients.</p>
           <div className="socials">
             {/* Facebook */}

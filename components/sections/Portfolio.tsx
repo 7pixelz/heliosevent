@@ -60,8 +60,8 @@ export default async function Portfolio() {
                     src={ev.coverImageUrl}
                     alt={ev.title}
                     fill
-                    sizes="(max-width:640px) 100vw, 580px"
-                    quality={55}
+                    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 580px"
+                    quality={45}
                     placeholder="blur"
                     blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAYAAkA4JYgCdAEO/gHOAAD++3f/yf/Yf/ef/////q3/gf/gH/bP+5f+r/0D/Rf+n/+n/wH/ef/Yf/UP/V//UAAA"
                     style={{ objectFit: 'cover' }}

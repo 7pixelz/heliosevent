@@ -137,7 +137,7 @@ export default function Header() {
   return (
     <nav>
       <a href="/" className="nav-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-        <Image src="/assets/heliosevent_logo_white.webp" alt="Helios Event Productions" width={205} height={56} priority style={{ height: '56px', width: 'auto' }} />
+        <Image src="/assets/heliosevent_logo_white.webp" alt="Helios Event Productions" width={205} height={56} priority sizes="(max-width:640px) 150px, 205px" style={{ height: '56px', width: 'auto' }} />
       </a>
 
       <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`}>

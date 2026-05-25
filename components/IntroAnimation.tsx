@@ -115,6 +115,8 @@ export default function IntroAnimation() {
             src="/assets/helios_intro_new.webp"
             alt=""
             className="hel-symbol"
+            width={278}
+            height={160}
             style={{ height: 'clamp(100px, 16vw, 160px)', width: 'auto' }}
           />
           <img
