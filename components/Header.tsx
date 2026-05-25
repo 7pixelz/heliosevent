@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 interface ServiceItem { id: string; icon: string; name: string; slug: string }
 
@@ -136,7 +137,7 @@ export default function Header() {
   return (
     <nav>
       <a href="/" className="nav-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-        <img src="/assets/heliosevent_logo_white.webp" alt="Helios Event Productions" style={{ height: '56px', width: 'auto' }} />
+        <Image src="/assets/heliosevent_logo_white.webp" alt="Helios Event Productions" width={205} height={56} priority style={{ height: '56px', width: 'auto' }} />
       </a>
 
       <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`}>

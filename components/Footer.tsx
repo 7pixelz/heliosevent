@@ -1,9 +1,11 @@
+import Image from 'next/image';
+
 export default function Footer() {
   return (
     <footer>
       <div className="footer-grid">
         <div>
-          <img src="/assets/heliosevent_logo_white.webp" alt="Helios Event" style={{ height: '60px', width: 'auto' }} />
+          <Image src="/assets/heliosevent_logo_white.webp" alt="Helios Event" width={220} height={60} style={{ height: '60px', width: 'auto' }} />
           <p className="fb-desc">Chennai's leading premium event production agency. Cinematic experiences for global brands and private clients.</p>
           <div className="socials">
             {/* Facebook */}
