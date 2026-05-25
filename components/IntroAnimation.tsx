@@ -5,14 +5,12 @@ import { useEffect, useState } from 'react';
 const SEEN_KEY = 'helios_intro_seen_v2';
 
 export default function IntroAnimation() {
-  const [phase, setPhase] = useState<'visible' | 'fadeout' | 'done'>('visible');
+  const [phase, setPhase] = useState<'visible' | 'fadeout' | 'done'>('done');
 
   useEffect(() => {
-    if (sessionStorage.getItem(SEEN_KEY)) {
-      setPhase('done');
-      return;
-    }
+    if (sessionStorage.getItem(SEEN_KEY)) return;
     sessionStorage.setItem(SEEN_KEY, '1');
+    setPhase('visible');
 
     // Timeline:
     // 0.3s  → symbol fades in (0.8s)
@@ -113,7 +111,7 @@ export default function IntroAnimation() {
         {/* Symbol + Logo share the same center point */}
         <div className="hel-center">
           <img
-            src="/assets/helios_intro.webp"
+            src="/assets/helios_intro_new.webp"
             alt=""
             className="hel-symbol"
             style={{ height: 'clamp(100px, 16vw, 160px)', width: 'auto' }}
