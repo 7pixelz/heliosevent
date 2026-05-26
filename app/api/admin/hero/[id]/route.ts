@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
@@ -50,6 +51,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
 
     const updated = await prisma.heroSlide.update({ where: { id }, data });
+    revalidatePath('/');
     return NextResponse.json(updated);
   }
 
@@ -73,5 +75,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   await supabaseAdmin().storage.from(BUCKET_HERO).remove([slide.storagePath]);
   await prisma.heroSlide.delete({ where: { id } });
+  revalidatePath('/');
   return NextResponse.json({ success: true });
 }

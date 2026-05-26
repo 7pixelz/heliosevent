@@ -16,7 +16,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <div className="pointer-events-none fixed inset-0 bg-noise-texture opacity-10 mix-blend-screen" aria-hidden="true" />
           <div className="relative z-10">
             <Header />
-            {children}
+            <main style={{ minHeight: '100vh' }}>
+              {children}
+            </main>
             <Footer />
           </div>
         </div>

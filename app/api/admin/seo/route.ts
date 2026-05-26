@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
@@ -61,18 +62,22 @@ export async function PATCH(req: NextRequest) {
 
   if (type === 'pages') {
     const updated = await prisma.pageSeo.update({ where: { id }, data: { ...data, updatedAt: new Date() } });
+    revalidatePath('/', 'layout');
     return NextResponse.json(updated);
   }
   if (type === 'services') {
     const updated = await prisma.service.update({ where: { id }, data: { ...data, updatedAt: new Date() } });
+    revalidatePath('/services', 'layout');
     return NextResponse.json(updated);
   }
   if (type === 'portfolio') {
     const updated = await prisma.portfolioEvent.update({ where: { id }, data: { ...data, updatedAt: new Date() } });
+    revalidatePath('/portfolio', 'layout');
     return NextResponse.json(updated);
   }
   if (type === 'blog') {
     const updated = await prisma.blogPost.update({ where: { id }, data: { ...data, updatedAt: new Date() } });
+    revalidatePath('/blog', 'layout');
     return NextResponse.json(updated);
   }
 

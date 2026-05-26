@@ -1,6 +1,5 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
-import { Suspense } from 'react';
 import Hero from '../../components/sections/Hero';
 import Clients from '../../components/sections/Clients';
 import Portfolio from '../../components/sections/Portfolio';
@@ -24,9 +23,10 @@ export default async function Home() {
   let slides: { id: string; type: string; mediaUrl: string; title: string | null; subtitle: string | null; ctaText: string | null; ctaLink: string | null }[] = [];
   let logos: { id: string; name: string; imageUrl: string }[] = [];
   let mainServices: { id: string; icon: string; name: string; slug: string; description: string }[] = [];
+  let portfolioEvents: { id: string; title: string; slug: string; category: string; clientName: string | null; coverImageUrl: string | null }[] = [];
 
   try {
-    [slides, logos, mainServices] = await Promise.all([
+    [slides, logos, mainServices, portfolioEvents] = await Promise.all([
       prisma.heroSlide.findMany({
         where: { isActive: true },
         orderBy: { displayOrder: 'asc' },
@@ -42,6 +42,12 @@ export default async function Home() {
         orderBy: { displayOrder: 'asc' },
         select: { id: true, icon: true, name: true, slug: true, description: true },
       }),
+      prisma.portfolioEvent.findMany({
+        where: { isActive: true, NOT: { coverImageUrl: null } },
+        orderBy: { displayOrder: 'asc' },
+        take: 4,
+        select: { id: true, title: true, slug: true, category: true, clientName: true, coverImageUrl: true },
+      }),
     ]);
   } catch {
     // DB unavailable — components use their own fallback data
@@ -51,7 +57,7 @@ export default async function Home() {
     <>
       <Hero slides={slides as never} />
       <Clients logos={logos} />
-      <Suspense fallback={null}><Portfolio /></Suspense>
+      <Portfolio events={portfolioEvents} />
       <Services mainServices={mainServices} />
       <Stats />
       <Testimonials />

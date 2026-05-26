@@ -2204,11 +2204,14 @@ footer {
 }
 
 .fade-up {
-  opacity: 0;
-  transform: translateY(22px);
   transition:
     opacity 0.65s ease,
     transform 0.65s ease;
+}
+
+.fade-up.ready {
+  opacity: 0;
+  transform: translateY(22px);
 }
 
 .fade-up.vis {

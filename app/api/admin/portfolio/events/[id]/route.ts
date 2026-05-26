@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../../lib/auth';
@@ -64,6 +65,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     }
 
     const event = await prisma.portfolioEvent.update({ where: { id }, data: updateData });
+    revalidatePath('/');
+    revalidatePath('/portfolio', 'layout');
     return NextResponse.json(event);
   }
 
@@ -82,5 +85,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (paths.length) await supabaseAdmin().storage.from(BUCKET).remove(paths);
 
   await prisma.portfolioEvent.delete({ where: { id } });
+  revalidatePath('/');
+  revalidatePath('/portfolio', 'layout');
   return NextResponse.json({ ok: true });
 }

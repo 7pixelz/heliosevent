@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
@@ -78,5 +79,7 @@ export async function POST(req: NextRequest) {
     data: { name, slug, type, icon, description, coverImageUrl, storagePath, displayOrder },
   });
 
+  revalidatePath('/');
+  revalidatePath('/services', 'layout');
   return NextResponse.json(service, { status: 201 });
 }

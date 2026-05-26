@@ -18,6 +18,7 @@ export default function Loading() {
         }
       `}</style>
       <div className="hel-loading-bar" />
+      <div style={{ minHeight: '100vh' }} />
     </>
   );
 }

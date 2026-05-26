@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const SEEN_KEY = 'helios_intro_seen_v2';
 
@@ -119,10 +120,13 @@ export default function IntroAnimation() {
             height={160}
             style={{ height: 'clamp(100px, 16vw, 160px)', width: 'auto' }}
           />
-          <img
+          <Image
             src="/assets/heliosevent_logo_white.webp"
             alt="Helios Event Productions"
             className="hel-logo"
+            width={256}
+            height={160}
+            sizes="(max-width:640px) 144px, 256px"
             style={{ height: 'clamp(90px, 15vw, 160px)', width: 'auto', display: 'block' }}
           />
         </div>

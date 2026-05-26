@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
@@ -54,5 +55,6 @@ export async function POST(req: NextRequest) {
     data: { type, mediaUrl: urlData.publicUrl, storagePath, title, subtitle, ctaText, ctaLink, displayOrder: nextOrder },
   });
 
+  revalidatePath('/');
   return NextResponse.json(slide);
 }

@@ -7,32 +7,38 @@ export default function ScrollObserver() {
   const pathname = usePathname();
 
   useEffect(() => {
-    let obs: IntersectionObserver | null = null;
+    const elements = Array.from(document.querySelectorAll('.fade-up'));
 
-    function start() {
-      obs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((el) => {
-            if (el.isIntersecting) el.target.classList.add('vis');
-          });
-        },
-        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
-      );
-      document.querySelectorAll('.fade-up').forEach((el) => obs!.observe(el));
-    }
+    // Elements already in the viewport get vis immediately — no invisible flash.
+    // Elements below the fold get ready (opacity 0) and are observed for scroll.
+    elements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.95) {
+        el.classList.remove('ready');
+        el.classList.add('vis');
+      } else {
+        el.classList.add('ready');
+      }
+    });
 
-    // Defer past React's hydration pass to avoid className mismatch warnings.
-    // Re-run later to catch sections that stream in after initial render.
-    const t0 = setTimeout(start, 0);
-    const t1 = setTimeout(() => { obs?.disconnect(); start(); }, 300);
-    const t2 = setTimeout(() => { obs?.disconnect(); start(); }, 800);
+    const obs = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.remove('ready');
+            e.target.classList.add('vis');
+            obs.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' },
+    );
 
-    return () => {
-      clearTimeout(t0);
-      clearTimeout(t1);
-      clearTimeout(t2);
-      obs?.disconnect();
-    };
+    elements.forEach(el => {
+      if (!el.classList.contains('vis')) obs.observe(el);
+    });
+
+    return () => obs.disconnect();
   }, [pathname]);
 
   return null;
