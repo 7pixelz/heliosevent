@@ -9,7 +9,7 @@ export default function IntroAnimation() {
   const [phase, setPhase] = useState<'visible' | 'fadeout' | 'done'>('done');
 
   useEffect(() => {
-    if (navigator.webdriver || /HeadlessChrome|HeadlessChromium/i.test(navigator.userAgent)) return;
+    if (navigator.webdriver || /HeadlessChrome|HeadlessChromium/i.test(navigator.userAgent) || window.outerWidth === 0) return;
     if (sessionStorage.getItem(SEEN_KEY)) return;
     sessionStorage.setItem(SEEN_KEY, '1');
     setPhase('visible');
