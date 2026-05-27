@@ -57,7 +57,7 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
               priority={i === 0}
               fetchPriority={i === 0 ? 'high' : 'auto'}
               sizes="(max-width:768px) 100vw, 570px"
-              quality={50}
+              quality={40}
               style={{ objectFit: 'cover', objectPosition: 'center' }}
             />
           )}
