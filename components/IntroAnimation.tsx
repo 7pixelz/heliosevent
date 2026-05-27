@@ -119,7 +119,7 @@ export default function IntroAnimation() {
             width={174}
             height={100}
             sizes="174px"
-            quality={75}
+            quality={40}
             priority
             style={{ height: 'clamp(100px, 16vw, 160px)', width: 'auto' }}
           />
