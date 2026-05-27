@@ -33,6 +33,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Preload above-fold logo — Header is 'use client' so Next.js won't auto-preload it */}
+        <link
+          rel="preload"
+          as="image"
+          // @ts-ignore
+          imagesrcset="/_next/image?url=%2Fassets%2Fheliosevent_logo_white.webp&w=128&q=75 128w, /_next/image?url=%2Fassets%2Fheliosevent_logo_white.webp&w=256&q=75 256w, /_next/image?url=%2Fassets%2Fheliosevent_logo_white.webp&w=384&q=75 384w"
+          imagesizes="(max-width:640px) 150px, 205px"
+          fetchPriority="high"
+        />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-97N68GER4R"
           strategy="afterInteractive"
