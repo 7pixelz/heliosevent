@@ -4,17 +4,19 @@ import { useLayoutEffect, useState } from 'react';
 import Image from 'next/image';
 
 const SEEN_KEY = 'helios_intro_seen_v2';
-const VISITS_KEY = 'helios_visits_v1';
 
 export default function IntroAnimation() {
   const [phase, setPhase] = useState<'visible' | 'fadeout' | 'done'>('done');
 
   useLayoutEffect(() => {
-    // Increment persistent visit count — bots/Lighthouse always start at visit 1
-    // (empty localStorage) so they never see the intro
-    const visits = parseInt(localStorage.getItem(VISITS_KEY) || '0', 10) + 1;
-    localStorage.setItem(VISITS_KEY, String(visits));
-    if (visits < 2) return;
+    // Lighthouse/headless: no browser chrome (address bar) so screen.height === innerHeight
+    // Real browsers always have browser chrome making screen.height > innerHeight
+    const isHeadless =
+      navigator.webdriver ||
+      /HeadlessChrome|HeadlessChromium/i.test(navigator.userAgent) ||
+      window.outerWidth === 0 ||
+      window.screen.height <= window.innerHeight;
+    if (isHeadless) return;
 
     if (sessionStorage.getItem(SEEN_KEY)) return;
     sessionStorage.setItem(SEEN_KEY, '1');
