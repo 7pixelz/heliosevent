@@ -112,12 +112,14 @@ export default function IntroAnimation() {
       <div className="hel-overlay" onClick={skip}>
         {/* Symbol + Logo share the same center point */}
         <div className="hel-center">
-          <img
+          <Image
             src="/assets/helios_intro_new.webp"
             alt=""
             className="hel-symbol"
-            width={278}
-            height={160}
+            width={174}
+            height={100}
+            sizes="174px"
+            quality={75}
             style={{ height: 'clamp(100px, 16vw, 160px)', width: 'auto' }}
           />
           <Image
