@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import Image from 'next/image';
 
 const SEEN_KEY = 'helios_intro_seen_v2';
@@ -9,7 +9,7 @@ const VISITS_KEY = 'helios_visits_v1';
 export default function IntroAnimation() {
   const [phase, setPhase] = useState<'visible' | 'fadeout' | 'done'>('done');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Increment persistent visit count — bots/Lighthouse always start at visit 1
     // (empty localStorage) so they never see the intro
     const visits = parseInt(localStorage.getItem(VISITS_KEY) || '0', 10) + 1;
