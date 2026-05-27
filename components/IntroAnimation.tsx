@@ -9,7 +9,7 @@ export default function IntroAnimation() {
   const [phase, setPhase] = useState<'visible' | 'fadeout' | 'done'>('done');
 
   useEffect(() => {
-    if (navigator.webdriver || /HeadlessChrome|HeadlessChromium/i.test(navigator.userAgent) || window.outerWidth === 0) return;
+    if (navigator.webdriver || /HeadlessChrome|HeadlessChromium/i.test(navigator.userAgent) || window.outerWidth === 0 || !document.hasFocus()) return;
     if (sessionStorage.getItem(SEEN_KEY)) return;
     sessionStorage.setItem(SEEN_KEY, '1');
     setPhase('visible');
@@ -120,6 +120,7 @@ export default function IntroAnimation() {
             height={100}
             sizes="174px"
             quality={75}
+            priority
             style={{ height: 'clamp(100px, 16vw, 160px)', width: 'auto' }}
           />
           <Image
