@@ -65,10 +65,13 @@ export default function FeedbackPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...ratings, experience, name, email }),
       });
-      if (!res.ok) throw new Error('Failed');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Error ${res.status}`);
+      }
       setSubmitted(true);
-    } catch {
-      setError('Something went wrong. Please try again.');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }

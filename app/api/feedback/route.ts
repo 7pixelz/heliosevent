@@ -10,7 +10,7 @@ const FeedbackSchema = z.object({
   referral:     z.number().int().min(1).max(10),
   experience:   z.string().min(1, 'Please share your story'),
   name:         z.string().optional().nullable(),
-  email:        z.string().email().optional().nullable().or(z.literal('')),
+  email:        z.string().optional().nullable(),
 });
 
 export async function POST(req: NextRequest) {
