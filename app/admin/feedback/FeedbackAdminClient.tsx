@@ -139,16 +139,16 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
                       <div style={{ fontSize: '12px', color: '#666', fontFamily: "'Inter',sans-serif", marginBottom: '10px' }}>✉️ {entry.email}</div>
                     )}
 
-                    {/* Ratings grid */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '6px', marginBottom: '14px' }}>
+                    {/* Ratings */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '14px' }}>
                       {[
                         { label: 'Service',    val: entry.service },
                         { label: 'Timeline',   val: entry.timeline },
                         { label: 'Experience', val: entry.appreciation },
                         { label: 'Referral',   val: entry.referral },
                       ].map(({ label, val }) => (
-                        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '11px', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '1px', fontFamily: "'Inter',sans-serif", width: '76px', flexShrink: 0 }}>{label}</span>
+                        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <span style={{ fontSize: '11px', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '1px', fontFamily: "'Inter',sans-serif", width: '80px', flexShrink: 0 }}>{label}</span>
                           <Stars n={val} />
                         </div>
                       ))}
