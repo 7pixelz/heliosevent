@@ -7,32 +7,32 @@ const STEPS = [
   {
     key: 'service',
     label: 'SERVICE',
-    title: 'How was our overall service?',
-    subtitle: 'Rate the quality and professionalism of our team',
+    title: 'How would you rate our overall service quality?',
+    subtitle: 'Rate the quality, professionalism and care we delivered',
   },
   {
     key: 'timeline',
     label: 'TIMELINE',
-    title: 'Did we deliver on time?',
-    subtitle: 'Rate our punctuality and commitment to deadlines',
+    title: 'Were our responses and deliveries on time?',
+    subtitle: 'Rate our punctuality and communication throughout',
   },
   {
     key: 'appreciation',
-    label: 'EXPERIENCE',
-    title: 'How much did your team enjoy it?',
-    subtitle: 'Rate the overall event experience for your attendees',
+    label: 'APPRECIATION',
+    title: 'Did your team appreciate the event experience?',
+    subtitle: 'Rate how much your attendees enjoyed the experience',
   },
   {
     key: 'referral',
     label: 'REFERRAL',
-    title: 'Would you recommend Helios?',
-    subtitle: 'How likely are you to refer us to a colleague or friend?',
+    title: 'Would you recommend Helios to others?',
+    subtitle: 'How likely are you to refer us to a friend or colleague?',
   },
   {
     key: 'story',
     label: 'YOUR STORY',
-    title: 'Tell us your story',
-    subtitle: 'Share what made your event memorable',
+    title: 'Tell us about your experience',
+    subtitle: 'Share your story in a few words',
   },
 ];
 
@@ -159,22 +159,27 @@ export default function FeedbackPage() {
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.3)', letterSpacing: '1px', margin: '0 0 16px' }}>
                 1 = poor &nbsp;·&nbsp; 10 = outstanding
               </p>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginBottom: '12px', paddingTop: '24px' }}>
                 {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
                   <button
                     key={n}
                     onClick={() => setRatings(r => ({ ...r, [currentStep.key]: n }))}
                     onMouseEnter={() => setHovered(n)}
                     onMouseLeave={() => setHovered(0)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px', fontSize: 'clamp(18px, 4vw, 28px)', lineHeight: 1, color: n <= displayStars ? ACCENT : '#2a3050', transition: 'color 0.15s, transform 0.1s', transform: n <= displayStars ? 'scale(1.1)' : 'scale(1)' }}
+                    style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px', fontSize: 'clamp(18px, 4vw, 28px)', lineHeight: 1, color: n <= displayStars ? ACCENT : '#2a3050', transition: 'color 0.15s, transform 0.1s', transform: n <= displayStars ? 'scale(1.1)' : 'scale(1)' }}
                     aria-label={`Rate ${n}`}
                   >
+                    {hovered === n && (
+                      <span style={{ position: 'absolute', top: '-22px', left: '50%', transform: 'translateX(-50%)', background: ACCENT, color: '#0a0c12', borderRadius: '4px', padding: '2px 6px', fontSize: '11px', fontWeight: 800, fontFamily: "'Inter', sans-serif", lineHeight: 1.5, whiteSpace: 'nowrap', pointerEvents: 'none' }}>
+                        {n}
+                      </span>
+                    )}
                     ★
                   </button>
                 ))}
               </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: currentRating > 0 ? ACCENT : 'rgba(255,255,255,0.2)', letterSpacing: '1px', margin: 0, minHeight: '18px' }}>
-                {currentRating > 0 ? `${currentRating} / 10` : 'TAP A STAR'}
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: (hovered > 0 || currentRating > 0) ? ACCENT : 'rgba(255,255,255,0.2)', letterSpacing: '1px', margin: 0, minHeight: '18px' }}>
+                {hovered > 0 ? `${hovered} / 10` : currentRating > 0 ? `${currentRating} / 10` : 'TAP A STAR'}
               </p>
             </>
           )}
@@ -185,7 +190,7 @@ export default function FeedbackPage() {
               <textarea
                 value={experience}
                 onChange={e => setExperience(e.target.value)}
-                placeholder="Tell us what made your event memorable, or how we could serve you even better..."
+                placeholder="Tell us what made your event special, or how we can serve you even better..."
                 rows={5}
                 style={{ width: '100%', background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '12px', padding: '16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', lineHeight: 1.7, resize: 'vertical', outline: 'none', boxSizing: 'border-box', marginBottom: '20px' }}
               />
@@ -210,7 +215,7 @@ export default function FeedbackPage() {
                 <span style={{ fontSize: '28px' }}>⭐</span>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, color: '#fff', fontSize: '14px', marginBottom: '4px' }}>Leave us a Google Review</div>
-                  <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.45)', marginBottom: '10px' }}>Your review helps others discover Helios and means everything to our team.</div>
+                  <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.45)', marginBottom: '10px' }}>Your review helps others discover Helios and means the world to our team.</div>
                   <a href="https://g.page/r/heliosevent/review" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: ACCENT, color: '#0a0c12', fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: '12px', letterSpacing: '0.5px', padding: '8px 18px', borderRadius: '8px', textDecoration: 'none' }}>
                     ✦ Write a Google Review
                   </a>
