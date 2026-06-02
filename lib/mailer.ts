@@ -152,6 +152,83 @@ export async function sendEnquiryNotification(data: EnquiryData) {
   });
 }
 
+export interface FeedbackData {
+  service: number;
+  timeline: number;
+  appreciation: number;
+  referral: number;
+  experience?: string | null;
+  name?: string | null;
+  email?: string | null;
+}
+
+const FEEDBACK_NOTIFY = ['bala@heliosevent.net', 'mktg@heliosevent.net', 'nakshatra@heliosevent.net'];
+
+function stars(n: number) {
+  return `${'★'.repeat(n)}${'☆'.repeat(10 - n)} <span style="font-weight:700">${n}/10</span>`;
+}
+
+export async function sendFeedbackNotification(data: FeedbackData) {
+  const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f5f6fa;font-family:'Inter',Arial,sans-serif">
+  <div style="max-width:600px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08)">
+
+    <div style="background:#1a1f2e;padding:28px 32px">
+      <div style="font-size:20px;font-weight:800;color:#fff">New Client Feedback</div>
+      <div style="font-size:12px;color:#adc905;margin-top:4px;letter-spacing:2px;text-transform:uppercase">Helios Event Admin</div>
+    </div>
+    <div style="height:3px;background:linear-gradient(90deg,#adc905,#ff6a00)"></div>
+
+    <div style="padding:24px 32px 0">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#adc905;margin-bottom:12px">Ratings</div>
+      <table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:10px;overflow:hidden">
+        <tr><td style="padding:8px 12px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;width:180px">Service</td><td style="padding:8px 12px;font-size:14px;color:#adc905">${stars(data.service)}</td></tr>
+        <tr><td style="padding:8px 12px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px">Timeline</td><td style="padding:8px 12px;font-size:14px;color:#adc905">${stars(data.timeline)}</td></tr>
+        <tr><td style="padding:8px 12px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px">Experience</td><td style="padding:8px 12px;font-size:14px;color:#adc905">${stars(data.appreciation)}</td></tr>
+        <tr><td style="padding:8px 12px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px">Referral</td><td style="padding:8px 12px;font-size:14px;color:#adc905">${stars(data.referral)}</td></tr>
+      </table>
+    </div>
+
+    ${data.experience ? `
+    <div style="padding:20px 32px 0">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#adc905;margin-bottom:12px">Their Story</div>
+      <div style="background:#f9fafb;border-radius:10px;padding:16px 20px;font-size:14px;color:#333;line-height:1.8">${data.experience}</div>
+    </div>` : ''}
+
+    ${data.name || data.email ? `
+    <div style="padding:20px 32px 0">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#adc905;margin-bottom:12px">Client Info</div>
+      <table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:10px;overflow:hidden">
+        ${data.name ? `<tr><td style="padding:8px 12px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;width:180px">Name</td><td style="padding:8px 12px;font-size:14px;color:#111">${data.name}</td></tr>` : ''}
+        ${data.email ? `<tr><td style="padding:8px 12px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px">Email</td><td style="padding:8px 12px;font-size:14px;color:#111">${data.email}</td></tr>` : ''}
+      </table>
+    </div>` : ''}
+
+    <div style="padding:24px 32px 32px;text-align:center">
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/admin/feedback"
+        style="display:inline-block;background:#adc905;color:#fff;font-weight:700;font-size:14px;padding:14px 32px;border-radius:10px;text-decoration:none;letter-spacing:0.5px">
+        View in Admin Panel →
+      </a>
+    </div>
+
+    <div style="background:#f5f6fa;padding:16px 32px;text-align:center;font-size:12px;color:#aaa">
+      This is an automated notification from Helios Event Admin.
+    </div>
+  </div>
+</body>
+</html>`;
+
+  await transporter.sendMail({
+    from: `"Helios Event" <${process.env.GMAIL_USER}>`,
+    to: FEEDBACK_NOTIFY,
+    subject: `New Client Feedback${data.name ? ` from ${data.name}` : ''} — Avg ${Math.round((data.service + data.timeline + data.appreciation + data.referral) / 4)}/10`,
+    html,
+  });
+}
+
 export interface CareerData {
   name: string;
   email: string;

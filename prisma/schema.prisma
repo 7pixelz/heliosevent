@@ -189,3 +189,15 @@ model Quote {
   createdAt              DateTime    @default(now())
   updatedAt              DateTime    @updatedAt
 }
+
+model ClientFeedback {
+  id           String   @id @default(cuid())
+  service      Int
+  timeline     Int
+  appreciation Int
+  referral     Int
+  experience   String?  @db.Text
+  name         String?
+  email        String?
+  submittedAt  DateTime @default(now())
+}
