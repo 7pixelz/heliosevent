@@ -18,9 +18,12 @@ const ACCENT = '#adc905';
 
 function Stars({ n }: { n: number }) {
   return (
-    <span style={{ color: ACCENT, fontSize: '13px', letterSpacing: '1px' }}>
-      {'★'.repeat(n)}
-      <span style={{ color: '#d1d5db' }}>{'★'.repeat(10 - n)}</span>
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
+      {Array.from({ length: 10 }, (_, i) => (
+        <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill={i < n ? ACCENT : '#d1d5db'}>
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+        </svg>
+      ))}
       <span style={{ marginLeft: '6px', fontWeight: 700, color: '#374151', fontSize: '12px' }}>{n}/10</span>
     </span>
   );

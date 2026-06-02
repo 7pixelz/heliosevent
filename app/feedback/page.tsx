@@ -169,7 +169,7 @@ export default function FeedbackPage() {
                     onClick={() => setRatings(r => ({ ...r, [currentStep.key]: n }))}
                     onMouseEnter={() => setHovered(n)}
                     onMouseLeave={() => setHovered(0)}
-                    style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px', fontSize: 'clamp(18px, 4vw, 28px)', lineHeight: 1, color: n <= displayStars ? ACCENT : '#2a3050', transition: 'color 0.15s, transform 0.1s', transform: n <= displayStars ? 'scale(1.1)' : 'scale(1)' }}
+                    style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px', lineHeight: 1, transition: 'transform 0.1s', transform: n <= displayStars ? 'scale(1.1)' : 'scale(1)' }}
                     aria-label={`Rate ${n}`}
                   >
                     {hovered === n && (
@@ -177,7 +177,9 @@ export default function FeedbackPage() {
                         {n}
                       </span>
                     )}
-                    ★
+                    <svg width="clamp(18px, 4vw, 28px)" height="clamp(18px, 4vw, 28px)" viewBox="0 0 24 24" fill={n <= displayStars ? ACCENT : '#2a3050'} style={{ display: 'block', transition: 'fill 0.15s' }}>
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
                   </button>
                 ))}
               </div>
