@@ -216,7 +216,7 @@ export default function FeedbackPage() {
                 <div style={{ flex: 1 }}>
                   <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, color: '#fff', fontSize: '14px', marginBottom: '4px' }}>Leave us a Google Review</div>
                   <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.45)', marginBottom: '10px' }}>Your review helps others discover Helios and means the world to our team.</div>
-                  <a href="https://g.page/r/heliosevent/review" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: ACCENT, color: '#0a0c12', fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: '12px', letterSpacing: '0.5px', padding: '8px 18px', borderRadius: '8px', textDecoration: 'none' }}>
+                  <a href="https://www.google.com/maps/place/Helios+Event+Productions/@13.0448125,80.2680382,16.79z/data=!4m16!1m7!3m6!1s0x3a52662ed0632c99:0xa787eee5724f1ed!2sHelios+Event+Productions!8m2!3d13.044634!4d80.2704157!16s%2Fg%2F1tfg62dy!3m7!1s0x3a52662ed0632c99:0xa787eee5724f1ed!8m2!3d13.044634!4d80.2704157!9m1!1b1!16s%2Fg%2F1tfg62dy" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: ACCENT, color: '#0a0c12', fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: '12px', letterSpacing: '0.5px', padding: '8px 18px', borderRadius: '8px', textDecoration: 'none' }}>
                     ✦ Write a Google Review
                   </a>
                 </div>
