@@ -162,7 +162,7 @@ export interface FeedbackData {
   email?: string | null;
 }
 
-const FEEDBACK_NOTIFY = ['createweb7@gmail.com'];
+const FEEDBACK_NOTIFY = ['nakshatra@heliosevent.net'];
 
 function stars(n: number) {
   return `${'★'.repeat(n)}${'☆'.repeat(10 - n)} <span style="font-weight:700">${n}/10</span>`;
