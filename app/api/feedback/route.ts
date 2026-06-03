@@ -4,13 +4,11 @@ import { prisma } from '../../../lib/prisma';
 import { sendFeedbackNotification } from '../../../lib/mailer';
 
 const FeedbackSchema = z.object({
-  service:      z.number().int().min(1).max(10),
-  timeline:     z.number().int().min(1).max(10),
-  appreciation: z.number().int().min(1).max(10),
-  referral:     z.number().int().min(1).max(10),
+  service:      z.number().int().min(1).max(5),
+  timeline:     z.number().int().min(1).max(5),
+  appreciation: z.number().int().min(1).max(5),
+  referral:     z.number().int().min(1).max(5),
   experience:   z.string().min(1, 'Please share your story'),
-  name:         z.string().optional().nullable(),
-  email:        z.string().optional().nullable(),
 });
 
 export async function POST(req: NextRequest) {
@@ -22,7 +20,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: message }, { status: 400 });
     }
 
-    const { service, timeline, appreciation, referral, experience, name, email } = parsed.data;
+    const { service, timeline, appreciation, referral, experience } = parsed.data;
 
     await prisma.clientFeedback.create({
       data: {
@@ -31,13 +29,11 @@ export async function POST(req: NextRequest) {
         appreciation,
         referral,
         experience: experience.trim(),
-        name:  name?.trim()  || null,
-        email: email?.trim() || null,
       },
     });
 
     try {
-      await sendFeedbackNotification({ service, timeline, appreciation, referral, experience, name, email });
+      await sendFeedbackNotification({ service, timeline, appreciation, referral, experience });
     } catch (err) {
       console.error('✗ Feedback email notification failed:', err);
     }

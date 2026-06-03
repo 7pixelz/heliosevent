@@ -19,13 +19,13 @@ const STEPS = [
   {
     key: 'appreciation',
     label: 'APPRECIATION',
-    title: 'Did your team appreciate the event experience?',
+    title: 'Did you receive appreciation for your event?',
     subtitle: 'Rate how much your attendees enjoyed the experience',
   },
   {
     key: 'referral',
     label: 'REFERRAL',
-    title: 'Would you recommend Helios to others?',
+    title: 'Would you recommend Helios Event to others?',
     subtitle: 'How likely are you to refer us to a friend or colleague?',
   },
   {
@@ -43,8 +43,6 @@ export default function FeedbackPage() {
   const [ratings, setRatings] = useState({ service: 0, timeline: 0, appreciation: 0, referral: 0 });
   const [hovered, setHovered] = useState(0);
   const [experience, setExperience] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -63,7 +61,7 @@ export default function FeedbackPage() {
       const res = await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...ratings, experience, name, email }),
+        body: JSON.stringify({ ...ratings, experience }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -83,7 +81,7 @@ export default function FeedbackPage() {
         <div style={{ textAlign: 'center', maxWidth: '480px' }}>
           <div style={{ fontSize: '64px', marginBottom: '24px' }}>✨</div>
           <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>
-            Thank You{name ? `, ${name.split(' ')[0]}` : ''}!
+            Thank You!
           </h2>
           <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '15px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: '32px' }}>
             Your feedback means the world to us. It helps us create even better experiences for every event we touch.
@@ -159,17 +157,14 @@ export default function FeedbackPage() {
           {/* Star Rating */}
           {!isStory && (
             <>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.3)', letterSpacing: '1px', margin: '0 0 16px' }}>
-                1 = poor &nbsp;·&nbsp; 10 = outstanding
-              </p>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginBottom: '12px', paddingTop: '24px' }}>
-                {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '12px', paddingTop: '16px' }}>
+                {Array.from({ length: 5 }, (_, i) => i + 1).map(n => (
                   <button
                     key={n}
                     onClick={() => setRatings(r => ({ ...r, [currentStep.key]: n }))}
                     onMouseEnter={() => setHovered(n)}
                     onMouseLeave={() => setHovered(0)}
-                    style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px', lineHeight: 1, transition: 'transform 0.1s', transform: n <= displayStars ? 'scale(1.1)' : 'scale(1)' }}
+                    style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: '4px', lineHeight: 1, transition: 'transform 0.1s', transform: n <= displayStars ? 'scale(1.15)' : 'scale(1)' }}
                     aria-label={`Rate ${n}`}
                   >
                     {hovered === n && (
@@ -177,14 +172,14 @@ export default function FeedbackPage() {
                         {n}
                       </span>
                     )}
-                    <svg width="clamp(18px, 4vw, 28px)" height="clamp(18px, 4vw, 28px)" viewBox="0 0 24 24" fill={n <= displayStars ? ACCENT : '#2a3050'} style={{ display: 'block', transition: 'fill 0.15s' }}>
+                    <svg width="clamp(28px, 8vw, 44px)" height="clamp(28px, 8vw, 44px)" viewBox="0 0 24 24" fill={n <= displayStars ? ACCENT : '#2a3050'} style={{ display: 'block', transition: 'fill 0.15s' }}>
                       <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                     </svg>
                   </button>
                 ))}
               </div>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: (hovered > 0 || currentRating > 0) ? ACCENT : 'rgba(255,255,255,0.2)', letterSpacing: '1px', margin: 0, minHeight: '18px' }}>
-                {hovered > 0 ? `${hovered} / 10` : currentRating > 0 ? `${currentRating} / 10` : 'TAP A STAR'}
+                {hovered > 0 ? `${hovered} / 5` : currentRating > 0 ? `${currentRating} / 5` : 'TAP A STAR'}
               </p>
             </>
           )}
@@ -199,21 +194,6 @@ export default function FeedbackPage() {
                 rows={5}
                 style={{ width: '100%', background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '12px', padding: '16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', lineHeight: 1.7, resize: 'vertical', outline: 'none', boxSizing: 'border-box', marginBottom: '20px' }}
               />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '8px' }}>
-                <input
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  placeholder="Your name (optional)"
-                  style={{ background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', outline: 'none' }}
-                />
-                <input
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="Email (optional)"
-                  type="email"
-                  style={{ background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', outline: 'none' }}
-                />
-              </div>
 
               {/* Google Review */}
               <div style={{ margin: '24px 0 0', background: 'rgba(180,230,0,0.06)', border: `1px solid rgba(180,230,0,0.2)`, borderRadius: '14px', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '16px' }}>

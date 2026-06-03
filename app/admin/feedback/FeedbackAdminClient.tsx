@@ -9,8 +9,6 @@ interface FeedbackEntry {
   appreciation: number;
   referral: number;
   experience: string | null;
-  name: string | null;
-  email: string | null;
   submittedAt: string;
 }
 
@@ -19,12 +17,12 @@ const ACCENT = '#adc905';
 function Stars({ n }: { n: number }) {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
-      {Array.from({ length: 10 }, (_, i) => (
+      {Array.from({ length: 5 }, (_, i) => (
         <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill={i < n ? ACCENT : '#d1d5db'}>
           <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
         </svg>
       ))}
-      <span style={{ marginLeft: '6px', fontWeight: 700, color: '#374151', fontSize: '12px' }}>{n}/10</span>
+      <span style={{ marginLeft: '6px', fontWeight: 700, color: '#374151', fontSize: '12px' }}>{n}/5</span>
     </span>
   );
 }
@@ -32,6 +30,7 @@ function Stars({ n }: { n: number }) {
 function avg(e: FeedbackEntry) {
   return ((e.service + e.timeline + e.appreciation + e.referral) / 4).toFixed(1);
 }
+
 
 function avgColor(a: number) {
   if (a >= 8) return '#22c55e';
@@ -47,19 +46,15 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
   const visible = list.filter(e => {
     if (!search) return true;
     const q = search.toLowerCase();
-    return (
-      e.name?.toLowerCase().includes(q) ||
-      e.email?.toLowerCase().includes(q) ||
-      e.experience?.toLowerCase().includes(q)
-    );
+    return e.experience?.toLowerCase().includes(q);
   });
 
   const overallAvg = list.length
     ? (list.reduce((s, e) => s + parseFloat(avg(e)), 0) / list.length).toFixed(1)
     : '—';
 
-  async function handleDelete(id: string, name: string | null) {
-    if (!confirm(`Delete feedback${name ? ` from "${name}"` : ''}? This cannot be undone.`)) return;
+  async function handleDelete(id: string) {
+    if (!confirm('Delete this feedback? This cannot be undone.')) return;
     setDeleteId(id);
     await fetch(`/api/admin/feedback/${id}`, { method: 'DELETE' });
     setDeleteId(null);
@@ -126,21 +121,11 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
 
                   {/* Left */}
                   <div style={{ flex: 1, minWidth: '280px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
-                      {entry.name && (
-                        <span style={{ fontSize: '15px', fontWeight: 700, color: '#1a1f2e', fontFamily: "'Inter',sans-serif" }}>{entry.name}</span>
-                      )}
-                      {!entry.name && (
-                        <span style={{ fontSize: '13px', color: '#aaa', fontFamily: "'Inter',sans-serif", fontStyle: 'italic' }}>Anonymous</span>
-                      )}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
                       <span style={{ fontSize: '13px', fontWeight: 800, color: avgColor(a), background: `${avgColor(a)}18`, padding: '2px 10px', borderRadius: '999px', fontFamily: "'Inter',sans-serif" }}>
-                        Avg {avg(entry)}/10
+                        Avg {avg(entry)}/5
                       </span>
                     </div>
-
-                    {entry.email && (
-                      <div style={{ fontSize: '12px', color: '#666', fontFamily: "'Inter',sans-serif", marginBottom: '10px' }}>✉️ {entry.email}</div>
-                    )}
 
                     {/* Ratings */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '14px' }}>
@@ -170,7 +155,7 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
                       {new Date(entry.submittedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </div>
                     <button
-                      onClick={() => handleDelete(entry.id, entry.name)}
+                      onClick={() => handleDelete(entry.id)}
                       disabled={isDeleting}
                       style={{
                         padding: '6px 10px', background: '#fee2e2', border: '1px solid #fca5a5',
