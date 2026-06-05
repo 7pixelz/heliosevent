@@ -3761,18 +3761,6 @@ footer {
   transform: translateY(-1px);
 }
 
-.fade-up {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.65s ease,
-    transform 0.65s ease;
-}
-
-.fade-up.vis {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* Responsive */
 @media (max-width: 1080px) {
