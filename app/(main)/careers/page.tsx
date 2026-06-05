@@ -192,7 +192,7 @@ export default function CareersPage() {
       </div>
 
       {/* Benefits */}
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '72px 24px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: 'clamp(36px, 7vw, 72px) 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '10px' }}>Why Helios</div>
           <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(24px,3.5vw,36px)', color: '#1a1f2e', margin: 0 }}>Benefits & Perks</h2>
@@ -224,7 +224,7 @@ export default function CareersPage() {
       </div>
 
       {/* Application Form */}
-      <div style={{ maxWidth: '780px', margin: '0 auto', padding: '72px 24px 80px' }}>
+      <div style={{ maxWidth: '780px', margin: '0 auto', padding: 'clamp(36px, 7vw, 72px) 24px clamp(40px, 8vw, 80px)' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '10px' }}>Apply Now</div>
           <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3vw,32px)', color: '#1a1f2e', margin: 0 }}>Send Us Your Application</h2>

@@ -279,7 +279,7 @@ export default function PortfolioPage() {
       {/* ── CTA ── */}
       <section style={{
         background: 'linear-gradient(135deg, #adc905 0%, #c8e606 100%)',
-        padding: '72px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+        padding: 'clamp(36px, 7vw, 72px) 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
       }}>
         <div style={{
           position: 'absolute', top: '-60px', right: '-60px', width: '280px', height: '280px',

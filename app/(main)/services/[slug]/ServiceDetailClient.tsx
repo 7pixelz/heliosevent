@@ -125,8 +125,14 @@ export default function ServiceDetailPage() {
 
   return (
     <>
+      <style>{`
+        @media (max-width: 640px) {
+          .svc-breadcrumb, .svc-badge { display: none !important; }
+          .svc-hero { min-height: unset !important; align-items: flex-start !important; padding-top: 72px !important; }
+        }
+      `}</style>
       {/* ── HERO — Dark with image overlay ── */}
-      <section style={{
+      <section className="svc-hero" style={{
         minHeight: '560px',
         display: 'flex', alignItems: 'center',
         position: 'relative', overflow: 'hidden',
@@ -153,23 +159,27 @@ export default function ServiceDetailPage() {
         }} />
 
         <div style={{ position: 'relative', maxWidth: '1100px', margin: '0 auto', padding: 'clamp(24px, 5vw, 80px) 24px', width: '100%' }}>
-          {/* Breadcrumb */}
+          {/* Breadcrumb — hidden on mobile */}
           <Link href="/services" style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             color: 'rgba(255,255,255,0.45)', textDecoration: 'none',
             fontSize: '13px', fontFamily: "'Inter', sans-serif", marginBottom: '28px',
             letterSpacing: '0.3px',
-          }}>
+          }}
+            className="svc-breadcrumb"
+          >
             ← All Services
           </Link>
 
           <div style={{ maxWidth: '700px' }}>
-            {/* Badge */}
+            {/* Badge — hidden on mobile */}
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '10px',
               background: 'rgba(173,201,5,0.12)', border: '1px solid rgba(173,201,5,0.3)',
               borderRadius: '100px', padding: '7px 18px', marginBottom: '24px',
-            }}>
+            }}
+              className="svc-badge"
+            >
               <span style={{ fontSize: '20px' }}>{service.icon}</span>
               <span style={{
                 fontSize: '11px', fontWeight: 700, letterSpacing: '2px',
@@ -226,7 +236,7 @@ export default function ServiceDetailPage() {
 
       {/* ── WHAT WE DO — Light ── */}
       {service.whatWeDo && (
-        <section style={{ background: '#fff', padding: '96px 0' }}>
+        <section style={{ background: '#fff', padding: 'clamp(40px, 8vw, 96px) 0' }}>
           <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0', alignItems: 'flex-start' }}>
               <div style={{
@@ -261,7 +271,7 @@ export default function ServiceDetailPage() {
 
       {/* ── SIGNATURE EVENTS — Dark ── */}
       {sigEvents.length > 0 && (
-        <section style={{ background: '#0d1117', padding: '96px 0' }}>
+        <section style={{ background: '#0d1117', padding: 'clamp(40px, 8vw, 96px) 0' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ textAlign: 'center', marginBottom: '56px' }}>
               <div style={{
@@ -328,7 +338,7 @@ export default function ServiceDetailPage() {
 
       {/* ── WHY CHOOSE US — Light ── */}
       {diffs.length > 0 && (
-        <section style={{ background: '#f6f8f2', padding: '96px 0' }}>
+        <section style={{ background: '#f6f8f2', padding: 'clamp(40px, 8vw, 96px) 0' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ textAlign: 'center', marginBottom: '56px' }}>
               <div style={{
@@ -392,7 +402,7 @@ export default function ServiceDetailPage() {
 
       {/* ── FAQ — Dark ── */}
       {faqs.length > 0 && (
-        <section style={{ background: '#111420', padding: '96px 0' }}>
+        <section style={{ background: '#111420', padding: 'clamp(40px, 8vw, 96px) 0' }}>
           <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ textAlign: 'center', marginBottom: '52px' }}>
               <div style={{
@@ -417,7 +427,7 @@ export default function ServiceDetailPage() {
       {/* ── CTA STRIP — Lime ── */}
       <section style={{
         background: 'linear-gradient(135deg, #adc905 0%, #c8e606 100%)',
-        padding: '80px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+        padding: 'clamp(36px, 8vw, 80px) 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
       }}>
         {/* Decorative circles */}
         <div style={{

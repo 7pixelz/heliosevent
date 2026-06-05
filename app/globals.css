@@ -2620,6 +2620,22 @@ footer {
     font-size: 12px;
     text-align: center;
   }
+
+  /* ── Consistent section spacing on mobile ── */
+  section {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Sections that need horizontal padding too */
+  .stats, .services, .portfolio, .testimonial, .cta-banner {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .stats-inner { gap: 16px; }
+  .stats-title { margin-bottom: 24px; }
+
 }
 
 /* ─────────────────────────────────
@@ -3823,6 +3839,7 @@ footer {
   .hero-visual {
     display: none;
   }
+
 
   .et-grid,
   .testi-grid {

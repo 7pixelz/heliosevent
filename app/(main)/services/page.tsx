@@ -69,7 +69,7 @@ export default async function ServicesPage() {
       </section>
 
       {/* Main Services Grid */}
-      <section style={{ background: '#0d1117', padding: '80px 0' }}>
+      <section style={{ background: '#0d1117', padding: 'clamp(40px, 8vw, 80px) 0' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
           <div style={{ marginBottom: '48px' }}>
             <div style={{
@@ -107,7 +107,7 @@ export default async function ServicesPage() {
       </section>
 
       {/* Activities Section */}
-      <section style={{ background: '#111420', padding: '80px 0' }}>
+      <section style={{ background: '#111420', padding: 'clamp(40px, 8vw, 80px) 0' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
           <div style={{ marginBottom: '48px' }}>
             <div style={{
@@ -162,7 +162,7 @@ export default async function ServicesPage() {
       </section>
 
       {/* How We Work */}
-      <section style={{ background: '#0d1117', padding: '80px 0' }}>
+      <section style={{ background: '#0d1117', padding: 'clamp(40px, 8vw, 80px) 0' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
           <div style={{
             fontSize: '11px', fontWeight: 700, letterSpacing: '3px',

@@ -309,7 +309,7 @@ export default function PortfolioEventPage() {
 
       {/* ── Photo Gallery ── */}
       {images.length > 0 && (
-        <section style={{ background: '#0d1117', padding: '72px 0' }}>
+        <section style={{ background: '#0d1117', padding: 'clamp(36px, 7vw, 72px) 0' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ marginBottom: '40px' }}>
               <div style={{
@@ -383,7 +383,7 @@ export default function PortfolioEventPage() {
 
       {/* ── Videos ── */}
       {videos.length > 0 && (
-        <section style={{ background: '#111420', padding: '72px 0' }}>
+        <section style={{ background: '#111420', padding: 'clamp(36px, 7vw, 72px) 0' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ marginBottom: '40px' }}>
               <div style={{
@@ -450,7 +450,7 @@ export default function PortfolioEventPage() {
       {/* ── CTA ── */}
       <section style={{
         background: 'linear-gradient(135deg, #adc905 0%, #c8e606 100%)',
-        padding: '72px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+        padding: 'clamp(36px, 7vw, 72px) 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
       }}>
         <div style={{
           position: 'absolute', top: '-60px', right: '-60px', width: '280px', height: '280px',
