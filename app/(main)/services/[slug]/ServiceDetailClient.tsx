@@ -152,7 +152,7 @@ export default function ServiceDetailPage() {
           background: 'radial-gradient(ellipse 60% 80% at 15% 60%, rgba(173,201,5,0.12) 0%, transparent 65%)',
         }} />
 
-        <div style={{ position: 'relative', maxWidth: '1100px', margin: '0 auto', padding: '80px 24px', width: '100%' }}>
+        <div style={{ position: 'relative', maxWidth: '1100px', margin: '0 auto', padding: 'clamp(24px, 5vw, 80px) 24px', width: '100%' }}>
           {/* Breadcrumb */}
           <Link href="/services" style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',

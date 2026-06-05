@@ -57,9 +57,9 @@ export default function Clients({ logos }: { logos: Logo[] }) {
           border-color: #e0e0e0;
         }
         .brand-logo-item img {
-          height: 44px;
-          width: 70px;
-          max-width: 70px;
+          height: 72px;
+          width: 130px;
+          max-width: 130px;
           object-fit: contain;
           filter: grayscale(40%) opacity(0.75);
           transition: filter 0.2s;
@@ -84,7 +84,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         <div className="marquee-track marquee-track-left">
           {[...row1, ...row1].map((logo, i) => (
             <div key={`r1-${logo.id}-${i}`} className="brand-logo-item">
-              <Image src={logo.imageUrl} alt={logo.name} width={70} height={44} quality={30} sizes="70px" style={{ width: '70px', height: '44px', objectFit: 'contain' }} />
+              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} sizes="130px" style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
             </div>
           ))}
         </div>
@@ -95,7 +95,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         <div className="marquee-track marquee-track-right">
           {[...row2, ...row2].map((logo, i) => (
             <div key={`r2-${logo.id}-${i}`} className="brand-logo-item">
-              <Image src={logo.imageUrl} alt={logo.name} width={70} height={44} quality={30} sizes="70px" style={{ width: '70px', height: '44px', objectFit: 'contain' }} />
+              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} sizes="130px" style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
             </div>
           ))}
         </div>

@@ -5,7 +5,7 @@ export default function Stats() {
       <div className="stats-inner">
         <div className="stat-item fade-up"><div className="stat-num">1000+</div><div className="stat-label">Events</div></div>
         <div className="stat-item fade-up" style={{ transitionDelay: '.1s' }}><div className="stat-num">900+</div><div className="stat-label">Happy Customers</div></div>
-        <div className="stat-item fade-up" style={{ transitionDelay: '.2s' }}><div className="stat-num">20+</div><div className="stat-label">Years of Service</div></div>
+        <div className="stat-item fade-up" style={{ transitionDelay: '.2s' }}><div className="stat-num">25+</div><div className="stat-label">Years of Service</div></div>
         <div className="stat-item fade-up" style={{ transitionDelay: '.3s' }}><div className="stat-num">50+</div><div className="stat-label">Events Venue</div></div>
       </div>
     </section>
