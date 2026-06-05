@@ -223,6 +223,18 @@ function SeoEditor({
 
 export default function SeoAdminClient({ pages, services, portfolio }: Props) {
   const [activeTab, setActiveTab] = useState<TabKey>('pages');
+  const [sitemapStatus, setSitemapStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+
+  async function refreshSitemap() {
+    setSitemapStatus('loading');
+    try {
+      const res = await fetch('/api/admin/sitemap', { method: 'POST' });
+      setSitemapStatus(res.ok ? 'done' : 'error');
+    } catch {
+      setSitemapStatus('error');
+    }
+    setTimeout(() => setSitemapStatus('idle'), 3000);
+  }
 
   // Local state mirrors for badges to update after save
   const [pageData, setPageData] = useState(pages);
@@ -245,12 +257,33 @@ export default function SeoAdminClient({ pages, services, portfolio }: Props) {
   return (
     <div style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* Header */}
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '22px', fontWeight: 800, color: '#111', margin: '0 0 4px' }}>SEO Management</h1>
-        <p style={{ fontSize: '13px', color: '#888', margin: 0 }}>
-          Manage meta titles, descriptions and keywords for all pages
-        </p>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
+        <div>
+          <h1 style={{ fontSize: '22px', fontWeight: 800, color: '#111', margin: '0 0 4px' }}>SEO Management</h1>
+          <p style={{ fontSize: '13px', color: '#888', margin: 0 }}>
+            Manage meta titles, descriptions and keywords for all pages
+          </p>
+        </div>
+        <button
+          onClick={refreshSitemap}
+          disabled={sitemapStatus === 'loading'}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: sitemapStatus === 'loading' ? 'wait' : 'pointer',
+            fontFamily: "'Inter', sans-serif", fontSize: '13px', fontWeight: 700,
+            background: sitemapStatus === 'done' ? '#f0fdf4' : sitemapStatus === 'error' ? '#fef2f2' : '#f0f7d4',
+            color: sitemapStatus === 'done' ? '#16a34a' : sitemapStatus === 'error' ? '#dc2626' : '#5a7200',
+            transition: 'all 0.2s',
+          }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+            style={{ animation: sitemapStatus === 'loading' ? 'spin 1s linear infinite' : 'none' }}>
+            <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          {sitemapStatus === 'loading' ? 'Refreshing…' : sitemapStatus === 'done' ? '✓ Sitemap Updated' : sitemapStatus === 'error' ? 'Failed — retry' : 'Refresh Sitemap'}
+        </button>
       </div>
+      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
 
       {/* Summary cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', marginBottom: '28px' }}>
