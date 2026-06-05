@@ -2622,8 +2622,14 @@ footer {
   }
 
   /* ── Consistent section spacing on mobile ── */
-  section:not(.hero):not(.svc-hero) {
+  section:not(.hero):not(.svc-hero):not(.page-hero) {
     padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Page hero sections — clear fixed nav (65px) + breathing room */
+  .page-hero {
+    padding-top: 90px !important;
     padding-bottom: 40px !important;
   }
 

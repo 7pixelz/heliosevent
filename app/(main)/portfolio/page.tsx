@@ -47,7 +47,7 @@ export default function PortfolioPage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section style={{
+      <section className="page-hero" style={{
         background: 'linear-gradient(135deg, #0d1117 0%, #1a1f2e 60%, #0d1117 100%)',
         paddingTop: '140px', paddingBottom: '80px',
         textAlign: 'center', position: 'relative', overflow: 'hidden',

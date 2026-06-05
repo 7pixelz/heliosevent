@@ -30,7 +30,7 @@ export default async function ServicesPage() {
   return (
     <>
       {/* Hero Banner */}
-      <section style={{
+      <section className="page-hero" style={{
         background: 'linear-gradient(135deg, #0d1117 0%, #1a1f2e 50%, #0d1117 100%)',
         paddingTop: '140px',
         paddingBottom: '80px',

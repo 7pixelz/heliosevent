@@ -52,7 +52,7 @@ export default async function BlogPage({
   return (
     <main style={{ background: '#f8f9fa', minHeight: '100vh' }}>
       {/* Hero banner */}
-      <section style={{ background: '#1a1f2e', paddingTop: '100px', padding: '100px 24px 60px', textAlign: 'center' }}>
+      <section className="page-hero" style={{ background: '#1a1f2e', paddingTop: '100px', padding: '100px 24px 60px', textAlign: 'center' }}>
         <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '12px' }}>
           Helios Event
         </p>
