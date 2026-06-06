@@ -131,7 +131,7 @@ export default function Testimonials() {
             <div className="testi-strip">
               <div className="testi-quote-mark">"</div>
               <div style={{
-                width: '110px', height: '110px', borderRadius: '16px',
+                width: '130px', height: '130px', borderRadius: '16px',
                 background: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 overflow: 'hidden', padding: '10px',
