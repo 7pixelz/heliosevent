@@ -4,38 +4,28 @@ const TESTIMONIALS = [
     role: 'Country Head',
     company: 'Hydra Specma',
     quote: 'We had the factory inauguration done by Helios Event Productions and we are very satisfied. We expect we will have more interactions with them in the future.',
-    logoBg: '#1a1a1a',
-    logoText: 'HydraSpecma',
-    logoColor: '#f5c518',
+    logo: '/assets/clients/hydra.webp',
   },
   {
     name: 'Ms. Sini',
     role: 'HR Manager',
     company: 'Jost India Auto Components',
     quote: 'Thanks for your extended support on our special day. Thanks and done a great job.',
-    logoBg: '#fff',
-    logoText: 'JOST',
-    logoColor: '#1b3d8f',
-    logoBorder: '#e5e7eb',
+    logo: '/assets/clients/jost.webp',
   },
   {
     name: 'Mr. Christopher',
     role: 'Marcom Head',
     company: 'Airtel',
     quote: 'Thanks for all your support for the huge success of the South hub event. Everyone appreciated the stage setup and the evening lawn setup. Feedback from the participants about the event is really good, thank you once again.',
-    logoBg: '#e8001d',
-    logoText: 'airtel',
-    logoColor: '#fff',
+    logo: '/assets/clients/airtel.webp',
   },
   {
     name: 'Mr. Chidambaram',
     role: 'Marcom',
     company: 'SIPCOT',
     quote: 'Helios Event Productions did an incredible job building the Tamil Nadu State Pavilion for Med Tech Expo. They were efficient and supportive, even meeting tight deadlines. The pavilion has been a huge hit! Thanks, Helios!',
-    logoBg: '#fff',
-    logoText: 'SIPCOT',
-    logoColor: '#c0392b',
-    logoBorder: '#e5e7eb',
+    logo: '/assets/clients/sipcot.webp',
   },
 ];
 
@@ -141,26 +131,18 @@ export default function Testimonials() {
             <div className="testi-strip">
               <div className="testi-quote-mark">"</div>
               <div style={{
-                width: '80px', height: '80px', borderRadius: '50%',
-                background: t.logoBg,
-                border: t.logoBorder ? `2px solid ${t.logoBorder}` : 'none',
+                width: '110px', height: '110px', borderRadius: '16px',
+                background: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                overflow: 'hidden',
+                overflow: 'hidden', padding: '10px',
                 boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
                 flexShrink: 0,
               }}>
-                <span style={{
-                  fontFamily: "'Poppins', sans-serif",
-                  fontWeight: 900,
-                  fontSize: t.logoText.length > 5 ? '10px' : '14px',
-                  color: t.logoColor,
-                  textAlign: 'center',
-                  letterSpacing: '0.5px',
-                  lineHeight: 1.2,
-                  padding: '4px',
-                }}>
-                  {t.logoText}
-                </span>
+                <img
+                  src={t.logo}
+                  alt={t.company}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
               </div>
               {/* Name shown inline on mobile strip */}
               <div className="testi-strip-name" style={{
