@@ -9,6 +9,8 @@ const FeedbackSchema = z.object({
   appreciation: z.number().int().min(1).max(5),
   referral:     z.number().int().min(1).max(5),
   experience:   z.string().min(1, 'Please share your story'),
+  name:         z.string().min(1, 'Name is required'),
+  email:        z.string().optional().nullable(),
 });
 
 export async function POST(req: NextRequest) {
@@ -20,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: message }, { status: 400 });
     }
 
-    const { service, timeline, appreciation, referral, experience } = parsed.data;
+    const { service, timeline, appreciation, referral, experience, name, email } = parsed.data;
 
     await prisma.clientFeedback.create({
       data: {
@@ -29,11 +31,13 @@ export async function POST(req: NextRequest) {
         appreciation,
         referral,
         experience: experience.trim(),
+        name: name.trim(),
+        email: email?.trim() || null,
       },
     });
 
     try {
-      await sendFeedbackNotification({ service, timeline, appreciation, referral, experience });
+      await sendFeedbackNotification({ service, timeline, appreciation, referral, experience, name, email });
     } catch (err) {
       console.error('✗ Feedback email notification failed:', err);
     }

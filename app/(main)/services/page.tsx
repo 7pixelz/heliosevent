@@ -3,6 +3,7 @@ import { prisma } from '../../../lib/prisma';
 import { getPageSeo, buildMeta } from '../../../lib/seo';
 import type { Metadata } from 'next';
 import LeadForm from '../../../components/sections/LeadForm';
+import { highlightExp } from '../../../lib/highlight';
 
 type Service = { id: string; name: string; slug: string; icon: string; description: string; type: string; displayOrder: number; isActive: boolean; heroHeadline?: string | null; coverImageUrl?: string | null };
 
@@ -97,7 +98,7 @@ export default async function ServicesPage() {
                   <div className="svc-body">
                     <div className="svc-num">{String(i + 1).padStart(2, '0')}</div>
                     <div className="svc-name">{svc.name}</div>
-                    <div className="svc-desc">{svc.description}</div>
+                    <div className="svc-desc">{highlightExp(svc.description)}</div>
                   </div>
                 </div>
               </Link>

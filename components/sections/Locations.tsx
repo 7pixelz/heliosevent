@@ -322,7 +322,7 @@ export default function Locations() {
             ))}
 
             <div style={{ display: 'flex', gap: '24px', marginTop: '24px', paddingLeft: '4px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '20px' }}>
-              {[{ num: '16+', label: 'Countries' }, { num: '4', label: 'Continents' }, { num: '20+', label: 'Years Delivering' }].map(s => (
+              {[{ num: '16+', label: 'Countries' }, { num: '4', label: 'Continents' }, { num: '25+', label: 'Years Delivering' }].map(s => (
                 <div key={s.label} style={{ textAlign: 'center', flex: 1 }}>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: '#adc905', fontFamily: "'Poppins',sans-serif", lineHeight: 1 }}>{s.num}</div>
                   <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', fontFamily: "'Inter',sans-serif", marginTop: '4px' }}>{s.label}</div>
@@ -423,7 +423,7 @@ export default function Locations() {
             ))}
 
             <div style={{ display: 'flex', gap: '24px', marginTop: '24px', paddingLeft: '4px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '20px' }}>
-              {[{ num: '85+', label: 'Domestic Cities' }, { num: '5', label: 'Regions' }, { num: '20+', label: 'Years Delivering' }].map(s => (
+              {[{ num: '85+', label: 'Domestic Cities' }, { num: '5', label: 'Regions' }, { num: '25+', label: 'Years Delivering' }].map(s => (
                 <div key={s.label} style={{ textAlign: 'center', flex: 1 }}>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: '#adc905', fontFamily: "'Poppins',sans-serif", lineHeight: 1 }}>{s.num}</div>
                   <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', fontFamily: "'Inter',sans-serif", marginTop: '4px' }}>{s.label}</div>

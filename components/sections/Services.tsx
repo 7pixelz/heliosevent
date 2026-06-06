@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { highlightExp } from '../../lib/highlight';
 
 interface ServiceItem {
   id: string;
@@ -41,7 +42,7 @@ export default function Services({ mainServices }: { mainServices?: ServiceItem[
               <div className="svc-body">
                 <div className="svc-num">{String(i + 1).padStart(2, '0')}</div>
                 <div className="svc-name">{svc.name}</div>
-                <div className="svc-desc">{svc.description}</div>
+                <div className="svc-desc">{highlightExp(svc.description)}</div>
               </div>
             </div>
           </Link>

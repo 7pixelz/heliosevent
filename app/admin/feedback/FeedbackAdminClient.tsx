@@ -9,6 +9,8 @@ interface FeedbackEntry {
   appreciation: number;
   referral: number;
   experience: string | null;
+  name: string;
+  email: string | null;
   submittedAt: string;
 }
 
@@ -46,15 +48,19 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
   const visible = list.filter(e => {
     if (!search) return true;
     const q = search.toLowerCase();
-    return e.experience?.toLowerCase().includes(q);
+    return (
+      e.name?.toLowerCase().includes(q) ||
+      e.email?.toLowerCase().includes(q) ||
+      e.experience?.toLowerCase().includes(q)
+    );
   });
 
   const overallAvg = list.length
     ? (list.reduce((s, e) => s + parseFloat(avg(e)), 0) / list.length).toFixed(1)
     : '—';
 
-  async function handleDelete(id: string) {
-    if (!confirm('Delete this feedback? This cannot be undone.')) return;
+  async function handleDelete(id: string, name: string) {
+    if (!confirm(`Delete feedback from "${name}"? This cannot be undone.`)) return;
     setDeleteId(id);
     await fetch(`/api/admin/feedback/${id}`, { method: 'DELETE' });
     setDeleteId(null);
@@ -94,7 +100,7 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
       <input
         value={search}
         onChange={e => setSearch(e.target.value)}
-        placeholder="Search by name, email, or story…"
+        placeholder="Search by name, email or story…"
         style={{
           width: '100%', maxWidth: '380px', padding: '10px 16px', borderRadius: '10px',
           border: '1px solid #e5e7eb', fontSize: '13px', fontFamily: "'Inter',sans-serif",
@@ -121,11 +127,15 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
 
                   {/* Left */}
                   <div style={{ flex: 1, minWidth: '280px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: '15px', fontWeight: 700, color: '#1a1f2e', fontFamily: "'Inter',sans-serif" }}>{entry.name}</span>
                       <span style={{ fontSize: '13px', fontWeight: 800, color: avgColor(a), background: `${avgColor(a)}18`, padding: '2px 10px', borderRadius: '999px', fontFamily: "'Inter',sans-serif" }}>
                         Avg {avg(entry)}/5
                       </span>
                     </div>
+                    {entry.email && (
+                      <div style={{ fontSize: '12px', color: '#666', fontFamily: "'Inter',sans-serif", marginBottom: '10px' }}>✉️ {entry.email}</div>
+                    )}
 
                     {/* Ratings */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '14px' }}>
@@ -155,7 +165,7 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
                       {new Date(entry.submittedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </div>
                     <button
-                      onClick={() => handleDelete(entry.id)}
+                      onClick={() => handleDelete(entry.id, entry.name)}
                       disabled={isDeleting}
                       style={{
                         padding: '6px 10px', background: '#fee2e2', border: '1px solid #fca5a5',

@@ -6,8 +6,51 @@ import Image from 'next/image';
 
 interface ServiceItem { id: string; icon: string; name: string; slug: string }
 
+// Sub-items shown in the right panel when hovering a service
+const SERVICE_SUB_ITEMS: Record<string, { category: string; items: string[] }[]> = {
+  'entertainment-event-organizer-in-chennai': [
+    {
+      category: 'Challenges & Contests',
+      items: [
+        'Sports Day', 'Team Building', 'Hackathon', 'Marathon',
+        'Treasure Hunt', 'Innovation Challenge', 'Startup Pitch Contest', 'Gaming Tournament',
+        'Quiz Competition', 'Talent Hunt', 'Fitness Challenge', 'Sales Contest',
+        'Coding Challenge', 'Leadership Games', 'Escape Room Activities', 'Adventure Activities',
+        'Campus Competitions', 'Reality Show Format Activities', 'Employee Engagement Activities',
+        'Fun Fridays', 'Virtual Contests', 'Ideaathon', 'Photography Contest', 'Reel Making Contest',
+      ],
+    },
+  ],
+  'exhibition-organizer-in-chennai': [
+    {
+      category: 'Campaigns',
+      items: [
+        'ATL Activities', 'BTL Activities', 'Road Shows', 'SEO Activities',
+        'Mall Activations', 'Retail Branding Campaigns', 'Product Sampling Activities', 'Influencer Campaigns',
+        'Digital Campaigns', 'Social Media Campaigns', 'Election Campaign Support', 'Government Awareness Campaigns',
+        'CSR Campaigns', 'Van Campaigns', 'Campus Activation', 'Brand Awareness Drives',
+        'Public Engagement Activities', 'Flash Mob Campaigns', 'Employee Engagement Campaigns',
+      ],
+    },
+  ],
+  'corporate-event-management-in-chennai': [
+    {
+      category: 'Celebrations',
+      items: [
+        'Family Day', 'Kids Day', 'Employee Day', 'Annual Day',
+        'Office Decor', 'Festival Decor', 'Long Service Awards', 'Founders Day',
+        'Success Celebration Events', 'Milestone Celebrations', 'Employee Recognition Programs',
+        'Cultural Fest', 'Theme Parties', 'Gala Nights', 'Farewell Events', 'Welcome Events',
+        'New Office Launch Celebration', "Women's Day Celebration", 'Wellness Day', 'Team Outings',
+        'Appreciation Day', 'Festive Carnivals', 'CSR Celebration Events', 'Anniversary Celebrations',
+        'Rewards & Recognition Night', 'Influencer / Celebrity Engagement Events',
+      ],
+    },
+  ],
+};
+
 const FALLBACK_MAIN: ServiceItem[] = [
-  { id: 'f1', icon: '🎤', name: 'Corporate Events', slug: 'corporate-events' },
+  { id: 'f1', icon: '🎤', name: 'Corporate Events', slug: 'corporate-event-management-in-chennai' },
   { id: 'f2', icon: '🎭', name: 'Entertainment Events', slug: 'entertainment-events' },
   { id: 'f3', icon: '🏛️', name: 'Exhibitions', slug: 'exhibitions' },
   { id: 'f4', icon: '🏛️', name: 'Government Protocol Events', slug: 'government-protocol-events' },
@@ -19,83 +62,152 @@ const FALLBACK_MAIN: ServiceItem[] = [
 
 
 function DropdownMenu({ items, visible }: { items: ServiceItem[]; visible: boolean }) {
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+  const subItems = hoveredSlug ? SERVICE_SUB_ITEMS[hoveredSlug] : null;
+
   return (
+    /* Outer wrapper — fixed position, never changes size */
     <div style={{
       position: 'absolute', top: 'calc(100% + 12px)', left: '50%',
       transform: visible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-8px)',
-      background: '#1a1f2e',
-      border: '1px solid rgba(255,255,255,0.1)',
-      borderRadius: '14px',
-      padding: '10px',
-      minWidth: '240px',
-      boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
       opacity: visible ? 1 : 0,
       pointerEvents: visible ? 'auto' : 'none',
       transition: 'opacity 0.18s ease, transform 0.18s ease',
       zIndex: 999,
     }}>
-      {/* arrow */}
-      <div style={{
-        position: 'absolute', top: '-6px', left: '50%', transform: 'translateX(-50%)',
-        width: '12px', height: '12px',
-        background: '#1a1f2e',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderBottom: 'none', borderRight: 'none',
-        rotate: '45deg',
-      }} />
-      {items.map(item => (
-        <a
-          key={item.id}
-          href={`/services/${item.slug}`}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '10px',
-            padding: '10px 14px', borderRadius: '8px',
-            textDecoration: 'none', color: 'rgba(255,255,255,0.75)',
-            fontSize: '13px', fontWeight: 500,
-            fontFamily: "'Inter', sans-serif",
-            transition: 'background 0.15s, color 0.15s',
-            whiteSpace: 'nowrap',
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(173,201,5,0.12)';
-            (e.currentTarget as HTMLAnchorElement).style.color = '#fff';
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
-            (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.75)';
-          }}
-        >
-          <span style={{ fontSize: '17px', lineHeight: 1 }}>{item.icon}</span>
-          {item.name}
-        </a>
-      ))}
+      {/* Service list — position:relative so sub-panel anchors to it */}
+      <div
+        style={{
+          background: '#1a1f2e', border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '14px', padding: '10px', minWidth: '260px',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.5)', position: 'relative',
+        }}
+        onMouseLeave={() => setHoveredSlug(null)}
+      >
+        {/* Arrow */}
+        <div style={{
+          position: 'absolute', top: '-6px', left: '50%', transform: 'translateX(-50%)',
+          width: '12px', height: '12px', background: '#1a1f2e',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderBottom: 'none', borderRight: 'none', rotate: '45deg',
+        }} />
+
+        {items.map(item => {
+          const hasSub = !!SERVICE_SUB_ITEMS[item.slug];
+          const isHovered = hoveredSlug === item.slug;
+          return (
+            <a
+              key={item.id}
+              href={`/services/${item.slug}`}
+              onMouseEnter={() => setHoveredSlug(item.slug)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
+                padding: '10px 14px', borderRadius: '8px', textDecoration: 'none',
+                color: isHovered ? '#fff' : 'rgba(255,255,255,0.75)',
+                background: isHovered ? 'rgba(173,201,5,0.12)' : 'transparent',
+                fontSize: '13px', fontWeight: 500, fontFamily: "'Inter', sans-serif",
+                transition: 'background 0.15s, color 0.15s', whiteSpace: 'nowrap',
+              }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '17px', lineHeight: 1 }}>{item.icon}</span>
+                {item.name}
+              </span>
+              {hasSub && <span style={{ fontSize: '10px', color: '#adc905' }}>›</span>}
+            </a>
+          );
+        })}
+
+        {/* Sub-panel — absolutely positioned to the RIGHT of the service list, no layout shift */}
+        {subItems && (
+          <div
+            onMouseEnter={() => setHoveredSlug(hoveredSlug)}
+            style={{
+              position: 'absolute', top: 0, left: 'calc(100% + 8px)',
+              background: '#1a1f2e', border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '14px', padding: '16px 20px',
+              minWidth: '420px', maxWidth: '540px',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+              animation: 'fadeInSub 0.15s ease',
+            }}
+          >
+            <style>{`@keyframes fadeInSub { from { opacity:0; transform:translateX(-6px); } to { opacity:1; transform:translateX(0); } }`}</style>
+            {subItems.map(group => (
+              <div key={group.category}>
+                <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', marginBottom: '12px', fontFamily: "'Inter', sans-serif" }}>
+                  {group.category}
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px 16px' }}>
+                  {group.items.map(subItem => (
+                    <div key={subItem} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '5px 0', color: 'rgba(255,255,255,0.6)', fontSize: '12px', fontFamily: "'Inter', sans-serif" }}>
+                      <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#adc905', flexShrink: 0 }} />
+                      {subItem}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 function MobileAccordion({ items, open }: { items: ServiceItem[]; open: boolean }) {
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
+
+  const totalItems = items.reduce((acc, item) => {
+    const sub = SERVICE_SUB_ITEMS[item.slug];
+    const subCount = sub ? sub.reduce((a, g) => a + g.items.length + 1, 0) : 0;
+    return acc + 1 + (openSlug === item.slug ? subCount : 0);
+  }, 0);
+
   return (
-    <div style={{
-      overflow: 'hidden',
-      maxHeight: open ? `${items.length * 42}px` : '0',
-      transition: 'max-height 0.25s ease',
-    }}>
-      {items.map(item => (
-        <a
-          key={item.id}
-          href={`/services/${item.slug}`}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-            padding: '10px 24px',
-            textDecoration: 'none', color: 'rgba(255,255,255,0.55)',
-            fontSize: '12px', fontFamily: "'Inter', sans-serif",
-            borderBottom: '1px solid rgba(173,201,5,0.04)',
-          }}
-        >
-          <span>{item.icon}</span>
-          {item.name}
-        </a>
-      ))}
+    <div style={{ overflow: 'hidden', maxHeight: open ? `${totalItems * 40 + 200}px` : '0', transition: 'max-height 0.3s ease' }}>
+      {items.map(item => {
+        const hasSub = !!SERVICE_SUB_ITEMS[item.slug];
+        const isOpen = openSlug === item.slug;
+        return (
+          <div key={item.id}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <a
+                href={`/services/${item.slug}`}
+                style={{
+                  flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                  padding: '10px 12px', textDecoration: 'none', color: 'rgba(255,255,255,0.55)',
+                  fontSize: '12px', fontFamily: "'Inter', sans-serif",
+                  borderBottom: '1px solid rgba(173,201,5,0.04)',
+                }}
+              >
+                <span>{item.icon}</span>{item.name}
+              </a>
+              {hasSub && (
+                <button onClick={() => setOpenSlug(isOpen ? null : item.slug)} style={{ background: 'none', border: 'none', color: '#adc905', fontSize: '16px', padding: '10px 14px', cursor: 'pointer', borderBottom: '1px solid rgba(173,201,5,0.04)' }}>
+                  {isOpen ? '−' : '+'}
+                </button>
+              )}
+            </div>
+            {hasSub && isOpen && (
+              <div style={{ background: 'rgba(173,201,5,0.04)', padding: '10px 16px 14px' }}>
+                {SERVICE_SUB_ITEMS[item.slug].map(group => (
+                  <div key={group.category}>
+                    <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', margin: '8px 0 8px', fontFamily: "'Inter', sans-serif" }}>{group.category}</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px' }}>
+                      {group.items.map(subItem => (
+                        <div key={subItem} style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: 'rgba(255,255,255,0.45)', fontFamily: "'Inter', sans-serif", padding: '3px 0' }}>
+                          <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#adc905', flexShrink: 0 }} />
+                          {subItem}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -126,11 +238,11 @@ export default function Header() {
 
   const isServicesActive = pathname.startsWith('/services');
 
-  function hoverOpen(setter: (v: boolean) => void, timer: React.MutableRefObject<ReturnType<typeof setTimeout> | null>) {
+  function hoverOpen(setter: (v: boolean) => void, timer: { current: ReturnType<typeof setTimeout> | null }) {
     if (timer.current) clearTimeout(timer.current);
     setter(true);
   }
-  function hoverClose(setter: (v: boolean) => void, timer: React.MutableRefObject<ReturnType<typeof setTimeout> | null>) {
+  function hoverClose(setter: (v: boolean) => void, timer: { current: ReturnType<typeof setTimeout> | null }) {
     timer.current = setTimeout(() => setter(false), 120);
   }
 

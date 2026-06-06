@@ -7,13 +7,15 @@ interface Logo { id: string; name: string; imageUrl: string; }
 export default function Clients({ logos }: { logos: Logo[] }) {
   if (logos.length === 0) return null;
 
-  // Split logos into two rows; pad with extras from the start if uneven
-  const half = Math.ceil(logos.length / 2);
-  const row1 = logos.slice(0, half);
-  const row2 = logos.slice(half);
+  // Split logos into three rows
+  const third = Math.ceil(logos.length / 3);
+  const row1 = logos.slice(0, third);
+  const row2 = logos.slice(third, third * 2);
+  const row3 = logos.slice(third * 2);
   // Ensure each row has enough items to fill the viewport when duplicated
-  while (row1.length < 6) row1.push(...row1);
-  while (row2.length < 6) row2.push(...row2);
+  while (row1.length < 5) row1.push(...row1);
+  while (row2.length < 5) row2.push(...row2);
+  while (row3.length < 5) row3.push(...row3);
 
   return (
     <section style={{ background: '#fff', padding: '80px 0', overflow: 'hidden', borderBottom: '1px solid #eee' }}>
@@ -38,6 +40,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         }
         .marquee-track-left  { animation: marquee-left  38s linear infinite; }
         .marquee-track-right { animation: marquee-right 44s linear infinite; }
+        .marquee-track-left2 { animation: marquee-left  50s linear infinite; }
         .marquee-viewport:hover .marquee-track { animation-play-state: paused; }
         .brand-logo-item {
           flex-shrink: 0;
@@ -91,10 +94,21 @@ export default function Clients({ logos }: { logos: Logo[] }) {
       </div>
 
       {/* Row 2 — scrolls right */}
-      <div className="marquee-viewport">
+      <div className="marquee-viewport" style={{ marginBottom: '16px' }}>
         <div className="marquee-track marquee-track-right">
           {[...row2, ...row2].map((logo, i) => (
             <div key={`r2-${logo.id}-${i}`} className="brand-logo-item">
+              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} sizes="130px" style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Row 3 — scrolls left (slower) */}
+      <div className="marquee-viewport">
+        <div className="marquee-track marquee-track-left2">
+          {[...row3, ...row3].map((logo, i) => (
+            <div key={`r3-${logo.id}-${i}`} className="brand-logo-item">
               <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} sizes="130px" style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
             </div>
           ))}

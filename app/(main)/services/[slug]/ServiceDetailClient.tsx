@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import LeadForm from '../../../../components/sections/LeadForm';
+import { highlightExp } from '../../../../lib/highlight';
 
 interface SignatureEvent { icon: string; title: string; desc: string }
 interface Differentiator { title: string; desc: string }
@@ -73,7 +74,7 @@ function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
               fontSize: '14px', color: '#555',
               lineHeight: 1.8, fontFamily: "'Inter', sans-serif",
             }}>
-              {faq.answer}
+              {highlightExp(faq.answer)}
             </div>
           )}
         </div>
@@ -327,7 +328,7 @@ export default function ServiceDetailPage() {
                     fontSize: '14px', color: 'rgba(255,255,255,0.48)',
                     margin: 0, lineHeight: 1.75, fontFamily: "'Inter', sans-serif",
                   }}>
-                    {ev.desc}
+                    {highlightExp(ev.desc)}
                   </p>
                 </div>
               ))}
@@ -390,7 +391,7 @@ export default function ServiceDetailPage() {
                       fontSize: '14px', color: '#666',
                       margin: 0, lineHeight: 1.75, fontFamily: "'Inter', sans-serif",
                     }}>
-                      {d.desc}
+                      {highlightExp(d.desc)}
                     </p>
                   </div>
                 </div>

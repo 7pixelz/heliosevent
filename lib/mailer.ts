@@ -158,6 +158,8 @@ export interface FeedbackData {
   appreciation: number;
   referral: number;
   experience?: string | null;
+  name?: string | null;
+  email?: string | null;
 }
 
 const FEEDBACK_NOTIFY = ['bala@heliosevent.net', 'rajula@heliosevent.net', 'nakshatra@heliosevent.net'];
@@ -196,6 +198,14 @@ export async function sendFeedbackNotification(data: FeedbackData) {
       <div style="background:#f9fafb;border-radius:10px;padding:16px 20px;font-size:14px;color:#333;line-height:1.8">${data.experience}</div>
     </div>` : ''}
 
+    ${data.name || data.email ? `
+    <div style="padding:20px 32px 0">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#adc905;margin-bottom:12px">Client Info</div>
+      <table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:10px;overflow:hidden">
+        ${data.name ? `<tr><td style="padding:8px 12px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;width:180px">Name</td><td style="padding:8px 12px;font-size:14px;color:#111">${data.name}</td></tr>` : ''}
+        ${data.email ? `<tr><td style="padding:8px 12px;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px">Email</td><td style="padding:8px 12px;font-size:14px;color:#111">${data.email}</td></tr>` : ''}
+      </table>
+    </div>` : ''}
 
     <div style="padding:24px 32px 32px;text-align:center">
       <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/admin/feedback"
@@ -214,7 +224,7 @@ export async function sendFeedbackNotification(data: FeedbackData) {
   await transporter.sendMail({
     from: `"Helios Event" <${process.env.GMAIL_USER}>`,
     to: FEEDBACK_NOTIFY,
-    subject: `New Client Feedback — Avg ${Math.round((data.service + data.timeline + data.appreciation + data.referral) / 4)}/5`,
+    subject: `New Client Feedback${data.name ? ` from ${data.name}` : ''} — Avg ${Math.round((data.service + data.timeline + data.appreciation + data.referral) / 4)}/5`,
     html,
   });
 }

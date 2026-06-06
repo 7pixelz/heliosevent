@@ -197,5 +197,7 @@ model ClientFeedback {
   appreciation Int
   referral     Int
   experience   String?  @db.Text
+  name         String
+  email        String?
   submittedAt  DateTime @default(now())
 }

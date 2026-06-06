@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
+import { highlightExp } from '../../lib/highlight';
+
 const STEPS = [
   {
     key: 'service',
@@ -43,16 +45,26 @@ export default function FeedbackPage() {
   const [ratings, setRatings] = useState({ service: 0, timeline: 0, appreciation: 0, referral: 0 });
   const [hovered, setHovered] = useState(0);
   const [experience, setExperience] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  function copyMessage() {
+    navigator.clipboard.writeText(experience).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
+  }
 
   const currentStep = STEPS[step];
   const isStory = step === 4;
   const currentRating = ratings[currentStep.key as keyof typeof ratings] ?? 0;
   const displayStars = isStory ? 0 : (hovered || currentRating);
 
-  const canNext = isStory ? experience.trim().length > 0 : currentRating > 0;
+  const canNext = isStory ? experience.trim().length > 0 && name.trim().length > 0 : currentRating > 0;
 
   async function handleSubmit() {
     setSubmitting(true);
@@ -61,7 +73,7 @@ export default function FeedbackPage() {
       const res = await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...ratings, experience }),
+        body: JSON.stringify({ ...ratings, experience, name, email }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -81,10 +93,10 @@ export default function FeedbackPage() {
         <div style={{ textAlign: 'center', maxWidth: '480px' }}>
           <div style={{ fontSize: '64px', marginBottom: '24px' }}>✨</div>
           <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>
-            Thank You!
+            Thank You{name ? `, ${name.split(' ')[0]}` : ''}!
           </h2>
           <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '15px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: '32px' }}>
-            Your feedback means the world to us. It helps us create even better experiences for every event we touch.
+            Your feedback means the world to us. It helps us create even better <span style={{ color: '#b4e600' }}>experiences</span> for every event we touch.
           </p>
           <div style={{ display: 'inline-block', background: ACCENT, color: '#0a0c12', fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: '13px', letterSpacing: '1.5px', padding: '12px 28px', borderRadius: '999px' }}>
             HELIOS EVENT PRODUCTIONS
@@ -148,10 +160,10 @@ export default function FeedbackPage() {
         {/* Question */}
         <div style={{ padding: '36px 32px 28px', textAlign: 'center' }}>
           <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: 700, color: '#fff', fontStyle: 'italic', margin: '0 0 8px' }}>
-            "{currentStep.title}"
+            "{highlightExp(currentStep.title)}"
           </h2>
           <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.4)', margin: '0 0 32px' }}>
-            {currentStep.subtitle}
+            {highlightExp(currentStep.subtitle)}
           </p>
 
           {/* Star Rating */}
@@ -192,8 +204,37 @@ export default function FeedbackPage() {
                 onChange={e => setExperience(e.target.value)}
                 placeholder="Tell us what made your event special, or how we can serve you even better..."
                 rows={5}
-                style={{ width: '100%', background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '12px', padding: '16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', lineHeight: 1.7, resize: 'vertical', outline: 'none', boxSizing: 'border-box', marginBottom: '20px' }}
+                style={{ width: '100%', background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '12px', padding: '16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', lineHeight: 1.7, resize: 'vertical', outline: 'none', boxSizing: 'border-box', marginBottom: '10px' }}
               />
+              {experience.trim().length > 0 && (
+                <button
+                  type="button"
+                  onClick={copyMessage}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', background: copied ? 'rgba(180,230,0,0.15)' : 'rgba(255,255,255,0.06)', border: `1px solid ${copied ? ACCENT : 'rgba(255,255,255,0.12)'}`, borderRadius: '8px', padding: '7px 14px', color: copied ? ACCENT : 'rgba(255,255,255,0.55)', fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 600, cursor: 'pointer', marginBottom: '14px', transition: 'all 0.2s' }}
+                >
+                  {copied ? '✓ Copied!' : '⎘ Copy message'}
+                  {!copied && <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>— paste it in Google Review</span>}
+                </button>
+              )}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '8px' }}>
+                <div>
+                  <input
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder="Your name *"
+                    required
+                    style={{ width: '100%', background: '#0a0c12', border: `1px solid ${name.trim() ? '#1e2640' : '#3a2040'}`, borderRadius: '10px', padding: '12px 16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
+                  />
+                </div>
+                <input
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="Email (optional)"
+                  type="email"
+                  style={{ background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', outline: 'none' }}
+                />
+              </div>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.3)', margin: '0 0 16px', letterSpacing: '0.3px' }}>* Required</p>
 
               {/* Google Review */}
               <div style={{ margin: '24px 0 0', background: 'rgba(180,230,0,0.06)', border: `1px solid rgba(180,230,0,0.2)`, borderRadius: '14px', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
