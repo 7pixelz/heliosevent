@@ -64,11 +64,14 @@ export default function Clients({ logos }: { logos: Logo[] }) {
           width: 130px;
           max-width: 130px;
           object-fit: contain;
-          filter: grayscale(40%) opacity(0.75);
-          transition: filter 0.2s;
+          transition: transform 0.2s ease;
+        }
+        .brand-logo-item:hover {
+          box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+          border-color: #e0e0e0;
         }
         .brand-logo-item:hover img {
-          filter: grayscale(0%) opacity(1);
+          transform: scale(1.08);
         }
       `}</style>
 
