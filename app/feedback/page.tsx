@@ -108,6 +108,7 @@ export default function FeedbackPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#0a0c12', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px 20px 60px' }}>
+      <style>{`@media (max-width: 480px) { .fb-name-grid { grid-template-columns: 1fr !important; } }`}</style>
 
       {/* Logo */}
       <div style={{ marginBottom: '28px' }}>
@@ -216,7 +217,7 @@ export default function FeedbackPage() {
                   {!copied && <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>— paste it in Google Review</span>}
                 </button>
               )}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '8px' }}>
+              <div className="fb-name-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '8px' }}>
                 <div>
                   <input
                     value={name}
@@ -231,7 +232,7 @@ export default function FeedbackPage() {
                   onChange={e => setEmail(e.target.value)}
                   placeholder="Email (optional)"
                   type="email"
-                  style={{ background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', outline: 'none' }}
+                  style={{ width: '100%', background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
                 />
               </div>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.3)', margin: '0 0 16px', letterSpacing: '0.3px' }}>* Required</p>

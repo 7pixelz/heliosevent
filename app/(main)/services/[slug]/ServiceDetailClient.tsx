@@ -127,8 +127,8 @@ export default function ServiceDetailPage() {
   return (
     <>
       <style>{`
+        .svc-breadcrumb, .svc-badge { display: none !important; }
         @media (max-width: 640px) {
-          .svc-breadcrumb, .svc-badge { display: none !important; }
           .svc-hero { min-height: unset !important; align-items: flex-start !important; padding-top: 72px !important; }
         }
       `}</style>
