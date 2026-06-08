@@ -5,7 +5,6 @@ import ScrollObserver from '../../components/ScrollObserver';
 import FloatingCTA from '../../components/FloatingCTA';
 import WhatsAppButton from '../../components/WhatsAppButton';
 import ScrollToTop from '../../components/ScrollToTop';
-import IntroAnimation from '../../components/IntroAnimation';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,8 +21,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </div>
         </div>
-        <IntroAnimation />
-        <FloatingCTA />
+<FloatingCTA />
         <WhatsAppButton />
         <ScrollObserver />
         <ScrollToTop />
