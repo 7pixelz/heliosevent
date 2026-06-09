@@ -32,7 +32,7 @@ const STEPS = [
   },
   {
     key: 'story',
-    label: 'YOUR STORY',
+    label: 'SHARE',
     title: 'Tell us about your experience',
     subtitle: 'Share your story in a few words',
   },
@@ -148,7 +148,7 @@ export default function FeedbackPage() {
                   fontSize: '12px', fontWeight: 700, fontFamily: "'Inter', sans-serif",
                   transition: 'all 0.3s',
                 }}>
-                  {i < step ? '✓' : i + 1}
+                  {i < step ? '✓' : 'STARS'[i]}
                 </div>
                 <span style={{ fontSize: '9px', letterSpacing: '1px', fontFamily: "'Inter', sans-serif", color: i === step ? ACCENT : i < step ? 'rgba(255,255,255,0.5)' : '#2a3050', fontWeight: 600 }}>
                   {s.label}
