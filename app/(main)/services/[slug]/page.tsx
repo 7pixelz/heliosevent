@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { prisma } from '../../../../lib/prisma';
 import { buildMeta } from '../../../../lib/seo';
 import ServiceDetailClient from './ServiceDetailClient';
@@ -24,6 +25,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function ServiceDetailPage() {
-  return <ServiceDetailClient />;
+export default async function ServiceDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const service = await prisma.service.findUnique({ where: { slug } });
+  if (!service) notFound();
+  return <ServiceDetailClient service={service} />;
 }

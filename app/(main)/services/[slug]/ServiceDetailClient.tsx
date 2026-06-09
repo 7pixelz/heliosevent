@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import Link from 'next/link';
 import LeadForm from '../../../../components/sections/LeadForm';
 import { highlightExp } from '../../../../lib/highlight';
@@ -83,42 +82,7 @@ function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
   );
 }
 
-export default function ServiceDetailPage() {
-  const { slug } = useParams<{ slug: string }>();
-  const [service, setService] = useState<ServiceDetail | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
-
-  useEffect(() => {
-    fetch(`/api/services/${slug}`)
-      .then(r => { if (!r.ok) { setNotFound(true); setLoading(false); return null; } return r.json(); })
-      .then(data => { if (data) { setService(data); setLoading(false); } });
-  }, [slug]);
-
-  if (loading) return (
-    <div style={{
-      minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: '#0d1117', color: 'rgba(255,255,255,0.4)',
-      fontFamily: "'Inter', sans-serif", fontSize: '15px',
-    }}>
-      Loading…
-    </div>
-  );
-
-  if (notFound || !service) return (
-    <div style={{
-      minHeight: '60vh', display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center',
-      background: '#0d1117', color: '#fff', fontFamily: "'Inter', sans-serif",
-      gap: '16px',
-    }}>
-      <div style={{ fontSize: '18px' }}>Service not found.</div>
-      <Link href="/services" style={{ color: '#adc905', textDecoration: 'none', fontSize: '14px' }}>
-        ← Back to Services
-      </Link>
-    </div>
-  );
-
+export default function ServiceDetailPage({ service }: { service: ServiceDetail }) {
   const sigEvents = parseJSON<SignatureEvent[]>(service.signatureEvents, []);
   const diffs = parseJSON<Differentiator[]>(service.differentiators, []);
   const faqs = parseJSON<FAQ[]>(service.faqs, []);
