@@ -60,6 +60,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "critters": "^0.0.23",
     "dotenv": "^17.4.2",
     "puppeteer": "^24.40.0"
   }
