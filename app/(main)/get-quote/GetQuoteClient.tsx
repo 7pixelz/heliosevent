@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 import CountryPicker from '../../../components/CountryPicker';
 
@@ -108,7 +108,7 @@ function inputStyle(hasError: boolean): React.CSSProperties {
   };
 }
 
-export default function GetQuoteClient() {
+function GetQuoteClientInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -444,5 +444,13 @@ export default function GetQuoteClient() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function GetQuoteClient() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
+      <GetQuoteClientInner />
+    </GoogleReCaptchaProvider>
   );
 }

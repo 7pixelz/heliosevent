@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 import CountryPicker from '../CountryPicker';
 
@@ -70,7 +70,7 @@ function inputStyle(hasError: boolean): React.CSSProperties {
   };
 }
 
-export default function ContactForm() {
+function ContactFormInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -367,6 +367,14 @@ export default function ContactForm() {
         </div>
       </div>
     </section>
+  );
+}
+
+export default function ContactForm() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
+      <ContactFormInner />
+    </GoogleReCaptchaProvider>
   );
 }
 

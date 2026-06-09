@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 
 const FormSchema = z.object({
@@ -92,7 +92,7 @@ const initialForm = {
   experience: '', currentCompany: '', currentLocation: '', currentRole: '', message: '',
 };
 
-export default function CareersPage() {
+function CareersPageInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -400,5 +400,13 @@ export default function CareersPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function CareersPage() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
+      <CareersPageInner />
+    </GoogleReCaptchaProvider>
   );
 }

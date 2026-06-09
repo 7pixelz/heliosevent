@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import LeadForm from '../../../../components/sections/LeadForm';
+import dynamic from 'next/dynamic';
+const LeadForm = dynamic(() => import('../../../../components/sections/LeadForm'), { ssr: false });
 import { highlightExp } from '../../../../lib/highlight';
 
 interface SignatureEvent { icon: string; title: string; desc: string }

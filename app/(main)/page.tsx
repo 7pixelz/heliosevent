@@ -9,7 +9,8 @@ import Testimonials from '../../components/sections/Testimonials';
 
 import CtaBanner from '../../components/sections/CtaBanner';
 import Locations from '../../components/sections/LocationsClient';
-import LeadForm from '../../components/sections/LeadForm';
+import dynamic from 'next/dynamic';
+const LeadForm = dynamic(() => import('../../components/sections/LeadForm'), { ssr: false });
 import { prisma } from '../../lib/prisma';
 import { getPageSeo, buildMeta } from '../../lib/seo';
 import type { Metadata } from 'next';

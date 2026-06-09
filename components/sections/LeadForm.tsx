@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 import CountryPicker from '../CountryPicker';
 
@@ -61,7 +61,7 @@ const lbl: React.CSSProperties = {
   color: 'rgba(255,255,255,0.45)', fontFamily: "'Inter',sans-serif", marginBottom: '5px',
 };
 
-export default function LeadForm() {
+function LeadFormInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [form, setForm] = useState(init);
   const [errors, setErrors] = useState<Errors>({});
@@ -311,5 +311,13 @@ export default function LeadForm() {
         )}
       </div>
     </section>
+  );
+}
+
+export default function LeadForm() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
+      <LeadFormInner />
+    </GoogleReCaptchaProvider>
   );
 }
