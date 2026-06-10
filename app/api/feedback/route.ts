@@ -8,7 +8,7 @@ const FeedbackSchema = z.object({
   timeline:     z.number().int().min(1).max(5),
   appreciation: z.number().int().min(1).max(5),
   referral:     z.number().int().min(1).max(5),
-  experience:   z.string().min(1, 'Please share your story'),
+  experience:   z.string().optional().nullable(),
   name:         z.string().min(1, 'Name is required'),
   email:        z.string().optional().nullable(),
 });
@@ -30,14 +30,14 @@ export async function POST(req: NextRequest) {
         timeline,
         appreciation,
         referral,
-        experience: experience.trim(),
+        experience: experience?.trim() || null,
         name: name.trim(),
         email: email?.trim() || null,
       },
     });
 
     try {
-      await sendFeedbackNotification({ service, timeline, appreciation, referral, experience, name, email });
+      await sendFeedbackNotification({ service, timeline, appreciation, referral, experience: experience ?? null, name, email });
     } catch (err) {
       console.error('✗ Feedback email notification failed:', err);
     }
