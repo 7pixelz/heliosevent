@@ -145,7 +145,7 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
                         { label: 'Referral',   val: entry.referral },
                       ].map(({ label, val }) => (
                         <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <span style={{ fontSize: '11px', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '1px', fontFamily: "'Inter',sans-serif", width: '80px', flexShrink: 0 }}>{label}</span>
+                          <span style={{ fontSize: '11px', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '1px', fontFamily: "'Inter',sans-serif", width: '100px', flexShrink: 0 }}>{label}</span>
                           <Stars n={val} />
                         </div>
                       ))}
