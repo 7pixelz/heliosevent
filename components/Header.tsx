@@ -225,7 +225,7 @@ export default function Header() {
     fetch('/api/services')
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (data?.main?.length) setMainServices(data.main);
+        if (data?.main?.length) setMainServices(data.main.filter((s: ServiceItem) => !s.name.toLowerCase().includes('wedding')));
       })
       .catch(() => {});
   }, []);
