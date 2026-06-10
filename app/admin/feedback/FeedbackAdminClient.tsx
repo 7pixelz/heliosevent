@@ -83,8 +83,8 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
         </div>
 
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-          {['Service', 'Timeline', 'Experience', 'Referral'].map(label => {
-            const key = label.toLowerCase() === 'experience' ? 'appreciation' : label.toLowerCase() as keyof FeedbackEntry;
+          {['Service', 'Timeline', 'Appreciation', 'Referral'].map(label => {
+            const key = label.toLowerCase() as keyof FeedbackEntry;
             const a = list.length ? (list.reduce((s, e) => s + (e[key] as number), 0) / list.length).toFixed(1) : '—';
             return (
               <div key={label} style={{ padding: '6px 14px', borderRadius: '999px', background: '#f0f7d4', fontSize: '12px', fontWeight: 700, fontFamily: "'Inter',sans-serif", color: '#5a7200' }}>
@@ -141,7 +141,7 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
                       {[
                         { label: 'Service',    val: entry.service },
                         { label: 'Timeline',   val: entry.timeline },
-                        { label: 'Experience', val: entry.appreciation },
+                        { label: 'Appreciation', val: entry.appreciation },
                         { label: 'Referral',   val: entry.referral },
                       ].map(({ label, val }) => (
                         <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
