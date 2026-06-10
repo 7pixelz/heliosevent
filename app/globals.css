@@ -1309,15 +1309,18 @@ nav {
 }
 
 .port-card {
-  background: #0f0f0f;
+  background: #fff;
   cursor: pointer;
   overflow: hidden;
-  border-radius: 4px;
-  transition: transform 0.3s;
+  border-radius: 12px;
+  border: 1px solid #e8edf2;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .port-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
 }
 
 .port-img {
@@ -1342,7 +1345,7 @@ nav {
 .port-body {
   padding: 20px 24px;
   background: #fff;
-  border-top: 3px solid #adc905;
+  border-top: 1px solid #eef0f3;
 }
 
 .port-name {

@@ -57,7 +57,6 @@ const FALLBACK_MAIN: ServiceItem[] = [
   { id: 'f5', icon: '🤝', name: 'Trade Body Association Events', slug: 'trade-body-association-events' },
   { id: 'f6', icon: '✈️', name: 'MICE Events', slug: 'mice-events' },
   { id: 'f7', icon: '⚽', name: 'Sports Events', slug: 'sports-events' },
-  { id: 'f8', icon: '💒', name: 'Wedding & Social Events', slug: 'wedding-social-events' },
 ];
 
 

@@ -449,50 +449,6 @@ export default function ServiceDetailPage({ service }: { service: ServiceDetail 
         </div>
       </section>
 
-      {/* Chennai Locations */}
-      <section style={{ background: '#0d1117', padding: '56px clamp(20px, 6vw, 80px)' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, color: '#adc905', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '12px' }}>
-            We Serve Across Chennai
-          </div>
-          <h3 style={{ fontSize: 'clamp(18px, 2.5vw, 28px)', fontWeight: 800, color: '#fff', marginBottom: '28px', fontFamily: "'Poppins', sans-serif" }}>
-            Event Planner in Chennai — By Location
-          </h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
-            {[
-              { label: 'Taramani', slug: 'event-planner-in-taramani' },
-              { label: 'OMR', slug: 'event-management-in-omr' },
-              { label: 'Oragadam', slug: 'event-management-in-oragadam' },
-              { label: 'Vallam Chengalpattu', slug: 'event-management-in-vallam-chengalpattu' },
-              { label: 'Sriperumbudur', slug: 'event-management-in-sriperumbudur' },
-              { label: 'Ambattur', slug: 'event-management-in-ambattur' },
-              { label: 'Ekkatuthangal', slug: 'event-management-in-ekkatuthangal' },
-              { label: 'Guindy', slug: 'event-management-in-guindy' },
-              { label: 'Sri City', slug: 'event-management-in-sri-city' },
-              { label: 'Siruseri', slug: 'event-management-in-siruseri' },
-              { label: 'Porur', slug: 'event-management-in-porur' },
-              { label: 'Anna Salai', slug: 'event-planner-in-anna-salai' },
-            ].map(loc => (
-              <Link key={loc.slug} href={`/chennai/${loc.slug}`} style={{ textDecoration: 'none' }}>
-                <span style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  padding: '8px 18px', borderRadius: '999px',
-                  border: '1px solid rgba(173,201,5,0.3)',
-                  background: 'rgba(173,201,5,0.08)',
-                  color: 'rgba(255,255,255,0.75)', fontSize: '13px',
-                  fontFamily: "'Inter', sans-serif", whiteSpace: 'nowrap',
-                  transition: 'all 0.2s',
-                }}>
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#adc905" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="9 18 15 12 9 6"/>
-                  </svg>
-                  {loc.label}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <LeadForm />
     </>

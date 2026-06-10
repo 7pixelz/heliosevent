@@ -34,7 +34,7 @@ export default function Services({ mainServices }: { mainServices?: ServiceItem[
 
       <div className="svc-grid">
         {main.map((svc, i) => (
-          <Link key={svc.id} href={`/services/${svc.slug}`} style={{ textDecoration: 'none' }}>
+          <Link key={svc.id} href={svc.name.toLowerCase().includes('wedding') ? 'https://www.nakshatrawedding.com/' : `/services/${svc.slug}`} target={svc.name.toLowerCase().includes('wedding') ? '_blank' : undefined} rel={svc.name.toLowerCase().includes('wedding') ? 'noopener noreferrer' : undefined} style={{ textDecoration: 'none' }}>
             <div className={`svc-card ${colorClasses[i % colorClasses.length]} fade-up`} style={{ transitionDelay: `${(i % 4) * 0.07}s`, cursor: 'pointer' }}>
               <div className="svc-bg"></div>
               <div className="svc-icon">{svc.icon}</div>

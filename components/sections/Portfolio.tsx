@@ -38,10 +38,7 @@ export default function Portfolio({ events: propEvents }: { events?: PortfolioEv
             className="port-card fade-up"
           >
             <div className="port-img">
-              <div
-                className="port-img-inner"
-                style={{ position: 'relative', background: '#1a1f2e' }}
-              >
+              <div className="port-img-inner" style={{ position: 'relative', background: '#1a1f2e' }}>
                 {ev.coverImageUrl && (
                   <Image
                     src={ev.coverImageUrl}
@@ -58,14 +55,10 @@ export default function Portfolio({ events: propEvents }: { events?: PortfolioEv
             </div>
             <div className="port-body">
               <div className="port-tags">
-                <span className="port-tag">
-                  {CAT_LABELS[ev.category] || ev.category}
-                </span>
+                <span className="port-tag">{CAT_LABELS[ev.category] || ev.category}</span>
               </div>
               <div className="port-name">{ev.title}</div>
-              {ev.clientName && (
-                <div className="port-sub">{ev.clientName}</div>
-              )}
+              {ev.clientName && <div className="port-sub">{ev.clientName}</div>}
               <div className="port-arrow">View Project →</div>
             </div>
           </Link>
