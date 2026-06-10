@@ -44,27 +44,18 @@ export default function FeedbackPage() {
   const [step, setStep] = useState(0);
   const [ratings, setRatings] = useState({ service: 0, timeline: 0, appreciation: 0, referral: 0 });
   const [hovered, setHovered] = useState(0);
-  const [experience, setExperience] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  function copyMessage() {
-    navigator.clipboard.writeText(experience).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    });
-  }
 
   const currentStep = STEPS[step];
   const isStory = step === 4;
   const currentRating = ratings[currentStep.key as keyof typeof ratings] ?? 0;
   const displayStars = isStory ? 0 : (hovered || currentRating);
 
-  const canNext = isStory ? experience.trim().length > 0 && name.trim().length > 0 : currentRating > 0;
+  const canNext = isStory ? name.trim().length > 0 : currentRating > 0;
 
   async function handleSubmit() {
     setSubmitting(true);
@@ -73,7 +64,7 @@ export default function FeedbackPage() {
       const res = await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...ratings, experience, name, email }),
+        body: JSON.stringify({ ...ratings, name, email }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -200,23 +191,6 @@ export default function FeedbackPage() {
           {/* Story Step */}
           {isStory && (
             <div style={{ textAlign: 'left' }}>
-              <textarea
-                value={experience}
-                onChange={e => setExperience(e.target.value)}
-                placeholder="Tell us what made your event special, or how we can serve you even better..."
-                rows={5}
-                style={{ width: '100%', background: '#0a0c12', border: '1px solid #1e2640', borderRadius: '12px', padding: '16px', color: '#fff', fontFamily: "'Inter', sans-serif", fontSize: '14px', lineHeight: 1.7, resize: 'vertical', outline: 'none', boxSizing: 'border-box', marginBottom: '10px' }}
-              />
-              {experience.trim().length > 0 && (
-                <button
-                  type="button"
-                  onClick={copyMessage}
-                  style={{ display: 'flex', alignItems: 'center', gap: '6px', background: copied ? 'rgba(180,230,0,0.15)' : 'rgba(255,255,255,0.06)', border: `1px solid ${copied ? ACCENT : 'rgba(255,255,255,0.12)'}`, borderRadius: '8px', padding: '7px 14px', color: copied ? ACCENT : 'rgba(255,255,255,0.55)', fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 600, cursor: 'pointer', marginBottom: '14px', transition: 'all 0.2s' }}
-                >
-                  {copied ? '✓ Copied!' : '⎘ Copy message'}
-                  {!copied && <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>— paste it in Google Review</span>}
-                </button>
-              )}
               <div className="fb-name-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '8px' }}>
                 <div>
                   <input

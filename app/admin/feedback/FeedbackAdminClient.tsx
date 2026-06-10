@@ -50,8 +50,7 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
     const q = search.toLowerCase();
     return (
       e.name?.toLowerCase().includes(q) ||
-      e.email?.toLowerCase().includes(q) ||
-      e.experience?.toLowerCase().includes(q)
+      e.email?.toLowerCase().includes(q)
     );
   });
 
@@ -100,7 +99,7 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
       <input
         value={search}
         onChange={e => setSearch(e.target.value)}
-        placeholder="Search by name, email or story…"
+        placeholder="Search by name or email…"
         style={{
           width: '100%', maxWidth: '380px', padding: '10px 16px', borderRadius: '10px',
           border: '1px solid #e5e7eb', fontSize: '13px', fontFamily: "'Inter',sans-serif",
@@ -152,11 +151,6 @@ export default function FeedbackAdminClient({ entries }: { entries: FeedbackEntr
                       ))}
                     </div>
 
-                    {entry.experience && (
-                      <div style={{ fontSize: '13px', color: '#444', fontFamily: "'Inter',sans-serif", lineHeight: 1.7, background: '#f9fafb', borderRadius: '8px', padding: '12px 14px', borderLeft: `3px solid ${ACCENT}` }}>
-                        "{entry.experience}"
-                      </div>
-                    )}
                   </div>
 
                   {/* Right */}
