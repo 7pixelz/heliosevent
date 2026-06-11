@@ -53,6 +53,7 @@ export default async function Home() {
       prisma.youtubeVideo.findMany({
         where: { isActive: true, showOnHome: true },
         orderBy: { displayOrder: 'asc' },
+        take: 8,
         select: { id: true, youtubeId: true, title: true },
       }),
     ]);
@@ -68,7 +69,7 @@ export default async function Home() {
       <Services mainServices={mainServices} />
       <Stats />
       <Testimonials />
-      <VideoGrid videos={homeVideos} />
+      <VideoGrid videos={homeVideos} showViewAll />
       {/* <Pricing /> */}
       <CtaBanner />
       <Locations />

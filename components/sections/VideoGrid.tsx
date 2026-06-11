@@ -11,9 +11,10 @@ interface Video {
 interface Props {
   videos: Video[];
   heading?: string;
+  showViewAll?: boolean;
 }
 
-export default function VideoGrid({ videos, heading = 'Our Videos' }: Props) {
+export default function VideoGrid({ videos, heading = 'Our Videos', showViewAll = false }: Props) {
   const [playing, setPlaying] = useState<string | null>(null);
 
   if (videos.length === 0) return null;
@@ -37,6 +38,8 @@ export default function VideoGrid({ videos, heading = 'Our Videos' }: Props) {
         .vg-iframe-wrap { position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; background: #000; }
         .vg-iframe-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
         .vg-modal-close { position: absolute; top: -44px; right: 0; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; line-height: 1; }
+        .vg-viewall-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: transparent; border: 2px solid #adc905; border-radius: 8px; color: #adc905; font-size: 14px; font-weight: 700; text-decoration: none; font-family: 'Inter', sans-serif; transition: background 0.2s, color 0.2s; }
+        .vg-viewall-btn:hover { background: #adc905; color: #000; }
       `}</style>
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
@@ -66,9 +69,17 @@ export default function VideoGrid({ videos, heading = 'Our Videos' }: Props) {
             </div>
           ))}
         </div>
+
+        {showViewAll && (
+          <div style={{ textAlign: 'center', marginTop: '40px' }}>
+            <a href="/videos" className="vg-viewall-btn">
+              View All Videos
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        )}
       </div>
 
-      {/* Lightbox */}
       {playing && (
         <div className="vg-modal-backdrop" onClick={() => setPlaying(null)}>
           <div className="vg-modal-inner" onClick={e => e.stopPropagation()}>
