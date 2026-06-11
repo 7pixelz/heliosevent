@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 import CountryPicker from '../CountryPicker';
@@ -63,11 +64,11 @@ const lbl: React.CSSProperties = {
 
 function LeadFormInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const router = useRouter();
   const [form, setForm] = useState(init);
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<string, boolean>>>({});
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
   function set(field: string, val: string) {
@@ -110,7 +111,7 @@ function LeadFormInner() {
       });
       const data = await res.json();
       if (!res.ok) { setSubmitError(data.error || 'Something went wrong.'); return; }
-      setSuccess(true);
+      router.push('/thankyou');
       setForm(init); setErrors({}); setTouched({});
     } catch {
       setSubmitError('Network error. Please try again.');
@@ -149,23 +150,7 @@ function LeadFormInner() {
           </p>
         </div>
 
-        {success ? (
-          <div style={{ textAlign: 'center', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', padding: '56px 24px' }}>
-            <div style={{ width: '64px', height: '64px', background: 'rgba(34,197,94,0.12)', border: '2px solid #22c55e', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#fff', marginBottom: '10px' }}>Enquiry Sent!</h3>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', fontFamily: "'Inter',sans-serif", lineHeight: 1.7, margin: '0 0 28px' }}>
-              Our team will review your requirements and reach out within 24 hours.
-            </p>
-            <button onClick={() => setSuccess(false)} style={{ padding: '11px 28px', background: 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
-              Submit Another
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit} noValidate>
             <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '32px' }}>
 
               {/* Required fields */}
@@ -308,7 +293,6 @@ function LeadFormInner() {
               </p>
             </div>
           </form>
-        )}
       </div>
     </section>
   );

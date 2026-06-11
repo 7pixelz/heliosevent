@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 import CountryPicker from '../../../components/CountryPicker';
@@ -110,11 +111,11 @@ function inputStyle(hasError: boolean): React.CSSProperties {
 
 function GetQuoteClientInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const router = useRouter();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Partial<Record<string, boolean>>>({});
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
   function set(field: string, value: string) {
@@ -159,7 +160,7 @@ function GetQuoteClientInner() {
       });
       const data = await res.json();
       if (!res.ok) { setSubmitError(data.error || 'Something went wrong.'); return; }
-      setSuccess(true);
+      router.push('/thankyou');
       setForm(initialForm); setErrors({}); setTouched({});
     } catch {
       setSubmitError('Network error. Please try again.');
@@ -282,26 +283,7 @@ function GetQuoteClientInner() {
             <div style={{ height: '4px', background: 'linear-gradient(90deg,#adc905,#ff6a00)' }} />
             <div style={{ padding: '36px 36px' }}>
 
-              {success ? (
-                <div style={{ textAlign: 'center', padding: '60px 0' }}>
-                  <div style={{ width: '72px', height: '72px', background: '#f0fdf4', border: '2px solid #22c55e', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '24px', color: '#111', marginBottom: '10px' }}>Quote Request Sent!</h3>
-                  <p style={{ fontSize: '15px', color: '#6b7280', fontFamily: "'Inter',sans-serif", lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 12px' }}>
-                    Thank you! Our team will review your requirements and send you a personalised proposal within 24 hours.
-                  </p>
-                  <p style={{ fontSize: '13px', color: '#aaa', fontFamily: "'Inter',sans-serif", marginBottom: '32px' }}>
-                    Check your inbox at <strong style={{ color: '#555' }}>{form.email || 'your email'}</strong>
-                  </p>
-                  <button onClick={() => setSuccess(false)} style={{ padding: '12px 32px', background: 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter',sans-serif", boxShadow: '0 4px 16px rgba(255,106,0,0.3)' }}>
-                    Submit Another Request
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} noValidate>
+              <form onSubmit={handleSubmit} noValidate>
                   <div style={{ marginBottom: '28px' }}>
                     <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#111', margin: '0 0 6px' }}>Fill Form To Connect With Us</h2>
                     <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
@@ -436,7 +418,6 @@ function GetQuoteClientInner() {
                     <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Terms of Service</a>
                   </p>
                 </form>
-              )}
 
             </div>
           </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 import CountryPicker from '../CountryPicker';
@@ -72,6 +73,7 @@ function inputStyle(hasError: boolean): React.CSSProperties {
 
 function ContactFormInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const router = useRouter();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Partial<Record<string, boolean>>>({});
@@ -127,7 +129,7 @@ function ContactFormInner() {
       });
       const data = await res.json();
       if (!res.ok) { setSubmitError(data.error || 'Something went wrong.'); return; }
-      setSuccess(true);
+      router.push('/thankyou');
       setForm(initialForm);
       setErrors({});
       setTouched({});
@@ -218,21 +220,7 @@ function ContactFormInner() {
         <div className="cf-form-box">
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg,#adc905,#ff6a00)' }} />
 
-          {success ? (
-            <div style={{ textAlign: 'center', padding: '40px 0' }}>
-              <div style={{ width: '64px', height: '64px', background: '#f0fdf4', border: '2px solid #22c55e', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: '22px', color: '#111', marginBottom: '8px' }}>Enquiry Submitted!</h3>
-              <p style={{ fontSize: '14px', color: '#6b7280', fontFamily: "'Inter',sans-serif" }}>We'll get back to you within 24 hours.</p>
-              <button onClick={() => setSuccess(false)} style={{ marginTop: '24px', padding: '10px 24px', background: '#adc905', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
-                Submit Another
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmit} noValidate>
               <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: '20px', color: '#111', marginBottom: '4px' }}>Fill Form To Connect With Us</h3>
               <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", marginBottom: '24px' }}>Fields marked * are required.</p>
 
@@ -363,7 +351,6 @@ function ContactFormInner() {
                 <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Terms of Service</a>
               </p>
             </form>
-          )}
         </div>
       </div>
     </section>
