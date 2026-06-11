@@ -49,6 +49,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { id } = await params;
-  await prisma.quote.delete({ where: { id } });
+  await prisma.quote.update({ where: { id }, data: { isArchived: true } });
   return NextResponse.json({ ok: true });
 }

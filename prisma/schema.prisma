@@ -186,6 +186,7 @@ model Quote {
   status                 QuoteStatus @default(NEW)
   contactedAt            DateTime?
   notes                  String?
+  isArchived             Boolean     @default(false)
   createdAt              DateTime    @default(now())
   updatedAt              DateTime    @updatedAt
 }

@@ -12,7 +12,7 @@ export default async function EnquiriesPage({
   const statusFilter = params.status?.toUpperCase();
   const search = params.q?.trim();
 
-  const where: Record<string, unknown> = {};
+  const where: Record<string, unknown> = { isArchived: false };
   if (statusFilter && ['NEW', 'CONTACTED', 'CLOSED'].includes(statusFilter)) {
     where.status = statusFilter;
   }
@@ -26,7 +26,7 @@ export default async function EnquiriesPage({
 
   const [quotes, counts] = await Promise.all([
     prisma.quote.findMany({ where, orderBy: { createdAt: 'desc' } }),
-    prisma.quote.groupBy({ by: ['status'], _count: { _all: true } }),
+    prisma.quote.groupBy({ by: ['status'], where: { isArchived: false }, _count: { _all: true } }),
   ]);
 
   const statusCounts = { NEW: 0, CONTACTED: 0, CLOSED: 0, ALL: 0 };
