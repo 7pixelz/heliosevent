@@ -26,9 +26,10 @@ export default async function Home() {
   let mainServices: { id: string; icon: string; name: string; slug: string; description: string }[] = [];
   let portfolioEvents: { id: string; title: string; slug: string; category: string; clientName: string | null; coverImageUrl: string | null }[] = [];
   let homeVideos: { id: string; youtubeId: string; title: string }[] = [];
+  let totalVideoCount = 0;
 
   try {
-    [slides, logos, mainServices, portfolioEvents, homeVideos] = await Promise.all([
+    [slides, logos, mainServices, portfolioEvents, homeVideos, totalVideoCount] = await Promise.all([
       prisma.heroSlide.findMany({
         where: { isActive: true },
         orderBy: { displayOrder: 'asc' },
@@ -56,6 +57,7 @@ export default async function Home() {
         take: 8,
         select: { id: true, youtubeId: true, title: true },
       }),
+      prisma.youtubeVideo.count({ where: { isActive: true, showOnHome: true } }),
     ]);
   } catch {
     // DB unavailable — components use their own fallback data
@@ -69,7 +71,7 @@ export default async function Home() {
       <Services mainServices={mainServices} />
       <Stats />
       <Testimonials />
-      <VideoGrid videos={homeVideos} showViewAll />
+      <VideoGrid videos={homeVideos} showViewAll={totalVideoCount > 8} />
       {/* <Pricing /> */}
       <CtaBanner />
       <Locations />
