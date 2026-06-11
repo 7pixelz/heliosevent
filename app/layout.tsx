@@ -30,9 +30,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <body className={`${poppins.variable} ${inter.variable}`} suppressHydrationWarning>
+        {children}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-97N68GER4R"
           strategy="afterInteractive"
@@ -45,9 +44,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'G-97N68GER4R');
           `}
         </Script>
-      </head>
-      <body className={`${poppins.variable} ${inter.variable}`} suppressHydrationWarning>
-        {children}
       </body>
     </html>
   );

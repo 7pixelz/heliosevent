@@ -10,6 +10,7 @@ import Testimonials from '../../components/sections/Testimonials';
 import CtaBanner from '../../components/sections/CtaBanner';
 import Locations from '../../components/sections/LocationsClient';
 import LeadForm from '../../components/sections/LeadForm';
+import VideoGrid from '../../components/sections/VideoGrid';
 import { prisma } from '../../lib/prisma';
 import { getPageSeo, buildMeta } from '../../lib/seo';
 import type { Metadata } from 'next';
@@ -24,9 +25,10 @@ export default async function Home() {
   let logos: { id: string; name: string; imageUrl: string }[] = [];
   let mainServices: { id: string; icon: string; name: string; slug: string; description: string }[] = [];
   let portfolioEvents: { id: string; title: string; slug: string; category: string; clientName: string | null; coverImageUrl: string | null }[] = [];
+  let homeVideos: { id: string; youtubeId: string; title: string }[] = [];
 
   try {
-    [slides, logos, mainServices, portfolioEvents] = await Promise.all([
+    [slides, logos, mainServices, portfolioEvents, homeVideos] = await Promise.all([
       prisma.heroSlide.findMany({
         where: { isActive: true },
         orderBy: { displayOrder: 'asc' },
@@ -48,6 +50,11 @@ export default async function Home() {
         take: 4,
         select: { id: true, title: true, slug: true, category: true, clientName: true, coverImageUrl: true },
       }),
+      prisma.youtubeVideo.findMany({
+        where: { isActive: true, showOnHome: true },
+        orderBy: { displayOrder: 'asc' },
+        select: { id: true, youtubeId: true, title: true },
+      }),
     ]);
   } catch {
     // DB unavailable — components use their own fallback data
@@ -61,6 +68,7 @@ export default async function Home() {
       <Services mainServices={mainServices} />
       <Stats />
       <Testimonials />
+      <VideoGrid videos={homeVideos} />
       {/* <Pricing /> */}
       <CtaBanner />
       <Locations />

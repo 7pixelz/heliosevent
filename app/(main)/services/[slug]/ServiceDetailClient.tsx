@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 const LeadForm = dynamic(() => import('../../../../components/sections/LeadForm'), { ssr: false });
+import VideoGrid from '../../../../components/sections/VideoGrid';
 import { highlightExp } from '../../../../lib/highlight';
 
 interface SignatureEvent { icon: string; title: string; desc: string }
@@ -24,6 +25,12 @@ interface ServiceDetail {
   faqs: string | null;
   coverImageUrl: string | null;
   type: string;
+}
+
+interface VideoItem {
+  id: string;
+  youtubeId: string;
+  title: string;
 }
 
 function parseJSON<T>(val: string | null | undefined, fallback: T): T {
@@ -83,7 +90,7 @@ function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
   );
 }
 
-export default function ServiceDetailPage({ service }: { service: ServiceDetail }) {
+export default function ServiceDetailPage({ service, videos = [] }: { service: ServiceDetail; videos?: VideoItem[] }) {
   const sigEvents = parseJSON<SignatureEvent[]>(service.signatureEvents, []);
   const diffs = parseJSON<Differentiator[]>(service.differentiators, []);
   const faqs = parseJSON<FAQ[]>(service.faqs, []);
@@ -450,6 +457,7 @@ export default function ServiceDetailPage({ service }: { service: ServiceDetail 
       </section>
 
 
+      <VideoGrid videos={videos} heading={`${service.name} – Videos`} />
       <LeadForm />
     </>
   );

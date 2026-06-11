@@ -190,6 +190,18 @@ model Quote {
   updatedAt              DateTime    @updatedAt
 }
 
+model YoutubeVideo {
+  id           String   @id @default(cuid())
+  youtubeId    String
+  title        String
+  serviceSlug  String?
+  showOnHome   Boolean  @default(true)
+  displayOrder Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
 model ClientFeedback {
   id           String   @id @default(cuid())
   service      Int

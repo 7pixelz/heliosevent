@@ -11,12 +11,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const svc = await prisma.service.findUnique({
       where: { slug },
-      select: { name: true, description: true, coverImageUrl: true },
+      select: { name: true, description: true, coverImageUrl: true, metaTitle: true, metaDescription: true, metaKeywords: true },
     });
     if (!svc) return {};
     return buildMeta({
-      title: `${svc.name} | Helios Event Productions`,
-      description: svc.description,
+      title: svc.metaTitle || `${svc.name} | Helios Event Productions`,
+      description: svc.metaDescription || svc.description,
+      keywords: svc.metaKeywords,
       path: `/services/${slug}`,
       image: svc.coverImageUrl,
     });
@@ -27,7 +28,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-  const service = await prisma.service.findUnique({ where: { slug } });
+  const [service, videos] = await Promise.all([
+    prisma.service.findUnique({ where: { slug } }),
+    prisma.youtubeVideo.findMany({
+      where: { isActive: true, serviceSlug: slug },
+      orderBy: { displayOrder: 'asc' },
+      select: { id: true, youtubeId: true, title: true },
+    }),
+  ]);
   if (!service) notFound();
-  return <ServiceDetailClient service={service} />;
+  return <ServiceDetailClient service={service} videos={videos} />;
 }
