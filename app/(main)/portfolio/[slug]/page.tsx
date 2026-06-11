@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { prisma } from '../../../../lib/prisma';
 import { buildMeta } from '../../../../lib/seo';
+
+export const revalidate = 3600;
 import PortfolioEventClient from './PortfolioEventClient';
 
 interface Props { params: Promise<{ slug: string }> }

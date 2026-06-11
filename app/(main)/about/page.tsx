@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getPageSeo, buildMeta } from '../../../lib/seo';
+
+export const revalidate = 3600;
 import LeadForm from '../../../components/sections/LeadForm';
 import TeamGallery from './TeamGallery';
 

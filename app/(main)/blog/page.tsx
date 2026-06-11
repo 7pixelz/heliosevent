@@ -2,6 +2,8 @@ import { prisma } from '../../../lib/prisma';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
+export const revalidate = 3600;
+
 import { getPageSeo, buildMeta } from '../../../lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {

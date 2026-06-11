@@ -1,6 +1,8 @@
 import { prisma } from '../../../../lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+
+export const revalidate = 3600;
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';

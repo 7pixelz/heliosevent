@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { prisma } from '../../../lib/prisma';
 import { getPageSeo, buildMeta } from '../../../lib/seo';
+
+export const revalidate = 3600;
 import type { Metadata } from 'next';
 import LeadForm from '../../../components/sections/LeadForm';
 import { highlightExp } from '../../../lib/highlight';

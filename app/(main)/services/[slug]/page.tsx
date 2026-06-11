@@ -4,6 +4,8 @@ import { prisma } from '../../../../lib/prisma';
 import { buildMeta } from '../../../../lib/seo';
 import ServiceDetailClient from './ServiceDetailClient';
 
+export const revalidate = 3600;
+
 interface Props { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
