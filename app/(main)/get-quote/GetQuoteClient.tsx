@@ -204,10 +204,10 @@ function GetQuoteClientInner() {
           </div>
           <h1 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(30px,5vw,54px)', color: '#fff', lineHeight: 1.15, margin: '0 0 18px' }}>
             Plan Your Event With<br />
-            <span style={{ background: 'linear-gradient(90deg,#ff6a00,#ffaa00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Helios Event Productions</span>
+            <span style={{ color: '#adc905' }}>Helios Event Productions</span>
           </h1>
           <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', fontFamily: "'Inter',sans-serif", lineHeight: 1.75, margin: 0 }}>
-            Fill in your event details below and our team will craft a personalised proposal for you within 24 hours — completely free.
+            Fill in your event details below and our team will craft a personalised proposal for you <strong style={{ color: '#adc905', fontWeight: 700 }}>within 24 hours</strong> — <strong style={{ color: '#adc905', fontWeight: 700 }}>completely free</strong>.
           </p>
         </div>
       </div>
@@ -246,15 +246,15 @@ function GetQuoteClientInner() {
                 ))}
               </div>
               <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', fontFamily: "'Inter',sans-serif", lineHeight: 1.7, margin: '0 0 16px', fontStyle: 'italic' }}>
-                "Helios transformed our annual conference into an experience our teams still talk about. The attention to detail was extraordinary."
+                "Thanks for all your support for the huge success of the South hub event. Everyone appreciated the stage setup and the evening lawn setup. Feedback from the participants about the event is really good, thank you once again."
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg,#adc905,#ff6a00)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '14px', color: '#fff', fontFamily: "'Inter',sans-serif", flexShrink: 0 }}>
-                  R
+                  C
                 </div>
                 <div>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#fff', fontFamily: "'Inter',sans-serif" }}>Rajesh Kumar</div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter',sans-serif" }}>HR Director, TechCorp India</div>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#fff', fontFamily: "'Inter',sans-serif" }}>Mr. Christopher</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter',sans-serif" }}>Marcom Head, Airtel</div>
                 </div>
               </div>
             </div>
@@ -285,7 +285,7 @@ function GetQuoteClientInner() {
 
               <form onSubmit={handleSubmit} noValidate>
                   <div style={{ marginBottom: '28px' }}>
-                    <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#111', margin: '0 0 6px' }}>Fill Form To Connect With Us</h2>
+                    <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#111', margin: '0 0 6px' }}>Free Event Budget Consultation</h2>
                     <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
                   </div>
 
@@ -408,7 +408,7 @@ function GetQuoteClientInner() {
                         </svg>
                         Submitting…
                       </>
-                    ) : 'Send My Enquiry →'}
+                    ) : 'Get Free Quote →'}
                   </button>
 
                   <p style={{ fontSize: '11px', color: '#bbb', textAlign: 'center', marginTop: '12px', fontFamily: "'Inter',sans-serif" }}>

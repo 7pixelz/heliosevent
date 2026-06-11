@@ -221,7 +221,7 @@ function ContactFormInner() {
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg,#adc905,#ff6a00)' }} />
 
           <form onSubmit={handleSubmit} noValidate>
-              <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: '20px', color: '#111', marginBottom: '4px' }}>Fill Form To Connect With Us</h3>
+              <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: '20px', color: '#111', marginBottom: '4px' }}>Free Event Budget Consultation</h3>
               <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", marginBottom: '24px' }}>Fields marked * are required.</p>
 
               {/* Row 1 */}
@@ -342,7 +342,7 @@ function ContactFormInner() {
                     </svg>
                     Submitting…
                   </>
-                ) : 'Send My Enquiry →'}
+                ) : 'Get Free Consultation →'}
               </button>
               <p style={{ fontSize: '11px', color: '#bbb', textAlign: 'center', marginTop: '10px', fontFamily: "'Inter',sans-serif", lineHeight: 1.6 }}>
                 Protected by reCAPTCHA —{' '}
