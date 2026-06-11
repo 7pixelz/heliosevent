@@ -30,6 +30,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const BASE_URL = 'https://www.heliosevent.in';
 
+const SERVICE_SCHEMA: Record<string, object> = {
+  'corporate-event-management-in-chennai': {
+    '@context': 'https://schema.org/',
+    '@type': 'Article',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/services/corporate-event-management-in-chennai` },
+    headline: 'Corporate Event Management Company in Chennai',
+    description: 'Looking for corporate event organisers? Helios Event provide complete corporate event planning services for product launches, conferences, and business events.',
+    image: { '@type': 'ImageObject', url: '', width: '', height: '' },
+    author: { '@type': 'Organization', name: 'Heliosevent' },
+    publisher: { '@type': 'Organization', name: 'Heliosevent', logo: { '@type': 'ImageObject', url: '', width: '', height: '' } },
+    datePublished: '2026-06-11',
+  },
+  'government-events-planner-in-chennai': {
+    '@context': 'https://schema.org/',
+    '@type': 'BlogPosting',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/services/government-events-planner-in-chennai` },
+    headline: 'Government & Protocol Events Management Company in Chennai',
+    description: 'Helios Event is a leading government event management company in India offering professional protocol management, official ceremony planning, VIP coordination, and government summit organizing services.',
+    image: { '@type': 'ImageObject', url: '', width: '', height: '' },
+    author: { '@type': 'Organization', name: 'Heliosevent' },
+    publisher: { '@type': 'Organization', name: 'Heliosevent', logo: { '@type': 'ImageObject', url: '', width: '', height: '' } },
+    datePublished: '2026-06-11',
+    dateModified: '2026-06-11',
+  },
+  'sports-event-management-company-in-chennai': {
+    '@context': 'https://schema.org/',
+    '@type': 'BlogPosting',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/services/sports-event-management-company-in-chennai` },
+    headline: 'Sports Events Management in Chennai',
+    description: 'Choose a professional sports event management company in Chennai for strategic planning, event coordination, sponsorship management, and successful sporting event execution.',
+    image: { '@type': 'ImageObject', url: '', width: '', height: '' },
+    author: { '@type': 'Organization', name: 'HelioEvents' },
+    publisher: { '@type': 'Organization', name: 'HelioEvents', logo: { '@type': 'ImageObject', url: '', width: '', height: '' } },
+    datePublished: '2026-06-11',
+    dateModified: '2026-06-11',
+  },
+};
+
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
   const [service, videos] = await Promise.all([
@@ -42,41 +80,16 @@ export default async function ServiceDetailPage({ params }: Props) {
   ]);
   if (!service) notFound();
 
-  const jsonLd = {
-    '@context': 'https://schema.org/',
-    '@type': 'Article',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `${BASE_URL}/services/${slug}`,
-    },
-    headline: service.metaTitle || service.name,
-    description: service.metaDescription || service.description,
-    image: service.coverImageUrl ? {
-      '@type': 'ImageObject',
-      url: service.coverImageUrl,
-    } : undefined,
-    author: {
-      '@type': 'Organization',
-      name: 'Helios Event Productions',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Helios Event Productions',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${BASE_URL}/assets/heliosevent_logo_white.webp`,
-      },
-    },
-    datePublished: service.createdAt.toISOString().split('T')[0],
-    dateModified: service.updatedAt.toISOString().split('T')[0],
-  };
+  const jsonLd = SERVICE_SCHEMA[slug];
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       <ServiceDetailClient service={service} videos={videos} />
     </>
   );
