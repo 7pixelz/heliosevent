@@ -124,7 +124,7 @@ export async function sendEnquiryNotification(data: EnquiryData) {
       </p>
 
       <div style="background:#f9fafb;border-radius:10px;padding:20px 24px;margin-bottom:28px">
-        <div style="font-size:13px;color:#555;margin-bottom:8px">📞 <strong>+91 7401 030 000</strong></div>
+        <div style="font-size:13px;color:#555;margin-bottom:8px">📞 <strong>+91 74010 30000</strong></div>
         <div style="font-size:13px;color:#555;margin-bottom:8px">✉️ <strong>plan@heliosevent.net</strong></div>
         <div style="font-size:13px;color:#555">📍 28, Judge Jambulingam Road, Mylapore, Chennai – 600 004</div>
       </div>

@@ -265,7 +265,7 @@ function GetQuoteClientInner() {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff6a00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 5.29 5.29l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-                <span style={{ fontSize: '14px', fontWeight: 700, color: '#111', fontFamily: "'Inter',sans-serif" }}>+91 7401 030 000</span>
+                <span style={{ fontSize: '14px', fontWeight: 700, color: '#111', fontFamily: "'Inter',sans-serif" }}>+91 74010 30000</span>
               </a>
               <a href="mailto:plan@heliosevent.net" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#adc905" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -192,7 +192,7 @@ function ContactPageClientInner() {
             </div>
             <div>
               <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#ff6a00', fontFamily: "'Inter',sans-serif", marginBottom: '6px' }}>Call & Email</div>
-              <a href="tel:+917401030000" style={{ display: 'block', fontSize: '14px', color: '#111', fontFamily: "'Inter',sans-serif", fontWeight: 700, textDecoration: 'none', marginBottom: '4px' }}>+91 7401 030 000</a>
+              <a href="tel:+917401030000" style={{ display: 'block', fontSize: '14px', color: '#111', fontFamily: "'Inter',sans-serif", fontWeight: 700, textDecoration: 'none', marginBottom: '4px' }}>+91 74010 30000</a>
               <a href="mailto:plan@heliosevent.net" style={{ fontSize: '13px', color: '#555', fontFamily: "'Inter',sans-serif", textDecoration: 'none' }}>plan@heliosevent.net</a>
             </div>
           </div>
@@ -266,7 +266,7 @@ function ContactPageClientInner() {
                 </div>
                 <div>
                   <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter',sans-serif", letterSpacing: '1px', textTransform: 'uppercase' }}>Call Us</div>
-                  <div style={{ fontSize: '14px', color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700 }}>+91 7401 030 000</div>
+                  <div style={{ fontSize: '14px', color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700 }}>+91 74010 30000</div>
                 </div>
               </a>
               <a href="mailto:plan@heliosevent.net" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)' }}>

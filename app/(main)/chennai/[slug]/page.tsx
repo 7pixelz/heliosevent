@@ -488,7 +488,7 @@ export default async function LocationPage({ params }: Props) {
             Get a Free Quote
           </Link>
           <a href="tel:+917401030000" style={{ padding: '14px 36px', background: 'rgba(0,0,0,0.15)', color: '#0d1117', fontWeight: 700, borderRadius: '8px', textDecoration: 'none', fontSize: '15px', fontFamily: "'Inter', sans-serif" }}>
-            +91 7401 030 000
+            +91 74010 30000
           </a>
         </div>
       </div>

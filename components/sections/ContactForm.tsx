@@ -7,7 +7,7 @@ import CountryPicker from '../CountryPicker';
 
 const contactInfo = [
   { icon: '📍', label: 'Location', val: '28, Judge Jambulingam Road, Mylapore, Chennai – 600 004' },
-  { icon: '📞', label: 'Phone', val: '+91 7401 030 000' },
+  { icon: '📞', label: 'Phone', val: '+91 74010 30000' },
   { icon: '✉️', label: 'Email', val: 'plan@heliosevent.net' },
 ];
 
