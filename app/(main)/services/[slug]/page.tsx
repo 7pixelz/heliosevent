@@ -28,6 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+const BASE_URL = 'https://www.heliosevent.in';
+
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
   const [service, videos] = await Promise.all([
@@ -39,5 +41,43 @@ export default async function ServiceDetailPage({ params }: Props) {
     }),
   ]);
   if (!service) notFound();
-  return <ServiceDetailClient service={service} videos={videos} />;
+
+  const jsonLd = {
+    '@context': 'https://schema.org/',
+    '@type': 'Article',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${BASE_URL}/services/${slug}`,
+    },
+    headline: service.metaTitle || service.name,
+    description: service.metaDescription || service.description,
+    image: service.coverImageUrl ? {
+      '@type': 'ImageObject',
+      url: service.coverImageUrl,
+    } : undefined,
+    author: {
+      '@type': 'Organization',
+      name: 'Helios Event Productions',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Helios Event Productions',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${BASE_URL}/assets/heliosevent_logo_white.webp`,
+      },
+    },
+    datePublished: service.createdAt.toISOString().split('T')[0],
+    dateModified: service.updatedAt.toISOString().split('T')[0],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ServiceDetailClient service={service} videos={videos} />
+    </>
+  );
 }
