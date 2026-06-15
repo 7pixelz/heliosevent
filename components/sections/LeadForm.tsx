@@ -32,35 +32,42 @@ const init = {
   teamSize: '', budget: '', preferredDate: '', howDidYouHear: '',
 };
 
-function inp(hasErr: boolean): React.CSSProperties {
-  return {
-    width: '100%',
-    border: `1px solid ${hasErr ? '#e53e3e' : 'rgba(255,255,255,0.15)'}`,
-    borderRadius: '10px', padding: '11px 14px', fontSize: '13px',
-    fontFamily: "'Inter',sans-serif", color: '#fff', outline: 'none',
-    boxSizing: 'border-box', background: 'rgba(255,255,255,0.07)',
-    boxShadow: hasErr ? '0 0 0 3px rgba(229,62,62,0.15)' : 'none',
-    transition: 'border-color 0.2s',
-  } as React.CSSProperties;
-}
+const labelSt: React.CSSProperties = {
+  display: 'block', fontSize: '10px', fontWeight: 700,
+  letterSpacing: '1.8px', textTransform: 'uppercase',
+  color: 'rgba(0,0,0,0.4)', fontFamily: "'Inter',sans-serif", marginBottom: '6px',
+};
 
-function FieldErr({ msg }: { msg?: string }) {
-  if (!msg) return null;
+function Field({ label, required = false, error, children }: {
+  label: string; required?: boolean; error?: string; children: React.ReactNode;
+}) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ff8c8c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-      </svg>
-      <span style={{ fontSize: '11px', color: '#ff8c8c', fontFamily: "'Inter',sans-serif" }}>{msg}</span>
+    <div>
+      <label style={labelSt}>{label}{required && ' *'}</label>
+      {children}
+      {error && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '5px' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <span style={{ fontSize: '11px', color: '#e53e3e', fontFamily: "'Inter',sans-serif", fontWeight: 500 }}>{error}</span>
+        </div>
+      )}
     </div>
   );
 }
 
-const lbl: React.CSSProperties = {
-  display: 'block', fontSize: '10px', fontWeight: 700,
-  letterSpacing: '1.5px', textTransform: 'uppercase',
-  color: 'rgba(255,255,255,0.45)', fontFamily: "'Inter',sans-serif", marginBottom: '5px',
-};
+function inputStyle(hasError: boolean): React.CSSProperties {
+  return {
+    width: '100%', background: '#fff',
+    border: `1px solid ${hasError ? '#e53e3e' : '#e0e0e0'}`,
+    borderRadius: '10px', padding: '11px 12px', fontSize: '13px',
+    fontFamily: "'Inter',sans-serif", color: '#111', outline: 'none',
+    boxSizing: 'border-box',
+    boxShadow: hasError ? '0 0 0 3px rgba(229,62,62,0.1)' : 'none',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+  };
+}
 
 function LeadFormInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -120,19 +127,16 @@ function LeadFormInner() {
     }
   }
 
-  const e = (f: keyof Errors) => touched[f] ? errors[f] : undefined;
-  const i = (f: keyof Errors) => inp(!!errors[f] && !!touched[f]);
+  const err = (f: keyof Errors) => touched[f] ? errors[f] : undefined;
+  const inpSt = (f: keyof Errors) => inputStyle(!!errors[f] && !!touched[f]);
 
   return (
     <section style={{ background: 'linear-gradient(135deg,#1a1f2e 0%,#0f1318 100%)', padding: '72px 24px' }}>
       <style>{`
-        .lf-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-        .lf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+        .lf-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .lf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
         @media (max-width: 900px) { .lf-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .lf-grid, .lf-grid-2 { grid-template-columns: 1fr; } }
-        .lf-inp::placeholder { color: rgba(255,255,255,0.3) !important; }
-        .lf-inp:focus { border-color: rgba(173,201,5,0.5) !important; }
-        .lf-sel option { background: #1a1f2e; color: #fff; }
       `}</style>
 
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
@@ -150,129 +154,126 @@ function LeadFormInner() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate>
-            <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '32px' }}>
+        {/* White card */}
+        <div style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.15)' }}>
+          <div style={{ height: '4px', background: 'linear-gradient(90deg,#adc905,#ff6a00)' }} />
+          <div style={{ padding: '36px' }}>
+            <form onSubmit={handleSubmit} noValidate>
+              <div style={{ marginBottom: '28px' }}>
+                <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#111', margin: '0 0 6px' }}>Free Event Budget Consultation</h3>
+                <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
+              </div>
 
               {/* Required fields */}
               <div className="lf-grid">
-                <div>
-                  <label htmlFor="lf-name" style={lbl}>Your Name *</label>
-                  <input id="lf-name" className="lf-inp" type="text" placeholder="John Doe" value={form.name}
-                    onChange={ex => set('name', ex.target.value)} onBlur={() => touch('name')}
-                    style={i('name')} />
-                  <FieldErr msg={e('name')} />
-                </div>
-                <div>
-                  <label htmlFor="lf-email" style={lbl}>Email *</label>
-                  <input id="lf-email" className="lf-inp" type="email" placeholder="example@domain.com" value={form.email}
-                    onChange={ex => set('email', ex.target.value)} onBlur={() => touch('email')}
-                    style={i('email')} />
-                  <FieldErr msg={e('email')} />
-                </div>
-                <div>
-                  <label htmlFor="lf-phone" style={lbl}>Phone Number *</label>
+                <Field label="Your Name" required error={err('name')}>
+                  <input type="text" placeholder="John Doe" value={form.name}
+                    onChange={e => set('name', e.target.value)} onBlur={() => touch('name')}
+                    style={inpSt('name')} />
+                </Field>
+                <Field label="Official Email" required error={err('email')}>
+                  <input type="email" placeholder="example@domain.com" value={form.email}
+                    onChange={e => set('email', e.target.value)} onBlur={() => touch('email')}
+                    style={inpSt('email')} />
+                </Field>
+                <Field label="Phone Number" required error={err('phone')}>
                   <div style={{
-                    display: 'flex', alignItems: 'center',
-                    border: `1px solid ${errors.phone && touched.phone ? '#e53e3e' : 'rgba(255,255,255,0.15)'}`,
+                    display: 'flex', alignItems: 'center', background: '#fff',
+                    border: `1px solid ${errors.phone && touched.phone ? '#e53e3e' : '#e0e0e0'}`,
                     borderRadius: '10px', padding: '0 12px', height: '42px',
-                    background: 'rgba(255,255,255,0.07)',
-                    boxShadow: errors.phone && touched.phone ? '0 0 0 3px rgba(229,62,62,0.15)' : 'none',
+                    boxShadow: errors.phone && touched.phone ? '0 0 0 3px rgba(229,62,62,0.1)' : 'none',
+                    transition: 'border-color 0.2s',
                   }}>
                     <CountryPicker onSelect={code => set('phoneCode', code)} />
-                    <input className="lf-inp" type="tel" placeholder="00000 00000" value={form.phone}
-                      onChange={ex => set('phone', ex.target.value.replace(/[^0-9+\s\-()]/g, ''))}
+                    <input type="tel" placeholder="00000 00000" value={form.phone}
+                      onChange={e => set('phone', e.target.value.replace(/[^0-9+\s\-()]/g, ''))}
                       onBlur={() => touch('phone')}
-                      id="lf-phone" style={{ flex: 1, background: 'transparent', border: 'none', color: '#fff', fontSize: '13px', fontFamily: "'Inter',sans-serif", outline: 'none', minWidth: 0, marginLeft: '8px' }} />
+                      style={{ flex: 1, background: 'transparent', border: 'none', color: '#111', fontSize: '13px', fontFamily: "'Inter',sans-serif", outline: 'none', minWidth: 0, marginLeft: '8px' }} />
                   </div>
-                  <FieldErr msg={e('phone')} />
-                </div>
+                </Field>
               </div>
 
               <div className="lf-grid">
-                <div>
-                  <label htmlFor="lf-company" style={lbl}>Company Name *</label>
-                  <input id="lf-company" className="lf-inp" type="text" placeholder="Acme Corp" value={form.company}
-                    onChange={ex => set('company', ex.target.value)} onBlur={() => touch('company')}
-                    style={i('company')} />
-                  <FieldErr msg={e('company')} />
-                </div>
-                <div>
-                  <label htmlFor="lf-location" style={lbl}>Location / Venue *</label>
-                  <input id="lf-location" className="lf-inp" type="text" placeholder="Chennai / Bangalore" value={form.location}
-                    onChange={ex => set('location', ex.target.value)} onBlur={() => touch('location')}
-                    style={i('location')} />
-                  <FieldErr msg={e('location')} />
-                </div>
-                <div>
-                  <label htmlFor="lf-event-type" style={lbl}>Type of Event *</label>
-                  <select id="lf-event-type" className="lf-inp lf-sel" value={form.typeOfProgram}
-                    onChange={ex => { set('typeOfProgram', ex.target.value); touch('typeOfProgram'); }}
-                    style={{ ...i('typeOfProgram'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
+                <Field label="Company Name" required error={err('company')}>
+                  <input type="text" placeholder="Acme Corp" value={form.company}
+                    onChange={e => set('company', e.target.value)} onBlur={() => touch('company')}
+                    style={inpSt('company')} />
+                </Field>
+                <Field label="Location / Venue" required error={err('location')}>
+                  <input type="text" placeholder="Chennai / Bangalore" value={form.location}
+                    onChange={e => set('location', e.target.value)} onBlur={() => touch('location')}
+                    style={inpSt('location')} />
+                </Field>
+                <Field label="Type of Event" required error={err('typeOfProgram')}>
+                  <select value={form.typeOfProgram}
+                    onChange={e => { set('typeOfProgram', e.target.value); touch('typeOfProgram'); }}
+                    style={{ ...inpSt('typeOfProgram'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
                     <option value="">Select event type…</option>
                     {EVENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
-                  <FieldErr msg={e('typeOfProgram')} />
-                </div>
+                </Field>
               </div>
 
-              {/* Justification */}
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: 'rgba(173,201,5,0.06)', border: '1px solid rgba(173,201,5,0.15)', borderRadius: '10px', padding: '10px 14px', marginBottom: '20px' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#adc905" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '1px' }}>
+              {/* Info banner */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: 'rgba(173,201,5,0.06)', border: '1px solid rgba(173,201,5,0.2)', borderRadius: '10px', padding: '12px 16px', marginBottom: '24px' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#adc905" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '1px' }}>
                   <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="8" /><line x1="12" y1="12" x2="12" y2="16" />
                 </svg>
-                <p style={{ fontSize: '12px', color: 'rgba(173,201,5,0.9)', fontFamily: "'Inter',sans-serif", lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: '12px', color: '#5a6800', fontFamily: "'Inter',sans-serif", lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
                   The more details you share, the more curated and personalized we can make the package.
                 </p>
               </div>
 
-              {/* Optional */}
+              {/* Optional section */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                <div style={{ height: '1px', flex: 1, background: 'rgba(255,255,255,0.08)' }} />
-                <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap' }}>Optional details</span>
-                <div style={{ height: '1px', flex: 1, background: 'rgba(255,255,255,0.08)' }} />
+                <div style={{ height: '1px', flex: 1, background: '#e8edf2' }} />
+                <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#bbb', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap' }}>Optional details</span>
+                <div style={{ height: '1px', flex: 1, background: '#e8edf2' }} />
               </div>
 
               <div className="lf-grid">
-                <div>
-                  <label htmlFor="lf-team-size" style={lbl}>Team Size</label>
-                  <input id="lf-team-size" className="lf-inp" type="text" placeholder="30 / 50 / 100 / 200+" value={form.teamSize}
-                    onChange={ex => set('teamSize', ex.target.value)} style={inp(false)} />
-                </div>
-                <div>
-                  <label htmlFor="lf-budget" style={lbl}>Budget</label>
-                  <input id="lf-budget" className="lf-inp" type="text" placeholder="₹50K / ₹2L / ₹5L+" value={form.budget}
-                    onChange={ex => set('budget', ex.target.value)} style={inp(false)} />
-                </div>
-                <div>
-                  <label htmlFor="lf-date" style={lbl}>Preferred Date</label>
-                  <input id="lf-date" className="lf-inp" type="date" value={form.preferredDate}
-                    onChange={ex => set('preferredDate', ex.target.value)} style={inp(false)} />
-                </div>
+                <Field label="Team Size">
+                  <input type="text" placeholder="30 / 50 / 100 / 200+" value={form.teamSize}
+                    onChange={e => set('teamSize', e.target.value)}
+                    style={inputStyle(false)} />
+                </Field>
+                <Field label="Budget">
+                  <input type="text" placeholder="₹50K / ₹2L / ₹5L+" value={form.budget}
+                    onChange={e => set('budget', e.target.value)}
+                    style={inputStyle(false)} />
+                </Field>
+                <Field label="Preferred Date">
+                  <input type="date" value={form.preferredDate}
+                    onChange={e => set('preferredDate', e.target.value)}
+                    style={inputStyle(false)} />
+                </Field>
               </div>
 
               <div style={{ marginBottom: '24px' }}>
-                <label htmlFor="lf-hear" style={lbl}>How Did You Hear About Us?</label>
-                <input id="lf-hear" className="lf-inp" type="text" placeholder="Google / LinkedIn / Referral / Word of mouth" value={form.howDidYouHear}
-                  onChange={ex => set('howDidYouHear', ex.target.value)} style={inp(false)} />
+                <Field label="How Did You Hear About Us?">
+                  <input type="text" placeholder="Google / LinkedIn / Referral / Word of mouth" value={form.howDidYouHear}
+                    onChange={e => set('howDidYouHear', e.target.value)}
+                    style={inputStyle(false)} />
+                </Field>
               </div>
 
               {submitError && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(229,62,62,0.08)', border: '1px solid rgba(229,62,62,0.25)', borderRadius: '8px', padding: '10px 14px', marginBottom: '16px' }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(229,62,62,0.05)', border: '1px solid rgba(229,62,62,0.2)', borderRadius: '8px', padding: '12px 14px', marginBottom: '16px' }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
                   </svg>
-                  <span style={{ fontSize: '13px', color: '#ff8c8c', fontFamily: "'Inter',sans-serif" }}>{submitError}</span>
+                  <span style={{ fontSize: '13px', color: '#e53e3e', fontFamily: "'Inter',sans-serif" }}>{submitError}</span>
                 </div>
               )}
 
               <button type="submit" disabled={loading} style={{
                 width: '100%',
-                background: loading ? 'rgba(255,106,0,0.4)' : 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)',
+                background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)',
                 color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700,
                 fontSize: '15px', padding: '16px', border: 'none', borderRadius: '10px',
                 cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '0.5px',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                boxShadow: loading ? 'none' : '0 4px 20px rgba(255,106,0,0.3)',
+                boxShadow: loading ? 'none' : '0 4px 20px rgba(255,106,0,0.35)',
                 transition: 'opacity 0.2s',
               }}>
                 {loading ? (
@@ -282,17 +283,18 @@ function LeadFormInner() {
                     </svg>
                     Submitting…
                   </>
-                ) : 'Get My Free Quote →'}
+                ) : 'Get Free Consultation →'}
               </button>
 
-              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)', textAlign: 'center', marginTop: '12px', fontFamily: "'Inter',sans-serif" }}>
+              <p style={{ fontSize: '11px', color: '#bbb', textAlign: 'center', marginTop: '12px', fontFamily: "'Inter',sans-serif" }}>
                 Protected by reCAPTCHA —{' '}
-                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(173,201,5,0.7)', textDecoration: 'none' }}>Privacy</a>
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Privacy Policy</a>
                 {' & '}
-                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(173,201,5,0.7)', textDecoration: 'none' }}>Terms</a>
+                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Terms of Service</a>
               </p>
-            </div>
-          </form>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   );

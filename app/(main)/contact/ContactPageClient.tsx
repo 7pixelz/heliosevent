@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 import CountryPicker from '../../../components/CountryPicker';
@@ -10,25 +11,31 @@ const FormSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   phone: z.string().min(6, 'Please enter a valid phone number'),
   company: z.string().min(1, 'Company name is required'),
-  location: z.string().min(1, 'Location / venue is required'),
-  teamSize: z.string().min(1, 'Team size is required'),
-  targetAudiences: z.string().min(1, 'Target audience is required'),
-  budget: z.string().min(1, 'Budget is required'),
+  location: z.string().min(1, 'Location is required'),
+  typeOfProgram: z.string().min(1, 'Please select a type of event'),
 });
 
 type FormErrors = Partial<Record<keyof typeof FormSchema.shape, string>>;
 
+const EVENT_TYPES = [
+  'Corporate Events', 'Entertainment Events', 'Exhibitions',
+  'Government Protocol Events', 'Trade Body Association Events',
+  'MICE Events', 'Sports Events', 'Wedding & Social Events',
+  'Team Building', 'Corporate Games', 'Cultural Performances',
+  'Employee Engagement', 'Conferences & Seminars', 'Brand Activations',
+  'Other',
+];
+
 const initialForm = {
   name: '', email: '', phoneCode: '+91', phone: '',
-  company: '', location: '', teamSize: '', targetAudiences: '',
-  preferredDate: '', duration: '', typeOfProgram: '', objectives: '',
-  budget: '', additionalRequirements: '', howDidYouHear: '',
+  company: '', location: '', typeOfProgram: '',
+  teamSize: '', budget: '', preferredDate: '', howDidYouHear: '',
 };
 
 const labelSt: React.CSSProperties = {
   display: 'block', fontSize: '10px', fontWeight: 700,
-  letterSpacing: '1.6px', textTransform: 'uppercase',
-  color: 'rgba(0,0,0,0.4)', fontFamily: "'Inter',sans-serif", marginBottom: '5px',
+  letterSpacing: '1.8px', textTransform: 'uppercase',
+  color: 'rgba(0,0,0,0.4)', fontFamily: "'Inter',sans-serif", marginBottom: '6px',
 };
 
 function Field({ label, required = false, error, children }: {
@@ -39,8 +46,8 @@ function Field({ label, required = false, error, children }: {
       <label style={labelSt}>{label}{required && ' *'}</label>
       {children}
       {error && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '5px' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
           <span style={{ fontSize: '11px', color: '#e53e3e', fontFamily: "'Inter',sans-serif", fontWeight: 500 }}>{error}</span>
@@ -50,7 +57,7 @@ function Field({ label, required = false, error, children }: {
   );
 }
 
-function inp(hasError: boolean): React.CSSProperties {
+function inputStyle(hasError: boolean): React.CSSProperties {
   return {
     width: '100%', background: '#fff',
     border: `1px solid ${hasError ? '#e53e3e' : '#e0e0e0'}`,
@@ -64,11 +71,11 @@ function inp(hasError: boolean): React.CSSProperties {
 
 function ContactPageClientInner() {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const router = useRouter();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Partial<Record<string, boolean>>>({});
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
   function set(field: string, value: string) {
@@ -95,7 +102,7 @@ function ContactPageClientInner() {
       if (msgs?.[0]) fe[k as keyof FormErrors] = msgs[0];
     }
     setErrors(fe);
-    setTouched({ name: true, email: true, phone: true, company: true, location: true, teamSize: true, targetAudiences: true, budget: true });
+    setTouched({ name: true, email: true, phone: true, company: true, location: true, typeOfProgram: true });
     return false;
   }
 
@@ -109,11 +116,11 @@ function ContactPageClientInner() {
       const res = await fetch('/api/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, recaptchaToken }),
+        body: JSON.stringify({ ...form, recaptchaToken, website: '' }),
       });
       const data = await res.json();
       if (!res.ok) { setSubmitError(data.error || 'Something went wrong.'); return; }
-      setSuccess(true);
+      router.push('/thankyou');
       setForm(initialForm); setErrors({}); setTouched({});
     } catch {
       setSubmitError('Network error. Please try again.');
@@ -122,7 +129,7 @@ function ContactPageClientInner() {
     }
   }
 
-  const inpSt = (field: keyof FormErrors) => inp(!!errors[field] && !!touched[field]);
+  const inpSt = (field: keyof FormErrors) => inputStyle(!!errors[field] && !!touched[field]);
   const err = (field: keyof FormErrors) => touched[field] ? errors[field] : undefined;
 
   return (
@@ -130,15 +137,13 @@ function ContactPageClientInner() {
       <style>{`
         .contact-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
         .contact-map-form { display: grid; grid-template-columns: 1fr 1.5fr; gap: 28px; align-items: start; }
-        .contact-form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-        .contact-form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .cf-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
         @media (max-width: 900px) {
           .contact-map-form { grid-template-columns: 1fr; }
         }
         @media (max-width: 700px) {
           .contact-info-grid { grid-template-columns: 1fr; }
-          .contact-form-row-3 { grid-template-columns: 1fr; }
-          .contact-form-row-2 { grid-template-columns: 1fr; }
+          .cf-row-3 { grid-template-columns: 1fr; }
         }
       `}</style>
 
@@ -167,9 +172,7 @@ function ContactPageClientInner() {
       {/* ── Info Cards ── */}
       <div style={{ maxWidth: '1100px', margin: '-36px auto 0', padding: '0 24px', position: 'relative', zIndex: 10 }}>
         <div className="contact-info-grid">
-
-          {/* Address */}
-          <div style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '16px', padding: '24px 24px 24px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+          <div style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
             <div style={{ width: '44px', height: '44px', background: 'rgba(173,201,5,0.08)', border: '1px solid rgba(173,201,5,0.2)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#adc905" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
@@ -183,7 +186,6 @@ function ContactPageClientInner() {
             </div>
           </div>
 
-          {/* Phone & Email */}
           <div style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
             <div style={{ width: '44px', height: '44px', background: 'rgba(255,106,0,0.06)', border: '1px solid rgba(255,106,0,0.18)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff6a00" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -197,7 +199,6 @@ function ContactPageClientInner() {
             </div>
           </div>
 
-          {/* Working Hours */}
           <div style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '16px', padding: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
             <div style={{ width: '44px', height: '44px', background: 'rgba(37,99,235,0.06)', border: '1px solid rgba(37,99,235,0.15)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -213,7 +214,6 @@ function ContactPageClientInner() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -241,12 +241,8 @@ function ContactPageClientInner() {
               </div>
               <div style={{ padding: '16px 20px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: '12px', color: '#888', fontFamily: "'Inter',sans-serif" }}>Mylapore, Chennai – 600 004</span>
-                <a
-                  href="https://maps.google.com/?q=Helios+Event+Productions+Chennai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ fontSize: '12px', fontWeight: 700, color: '#adc905', fontFamily: "'Inter',sans-serif", textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
-                >
+                <a href="https://maps.google.com/?q=Helios+Event+Productions+Chennai" target="_blank" rel="noopener noreferrer"
+                  style={{ fontSize: '12px', fontWeight: 700, color: '#adc905', fontFamily: "'Inter',sans-serif", textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   Open in Maps
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
@@ -255,7 +251,6 @@ function ContactPageClientInner() {
               </div>
             </div>
 
-            {/* Quick contact strip */}
             <div style={{ marginTop: '16px', background: 'linear-gradient(135deg,#1a1f2e,#0f1318)', borderRadius: '16px', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter',sans-serif" }}>Quick Contact</div>
               <a href="tel:+917401030000" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', padding: '10px 14px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)' }}>
@@ -285,168 +280,147 @@ function ContactPageClientInner() {
 
           {/* Form */}
           <div style={{ background: '#fff', border: '1px solid #e8edf2', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.07)' }}>
-            <div style={{ height: '3px', background: 'linear-gradient(90deg,#adc905,#ff6a00)' }} />
-            <div style={{ padding: '32px 32px' }}>
-
-              {success ? (
-                <div style={{ textAlign: 'center', padding: '48px 0' }}>
-                  <div style={{ width: '68px', height: '68px', background: '#f0fdf4', border: '2px solid #22c55e', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <h3 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#111', marginBottom: '10px' }}>Enquiry Received!</h3>
-                  <p style={{ fontSize: '14px', color: '#6b7280', fontFamily: "'Inter',sans-serif", lineHeight: 1.6, maxWidth: '320px', margin: '0 auto 28px' }}>
-                    Thank you for reaching out. Our team will review your enquiry and get back to you within 24 hours.
-                  </p>
-                  <button onClick={() => setSuccess(false)} style={{ padding: '11px 28px', background: '#adc905', color: '#fff', border: 'none', borderRadius: '9px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
-                    Submit Another Enquiry
-                  </button>
+            <div style={{ height: '4px', background: 'linear-gradient(90deg,#adc905,#ff6a00)' }} />
+            <div style={{ padding: '36px' }}>
+              <form onSubmit={handleSubmit} noValidate>
+                <div style={{ marginBottom: '28px' }}>
+                  <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#111', margin: '0 0 6px' }}>Free Event Budget Consultation</h2>
+                  <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} noValidate>
-                  <div style={{ marginBottom: '24px' }}>
-                    <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '20px', color: '#111', margin: '0 0 4px' }}>Send Us Your Enquiry</h2>
-                    <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
-                  </div>
 
-                  {/* Row 1 */}
-                  <div className="contact-form-row-3">
-                    <Field label="Your Name" required error={err('name')}>
-                      <input type="text" placeholder="John Doe" value={form.name}
-                        onChange={e => set('name', e.target.value)} onBlur={() => touch('name')}
-                        style={inpSt('name')} />
-                    </Field>
-                    <Field label="Official Email" required error={err('email')}>
-                      <input type="email" placeholder="example@domain.com" value={form.email}
-                        onChange={e => set('email', e.target.value)} onBlur={() => touch('email')}
-                        style={inpSt('email')} />
-                    </Field>
-                    <Field label="Phone Number" required error={err('phone')}>
-                      <div style={{
-                        display: 'flex', alignItems: 'center', background: '#fff',
-                        border: `1px solid ${errors.phone && touched.phone ? '#e53e3e' : '#e0e0e0'}`,
-                        borderRadius: '10px', padding: '0 12px', height: '42px',
-                        boxShadow: errors.phone && touched.phone ? '0 0 0 3px rgba(229,62,62,0.1)' : 'none',
-                        transition: 'border-color 0.2s',
-                      }}>
-                        <CountryPicker onSelect={code => set('phoneCode', code)} />
-                        <input type="tel" placeholder="00000 00000" value={form.phone}
-                          onChange={e => set('phone', e.target.value)} onBlur={() => touch('phone')}
-                          style={{ flex: 1, background: 'transparent', border: 'none', color: '#111', fontSize: '13px', fontFamily: "'Inter',sans-serif", outline: 'none', minWidth: 0, marginLeft: '8px' }} />
-                      </div>
-                    </Field>
-                  </div>
-
-                  {/* Row 2 */}
-                  <div className="contact-form-row-3">
-                    <Field label="Company Name" required error={err('company')}>
-                      <input type="text" placeholder="xyz ltd." value={form.company}
-                        onChange={e => set('company', e.target.value)} onBlur={() => touch('company')}
-                        style={inpSt('company')} />
-                    </Field>
-                    <Field label="Location / Venue" required error={err('location')}>
-                      <input type="text" placeholder="Chennai / Bangalore" value={form.location}
-                        onChange={e => set('location', e.target.value)} onBlur={() => touch('location')}
-                        style={inpSt('location')} />
-                    </Field>
-                    <Field label="Team Size" required error={err('teamSize')}>
-                      <input type="text" placeholder="30 / 50 / 100 / 200" value={form.teamSize}
-                        onChange={e => set('teamSize', e.target.value)} onBlur={() => touch('teamSize')}
-                        style={inpSt('teamSize')} />
-                    </Field>
-                  </div>
-
-                  {/* Row 3 */}
-                  <div className="contact-form-row-3">
-                    <Field label="Target Audiences" required error={err('targetAudiences')}>
-                      <input type="text" placeholder="Leadership / Staff" value={form.targetAudiences}
-                        onChange={e => set('targetAudiences', e.target.value)} onBlur={() => touch('targetAudiences')}
-                        style={inpSt('targetAudiences')} />
-                    </Field>
-                    <Field label="Preferred Date">
-                      <input type="date" value={form.preferredDate}
-                        onChange={e => set('preferredDate', e.target.value)}
-                        style={inp(false)} />
-                    </Field>
-                    <Field label="Duration">
-                      <input type="text" placeholder="2-Hours / Full Day" value={form.duration}
-                        onChange={e => set('duration', e.target.value)}
-                        style={inp(false)} />
-                    </Field>
-                  </div>
-
-                  {/* Row 4 */}
-                  <div className="contact-form-row-3">
-                    <Field label="Type of Program">
-                      <input type="text" placeholder="Outbound / Team Building" value={form.typeOfProgram}
-                        onChange={e => set('typeOfProgram', e.target.value)}
-                        style={inp(false)} />
-                    </Field>
-                    <Field label="Objectives">
-                      <input type="text" placeholder="Team bonding, Communication" value={form.objectives}
-                        onChange={e => set('objectives', e.target.value)}
-                        style={inp(false)} />
-                    </Field>
-                    <Field label="Budget" required error={err('budget')}>
-                      <input type="text" placeholder="Only for Team Activities" value={form.budget}
-                        onChange={e => set('budget', e.target.value)} onBlur={() => touch('budget')}
-                        style={inpSt('budget')} />
-                    </Field>
-                  </div>
-
-                  {/* Row 5 */}
-                  <div className="contact-form-row-2">
-                    <Field label="Additional Requirements">
-                      <input type="text" placeholder="Any special requirements..." value={form.additionalRequirements}
-                        onChange={e => set('additionalRequirements', e.target.value)}
-                        style={inp(false)} />
-                    </Field>
-                    <Field label="How Did You Hear About Us?">
-                      <input type="text" placeholder="Google / LinkedIn / Referral" value={form.howDidYouHear}
-                        onChange={e => set('howDidYouHear', e.target.value)}
-                        style={inp(false)} />
-                    </Field>
-                  </div>
-
-                  {submitError && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(229,62,62,0.05)', border: '1px solid rgba(229,62,62,0.2)', borderRadius: '8px', padding: '12px 14px', marginBottom: '16px' }}>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                      </svg>
-                      <span style={{ fontSize: '13px', color: '#e53e3e', fontFamily: "'Inter',sans-serif" }}>{submitError}</span>
+                <div className="cf-row-3">
+                  <Field label="Your Name" required error={err('name')}>
+                    <input type="text" placeholder="John Doe" value={form.name}
+                      onChange={e => set('name', e.target.value)} onBlur={() => touch('name')}
+                      style={inpSt('name')} />
+                  </Field>
+                  <Field label="Official Email" required error={err('email')}>
+                    <input type="email" placeholder="example@domain.com" value={form.email}
+                      onChange={e => set('email', e.target.value)} onBlur={() => touch('email')}
+                      style={inpSt('email')} />
+                  </Field>
+                  <Field label="Phone Number" required error={err('phone')}>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', background: '#fff',
+                      border: `1px solid ${errors.phone && touched.phone ? '#e53e3e' : '#e0e0e0'}`,
+                      borderRadius: '10px', padding: '0 12px', height: '42px',
+                      boxShadow: errors.phone && touched.phone ? '0 0 0 3px rgba(229,62,62,0.1)' : 'none',
+                      transition: 'border-color 0.2s',
+                    }}>
+                      <CountryPicker onSelect={code => set('phoneCode', code)} />
+                      <input type="tel" placeholder="00000 00000" value={form.phone}
+                        onChange={e => set('phone', e.target.value.replace(/[^0-9+\s\-()]/g, ''))}
+                        onBlur={() => touch('phone')}
+                        style={{ flex: 1, background: 'transparent', border: 'none', color: '#111', fontSize: '13px', fontFamily: "'Inter',sans-serif", outline: 'none', minWidth: 0, marginLeft: '8px' }} />
                     </div>
-                  )}
+                  </Field>
+                </div>
 
-                  <button type="submit" disabled={loading} style={{
-                    width: '100%', background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)',
-                    color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700,
-                    fontSize: '15px', padding: '15px', border: 'none', borderRadius: '10px',
-                    cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '0.5px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                    boxShadow: loading ? 'none' : '0 4px 16px rgba(255,106,0,0.3)',
-                  }}>
-                    {loading ? (
-                      <>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
-                          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                        </svg>
-                        Submitting…
-                      </>
-                    ) : 'Send My Enquiry →'}
-                  </button>
+                <div className="cf-row-3">
+                  <Field label="Company Name" required error={err('company')}>
+                    <input type="text" placeholder="Acme Corp" value={form.company}
+                      onChange={e => set('company', e.target.value)} onBlur={() => touch('company')}
+                      style={inpSt('company')} />
+                  </Field>
+                  <Field label="Location / Venue" required error={err('location')}>
+                    <input type="text" placeholder="Chennai / Bangalore" value={form.location}
+                      onChange={e => set('location', e.target.value)} onBlur={() => touch('location')}
+                      style={inpSt('location')} />
+                  </Field>
+                  <Field label="Type of Event" required error={err('typeOfProgram')}>
+                    <select value={form.typeOfProgram}
+                      onChange={e => { set('typeOfProgram', e.target.value); touch('typeOfProgram'); }}
+                      style={{ ...inpSt('typeOfProgram'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
+                      <option value="">Select event type…</option>
+                      {EVENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                  </Field>
+                </div>
 
-                  <p style={{ fontSize: '11px', color: '#aaa', textAlign: 'center', marginTop: '12px', fontFamily: "'Inter',sans-serif" }}>
-                    Protected by reCAPTCHA · Your data is safe with us
+                {/* Info banner */}
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', background: 'rgba(173,201,5,0.06)', border: '1px solid rgba(173,201,5,0.2)', borderRadius: '10px', padding: '12px 16px', marginBottom: '24px' }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#adc905" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '1px' }}>
+                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="8" /><line x1="12" y1="12" x2="12" y2="16" />
+                  </svg>
+                  <p style={{ fontSize: '12px', color: '#5a6800', fontFamily: "'Inter',sans-serif", lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                    The more details you share, the more curated and personalized we can make the package.
                   </p>
-                </form>
-              )}
+                </div>
+
+                {/* Optional section */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <div style={{ height: '1px', flex: 1, background: '#e8edf2' }} />
+                  <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#bbb', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap' }}>Optional details</span>
+                  <div style={{ height: '1px', flex: 1, background: '#e8edf2' }} />
+                </div>
+
+                <div className="cf-row-3">
+                  <Field label="Team Size">
+                    <input type="text" placeholder="30 / 50 / 100 / 200+" value={form.teamSize}
+                      onChange={e => set('teamSize', e.target.value)}
+                      style={inputStyle(false)} />
+                  </Field>
+                  <Field label="Budget">
+                    <input type="text" placeholder="₹50K / ₹2L / ₹5L+" value={form.budget}
+                      onChange={e => set('budget', e.target.value)}
+                      style={inputStyle(false)} />
+                  </Field>
+                  <Field label="Preferred Date">
+                    <input type="date" value={form.preferredDate}
+                      onChange={e => set('preferredDate', e.target.value)}
+                      style={inputStyle(false)} />
+                  </Field>
+                </div>
+
+                <div style={{ marginBottom: '24px' }}>
+                  <Field label="How Did You Hear About Us?">
+                    <input type="text" placeholder="Google / LinkedIn / Referral / Word of mouth" value={form.howDidYouHear}
+                      onChange={e => set('howDidYouHear', e.target.value)}
+                      style={inputStyle(false)} />
+                  </Field>
+                </div>
+
+                {submitError && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(229,62,62,0.05)', border: '1px solid rgba(229,62,62,0.2)', borderRadius: '8px', padding: '12px 14px', marginBottom: '16px' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span style={{ fontSize: '13px', color: '#e53e3e', fontFamily: "'Inter',sans-serif" }}>{submitError}</span>
+                  </div>
+                )}
+
+                <button type="submit" disabled={loading} style={{
+                  width: '100%',
+                  background: loading ? 'rgba(255,106,0,0.5)' : 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)',
+                  color: '#fff', fontFamily: "'Inter',sans-serif", fontWeight: 700,
+                  fontSize: '15px', padding: '16px', border: 'none', borderRadius: '10px',
+                  cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '0.5px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                  boxShadow: loading ? 'none' : '0 4px 20px rgba(255,106,0,0.35)',
+                  transition: 'opacity 0.2s',
+                }}>
+                  {loading ? (
+                    <>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                      </svg>
+                      Submitting…
+                    </>
+                  ) : 'Get Free Consultation →'}
+                </button>
+
+                <p style={{ fontSize: '11px', color: '#bbb', textAlign: 'center', marginTop: '12px', fontFamily: "'Inter',sans-serif" }}>
+                  Protected by reCAPTCHA —{' '}
+                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Privacy Policy</a>
+                  {' & '}
+                  <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: '#adc905', textDecoration: 'none' }}>Terms of Service</a>
+                </p>
+              </form>
             </div>
           </div>
 
         </div>
       </div>
-
     </div>
   );
 }
