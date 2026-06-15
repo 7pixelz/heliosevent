@@ -139,7 +139,8 @@ export default function EnquiriesClient({ quotes, statusCounts, currentStatus, c
         {quotes.length === 0 ? (
           <div style={{ padding: '60px', textAlign: 'center', color: '#bbb', fontSize: '14px' }}>No enquiries found.</div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '860px' }}>
             <thead>
               <tr style={{ background: '#fafafa', borderBottom: '1px solid #f0f0f0' }}>
                 {['Name & Company', 'Contact', 'Type of Event', 'Date', 'Status', 'Actions'].map(h => (
@@ -171,7 +172,7 @@ export default function EnquiriesClient({ quotes, statusCounts, currentStatus, c
                         {q.status}
                       </span>
                     </td>
-                    <td style={{ padding: '14px 20px' }}>
+                    <td style={{ padding: '14px 20px', whiteSpace: 'nowrap' }}>
                       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         {q.status === 'NEW' && (
                           <button onClick={() => markContacted(q.id)} disabled={actionLoading === q.id + '_contacted'}
@@ -208,6 +209,7 @@ export default function EnquiriesClient({ quotes, statusCounts, currentStatus, c
               })}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     </div>
