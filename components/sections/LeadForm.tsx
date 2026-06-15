@@ -206,7 +206,8 @@ function LeadFormInner() {
                 </Field>
                 <Field label="Type of Event" required error={err('typeOfProgram')}>
                   <select value={form.typeOfProgram}
-                    onChange={e => { set('typeOfProgram', e.target.value); touch('typeOfProgram'); }}
+                    onChange={e => set('typeOfProgram', e.target.value)}
+                    onBlur={() => touch('typeOfProgram')}
                     style={{ ...inpSt('typeOfProgram'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
                     <option value="">Select event type…</option>
                     {EVENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
