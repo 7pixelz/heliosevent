@@ -15,8 +15,8 @@ const STATUS_STYLES = {
 
 export default async function DashboardPage() {
   const [counts, recent] = await Promise.all([
-    prisma.quote.groupBy({ by: ['status'], _count: { _all: true } }),
-    prisma.quote.findMany({ orderBy: { createdAt: 'desc' }, take: 5 }),
+    prisma.quote.groupBy({ by: ['status'], where: { isArchived: false }, _count: { _all: true } }),
+    prisma.quote.findMany({ where: { isArchived: false }, orderBy: { createdAt: 'desc' }, take: 5 }),
   ]);
 
   const stats = { NEW: 0, CONTACTED: 0, CLOSED: 0, ALL: 0 };
