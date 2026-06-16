@@ -48,7 +48,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '28px' }}>
+      <div className="admin-stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '28px' }}>
         {cards.map((c, i) => (
           <div key={c.label} style={{
             background: '#fff',
@@ -111,7 +111,8 @@ export default async function DashboardPage() {
         {recent.length === 0 ? (
           <div style={{ padding: '48px', textAlign: 'center', color: '#ccc', fontSize: '14px' }}>No enquiries yet.</div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
             <thead>
               <tr style={{ background: '#fafafa' }}>
                 {['Name', 'Company', 'Team Size', 'Date', 'Status'].map(h => (
@@ -141,6 +142,7 @@ export default async function DashboardPage() {
               })}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     </div>

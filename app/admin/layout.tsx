@@ -12,18 +12,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!user) return <>{children}</>;
 
   return (
-    <div style={{
+    <div className="admin-shell" style={{
       display: 'grid',
-      gridTemplateColumns: '240px 1fr',
+      gridTemplateColumns: '240px minmax(0, 1fr)',
       minHeight: '100vh',
       fontFamily: "'Inter',sans-serif",
     }}>
       <AdminSidebar user={user} />
-      <main style={{
+      <main className="admin-main" style={{
         background: '#f5f6fa',
         padding: '32px',
         minHeight: '100vh',
         overflowX: 'hidden',
+        minWidth: 0,
       }}>
         {children}
       </main>

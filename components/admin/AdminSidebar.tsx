@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface Props {
   user: { name: string; email: string; role: string };
@@ -130,6 +131,11 @@ const navItems = [
 export default function AdminSidebar({ user }: Props) {
   const pathname = usePathname();
   const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   async function handleLogout() {
     await fetch('/api/admin/logout', { method: 'POST' });
@@ -138,13 +144,38 @@ export default function AdminSidebar({ user }: Props) {
   }
 
   return (
-    <aside style={{
-      background: '#1a1f2e',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      fontFamily: "'Inter', sans-serif",
-    }}>
+    <>
+      {/* Mobile top bar */}
+      <div className="admin-mobile-topbar">
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open menu"
+          style={{
+            background: 'transparent', border: 'none', color: '#fff',
+            cursor: 'pointer', padding: '8px', display: 'flex', alignItems: 'center',
+          }}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <img
+          src="/assets/heliosevent_logo_white.webp"
+          alt="Helios Event"
+          style={{ height: '24px', width: 'auto', marginLeft: '12px' }}
+        />
+      </div>
+
+      {/* Overlay (mobile only, shown when drawer open) */}
+      {open && <div className="admin-overlay" onClick={() => setOpen(false)} />}
+
+      <aside className={`admin-sidebar${open ? ' open' : ''}`} style={{
+        background: '#1a1f2e',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: "'Inter', sans-serif",
+      }}>
 
       {/* Logo */}
       <div style={{ padding: '20px 16px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
@@ -258,6 +289,7 @@ export default function AdminSidebar({ user }: Props) {
           Logout
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }

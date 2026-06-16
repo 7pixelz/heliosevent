@@ -85,12 +85,12 @@ export default function EnquiriesClient({ quotes, statusCounts, currentStatus, c
   return (
     <div>
       {/* Page header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '22px', fontWeight: 800, color: '#111', margin: 0 }}>Enquiries</h1>
           <p style={{ fontSize: '13px', color: '#888', margin: '4px 0 0' }}>{statusCounts.ALL} total enquiries received</p>
         </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           {[
             { label: 'New', count: statusCounts.NEW, color: '#2563eb', bg: '#eff6ff' },
             { label: 'Contacted', count: statusCounts.CONTACTED, color: '#16a34a', bg: '#f0fdf4' },
