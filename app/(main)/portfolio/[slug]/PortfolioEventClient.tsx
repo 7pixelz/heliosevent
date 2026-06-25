@@ -327,63 +327,55 @@ export default function PortfolioEventPage() {
               </h2>
             </div>
 
-            {/* Responsive grid — cols based on count so 4 images = 2×2, not 3+1 */}
-            {(() => {
-              const n = images.length;
-              const cols = n === 1 ? 1 : n === 2 ? 2 : n === 4 ? 2 : n <= 6 ? 3 : 4;
-              return (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: `repeat(${cols}, 1fr)`,
-                  gap: '16px',
-                }}>
-                  {images.map((img, i) => (
-                    <div
-                      key={img.id}
-                      onClick={() => openLightbox(i)}
-                      style={{
-                        borderRadius: '12px',
-                        overflow: 'hidden',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        aspectRatio: '4/3',
-                      }}
-                      className="portfolio-img-wrap"
+            {/* Grid fills left-to-right, natural image heights */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+              gap: '16px',
+            }}>
+              {images.map((img, i) => (
+                <div
+                  key={img.id}
+                  onClick={() => openLightbox(i)}
+                  style={{
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    breakInside: 'avoid',
+                    cursor: 'pointer',
+                    position: 'relative',
+                  }}
+                  className="portfolio-img-wrap"
+                >
+                  <img
+                    src={img.url}
+                    alt={`${event.title} — photo ${i + 1}`}
+                    style={{
+                      width: '100%', display: 'block',
+                      transition: 'transform 0.35s ease',
+                    }}
+                    className="portfolio-img"
+                  />
+                  <div
+                    className="portfolio-img-overlay"
+                    style={{
+                      position: 'absolute', inset: 0,
+                      background: 'rgba(0,0,0,0)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'background 0.25s',
+                    }}
+                  >
+                    <svg
+                      width="32" height="32" viewBox="0 0 24 24" fill="none"
+                      stroke="white" strokeWidth="1.5" style={{ opacity: 0, transition: 'opacity 0.25s' }}
+                      className="portfolio-zoom-icon"
                     >
-                      <img
-                        src={img.url}
-                        alt={`${event.title} — photo ${i + 1}`}
-                        style={{
-                          width: '100%', height: '100%',
-                          objectFit: 'cover', display: 'block',
-                          transition: 'transform 0.35s ease',
-                        }}
-                        className="portfolio-img"
-                      />
-                      {/* Hover overlay */}
-                      <div
-                        className="portfolio-img-overlay"
-                        style={{
-                          position: 'absolute', inset: 0,
-                          background: 'rgba(0,0,0,0)',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          transition: 'background 0.25s',
-                        }}
-                      >
-                        <svg
-                          width="32" height="32" viewBox="0 0 24 24" fill="none"
-                          stroke="white" strokeWidth="1.5" style={{ opacity: 0, transition: 'opacity 0.25s' }}
-                          className="portfolio-zoom-icon"
-                        >
-                          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                          <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
-                        </svg>
-                      </div>
-                    </div>
-                  ))}
+                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                      <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                    </svg>
+                  </div>
                 </div>
-              );
-            })()}
+              ))}
+            </div>
           </div>
         </section>
       )}
