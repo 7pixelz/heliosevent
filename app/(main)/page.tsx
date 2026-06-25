@@ -46,10 +46,20 @@ export default async function Home() {
         select: { id: true, icon: true, name: true, slug: true, description: true },
       }),
       prisma.portfolioEvent.findMany({
-        where: { isActive: true, NOT: { coverImageUrl: null } },
-        orderBy: { createdAt: 'desc' },
+        where: { isActive: true, featuredOnHome: true, NOT: { coverImageUrl: null } },
+        orderBy: { displayOrder: 'asc' },
         take: 4,
         select: { id: true, title: true, slug: true, category: true, clientName: true, coverImageUrl: true },
+      }).then(async featured => {
+        if (featured.length >= 4) return featured;
+        const ids = featured.map(e => e.id);
+        const rest = await prisma.portfolioEvent.findMany({
+          where: { isActive: true, featuredOnHome: false, NOT: [{ coverImageUrl: null }, { id: { in: ids } }] },
+          orderBy: { createdAt: 'desc' },
+          take: 4 - featured.length,
+          select: { id: true, title: true, slug: true, category: true, clientName: true, coverImageUrl: true },
+        });
+        return [...featured, ...rest];
       }),
       prisma.youtubeVideo.findMany({
         where: { isActive: true, showOnHome: true },

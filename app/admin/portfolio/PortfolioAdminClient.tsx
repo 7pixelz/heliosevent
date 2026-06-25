@@ -11,6 +11,7 @@ interface PortfolioEvent {
   clientName: string | null;
   coverImageUrl: string | null;
   isActive: boolean;
+  featuredOnHome: boolean;
   displayOrder: number;
   _count: { media: number };
 }
@@ -65,6 +66,15 @@ export default function PortfolioAdminClient({ initialEvents }: { initialEvents:
       setNewTitle(''); setNewCategory('corporate-events'); setNewClient(''); setNewDesc('');
     }
     setCreating(false);
+  }
+
+  async function toggleFeatured(ev: PortfolioEvent) {
+    const res = await fetch(`/api/admin/portfolio/events/${ev.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ featuredOnHome: !ev.featuredOnHome }),
+    });
+    if (res.ok) setEvents(prev => prev.map(e => e.id === ev.id ? { ...e, featuredOnHome: !e.featuredOnHome } : e));
   }
 
   async function toggleActive(ev: PortfolioEvent) {
@@ -151,6 +161,7 @@ export default function PortfolioAdminClient({ initialEvents }: { initialEvents:
                 <th style={{ padding: '12px 20px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: '#888', letterSpacing: '1px', textTransform: 'uppercase' }}>Event</th>
                 <th style={{ padding: '12px 20px', textAlign: 'left', fontSize: '11px', fontWeight: 700, color: '#888', letterSpacing: '1px', textTransform: 'uppercase' }}>Category</th>
                 <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '11px', fontWeight: 700, color: '#888', letterSpacing: '1px', textTransform: 'uppercase' }}>Media</th>
+                <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '11px', fontWeight: 700, color: '#888', letterSpacing: '1px', textTransform: 'uppercase' }}>Homepage</th>
                 <th style={{ padding: '12px 20px', textAlign: 'center', fontSize: '11px', fontWeight: 700, color: '#888', letterSpacing: '1px', textTransform: 'uppercase' }}>Status</th>
                 <th style={{ padding: '12px 20px', textAlign: 'right', fontSize: '11px', fontWeight: 700, color: '#888', letterSpacing: '1px', textTransform: 'uppercase' }}>Actions</th>
               </tr>
@@ -202,6 +213,23 @@ export default function PortfolioAdminClient({ initialEvents }: { initialEvents:
                       {ev._count.media}
                     </span>
                     <span style={{ fontSize: '12px', color: '#aaa', marginLeft: '3px' }}>files</span>
+                  </td>
+
+                  {/* Homepage featured */}
+                  <td style={{ padding: '14px 20px', textAlign: 'center' }}>
+                    <button
+                      onClick={() => toggleFeatured(ev)}
+                      title={ev.featuredOnHome ? 'Remove from homepage' : 'Feature on homepage'}
+                      style={{
+                        padding: '4px 12px', borderRadius: '6px', border: 'none', cursor: 'pointer',
+                        fontSize: '12px', fontWeight: 700, fontFamily: "'Inter', sans-serif",
+                        background: ev.featuredOnHome ? '#fef9c3' : '#f3f4f6',
+                        color: ev.featuredOnHome ? '#854d0e' : '#888',
+                        display: 'inline-flex', alignItems: 'center', gap: '4px',
+                      }}
+                    >
+                      {ev.featuredOnHome ? '★ Featured' : '☆ Feature'}
+                    </button>
                   </td>
 
                   {/* Status */}

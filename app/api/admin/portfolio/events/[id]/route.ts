@@ -72,6 +72,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const body = await req.json();
   const event = await prisma.portfolioEvent.update({ where: { id }, data: { ...body, updatedAt: new Date() } });
+  revalidatePath('/');
+  revalidatePath('/portfolio', 'layout');
   return NextResponse.json(event);
 }
 

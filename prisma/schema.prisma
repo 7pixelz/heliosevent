@@ -126,6 +126,7 @@ model PortfolioEvent {
   metaKeywords    String?
   displayOrder    Int              @default(0)
   isActive        Boolean          @default(true)
+  featuredOnHome  Boolean          @default(false)
   media           PortfolioMedia[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt

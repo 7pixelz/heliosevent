@@ -5,8 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function PortfolioAdminPage() {
   const events = await prisma.portfolioEvent.findMany({
-    orderBy: [{ displayOrder: 'asc' }, { createdAt: 'asc' }],
-    include: { _count: { select: { media: true } } },
+    orderBy: [{ createdAt: 'desc' }],
+    select: { id: true, title: true, slug: true, category: true, clientName: true, coverImageUrl: true, isActive: true, featuredOnHome: true, displayOrder: true, _count: { select: { media: true } } },
   });
   return <PortfolioAdminClient initialEvents={events as never} />;
 }
