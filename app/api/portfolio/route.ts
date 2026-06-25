@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
       isActive: true,
       ...(category && category !== 'all' ? { category } : {}),
     },
-    orderBy: [{ displayOrder: 'asc' }, { createdAt: 'desc' }],
+    orderBy: [{ createdAt: 'desc' }],
     select: {
       id: true,
       title: true,

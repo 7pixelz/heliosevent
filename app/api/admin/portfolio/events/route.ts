@@ -16,7 +16,7 @@ export async function GET() {
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const events = await prisma.portfolioEvent.findMany({
-    orderBy: [{ displayOrder: 'asc' }, { createdAt: 'asc' }],
+    orderBy: [{ createdAt: 'desc' }],
     include: { _count: { select: { media: true } } },
   });
 
