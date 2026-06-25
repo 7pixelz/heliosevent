@@ -47,7 +47,7 @@ export default async function Home() {
       }),
       prisma.portfolioEvent.findMany({
         where: { isActive: true, NOT: { coverImageUrl: null } },
-        orderBy: { displayOrder: 'asc' },
+        orderBy: { createdAt: 'desc' },
         take: 4,
         select: { id: true, title: true, slug: true, category: true, clientName: true, coverImageUrl: true },
       }),
