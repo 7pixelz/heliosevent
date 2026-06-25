@@ -57,7 +57,7 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
               priority={i === 0}
               fetchPriority={i === 0 ? 'high' : 'auto'}
               sizes="100vw"
-              quality={40}
+              quality={80}
               style={{ objectFit: 'cover', objectPosition: 'center' }}
             />
           )}
@@ -65,8 +65,7 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
       ))}
 
       {/* Overlay gradient */}
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.35) 100%)', zIndex: 1 }} />
-      <div className="hero-overlay-gradient" style={{ zIndex: 2 }} />
+      <div className="hero-overlay-gradient" style={{ zIndex: 1 }} />
 
       {/* ── Dot indicators ── */}
       {slides.length > 1 && (
