@@ -5,7 +5,7 @@ import { prisma } from '../../../../lib/prisma';
 import { buildMeta } from '../../../../lib/seo';
 import ServiceDetailClient from './ServiceDetailClient';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 interface Props { params: Promise<{ slug: string }> }
 
