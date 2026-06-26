@@ -5,6 +5,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 const LeadForm = dynamic(() => import('../../../../components/sections/LeadForm'), { ssr: false });
 import VideoGrid from '../../../../components/sections/VideoGrid';
+import Clients from '../../../../components/sections/Clients';
 import { highlightExp } from '../../../../lib/highlight';
 
 interface SignatureEvent { icon: string; title: string; desc: string }
@@ -95,7 +96,9 @@ interface PortfolioItem {
   clientName: string | null; coverImageUrl: string | null; category: string;
 }
 
-export default function ServiceDetailPage({ service, videos = [], portfolioEvents = [] }: { service: ServiceDetail; videos?: VideoItem[]; portfolioEvents?: PortfolioItem[] }) {
+interface Logo { id: string; name: string; imageUrl: string; }
+
+export default function ServiceDetailPage({ service, videos = [], portfolioEvents = [], logos = [] }: { service: ServiceDetail; videos?: VideoItem[]; portfolioEvents?: PortfolioItem[]; logos?: Logo[] }) {
   const sigEvents = parseJSON<SignatureEvent[]>(service.signatureEvents, []);
   const diffs = parseJSON<Differentiator[]>(service.differentiators, []);
   const faqs = parseJSON<FAQ[]>(service.faqs, []);
@@ -314,6 +317,8 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
         </section>
       )}
 
+      <Clients logos={logos} />
+
       {/* ── WHY CHOOSE US — Light ── */}
       {diffs.length > 0 && (
         <section style={{ background: '#f6f8f2', padding: 'clamp(40px, 8vw, 96px) 0' }}>
@@ -374,30 +379,6 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── FAQ — Dark ── */}
-      {faqs.length > 0 && (
-        <section style={{ background: '#111420', padding: 'clamp(40px, 8vw, 96px) 0' }}>
-          <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 24px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '52px' }}>
-              <div style={{
-                fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
-                textTransform: 'uppercase', color: 'rgba(173,201,5,0.75)',
-                marginBottom: '12px', fontFamily: "'Inter', sans-serif",
-              }}>
-                FAQs
-              </div>
-              <h2 style={{
-                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
-                color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif",
-              }}>
-                Frequently Asked Questions
-              </h2>
-            </div>
-            <FAQAccordion faqs={faqs} />
           </div>
         </section>
       )}
@@ -469,6 +450,30 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 View All Portfolio →
               </a>
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── FAQ — Light ── */}
+      {faqs.length > 0 && (
+        <section style={{ background: '#fff', padding: 'clamp(40px, 8vw, 96px) 0' }}>
+          <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 24px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '52px' }}>
+              <div style={{
+                fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
+                textTransform: 'uppercase', color: '#adc905',
+                marginBottom: '12px', fontFamily: "'Inter', sans-serif",
+              }}>
+                FAQs
+              </div>
+              <h2 style={{
+                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
+                color: '#111', margin: 0, fontFamily: "'Montserrat', sans-serif",
+              }}>
+                Frequently Asked Questions
+              </h2>
+            </div>
+            <FAQAccordion faqs={faqs} />
           </div>
         </section>
       )}

@@ -71,12 +71,17 @@ const SERVICE_SCHEMA: Record<string, object> = {
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-  const [service, videos] = await Promise.all([
+  const [service, videos, logos] = await Promise.all([
     prisma.service.findUnique({ where: { slug } }),
     prisma.youtubeVideo.findMany({
       where: { isActive: true, serviceSlug: slug },
       orderBy: { displayOrder: 'asc' },
       select: { id: true, youtubeId: true, title: true },
+    }),
+    prisma.clientLogo.findMany({
+      where: { isVisible: true },
+      orderBy: { displayOrder: 'asc' },
+      select: { id: true, name: true, imageUrl: true },
     }),
   ]);
   if (!service) notFound();
@@ -104,7 +109,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <ServiceDetailClient service={service} videos={videos} portfolioEvents={portfolioEvents} />
+      <ServiceDetailClient service={service} videos={videos} portfolioEvents={portfolioEvents} logos={logos} />
     </>
   );
 }
