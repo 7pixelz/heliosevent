@@ -454,6 +454,29 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
         </section>
       )}
 
+      {/* ── STATS — Dark with lime numbers ── */}
+      <section style={{ background: '#0d1117', padding: 'clamp(48px, 8vw, 88px) 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: 'rgba(173,201,5,0.75)', marginBottom: '10px', fontFamily: "'Inter', sans-serif" }}>Our Track Record</div>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif" }}>Numbers That Tell Our Story</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '2px', background: 'rgba(255,255,255,0.06)', borderRadius: '20px', overflow: 'hidden' }}>
+            {[
+              { num: '1000+', label: 'Events Delivered' },
+              { num: '900+',  label: 'Happy Customers' },
+              { num: '25+',   label: 'Years of Service' },
+              { num: '50+',   label: 'Event Venues' },
+            ].map((s, i) => (
+              <div key={i} style={{ textAlign: 'center', padding: 'clamp(28px, 5vw, 48px) 24px', background: '#0d1117', position: 'relative' }}>
+                <div style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', fontWeight: 900, color: '#adc905', fontFamily: "'Montserrat', sans-serif", lineHeight: 1 }}>{s.num}</div>
+                <div style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginTop: '10px', fontFamily: "'Inter', sans-serif" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── FAQ — Light ── */}
       {faqs.length > 0 && (
         <section style={{ background: '#fff', padding: 'clamp(40px, 8vw, 96px) 0' }}>
