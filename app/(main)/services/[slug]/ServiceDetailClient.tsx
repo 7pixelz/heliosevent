@@ -217,7 +217,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
 
       {/* ── PORTFOLIO GALLERY — just below hero ── */}
       {portfolioEvents.length > 0 && (
-        <section style={{ background: '#111827', padding: 'clamp(40px, 8vw, 96px) 0' }}>
+        <section style={{ background: '#0d1117', padding: 'clamp(40px, 8vw, 96px) 0', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ textAlign: 'center', marginBottom: '48px' }}>
               <div style={{
