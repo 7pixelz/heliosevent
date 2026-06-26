@@ -217,17 +217,17 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
 
       {/* ── PORTFOLIO GALLERY — just below hero ── */}
       {portfolioEvents.length > 0 && (
-        <section style={{ background: '#0d1117', padding: 'clamp(40px, 8vw, 96px) 0', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+        <section style={{ background: '#f6f8f2', padding: 'clamp(40px, 8vw, 96px) 0' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ textAlign: 'center', marginBottom: '48px' }}>
               <div style={{
                 fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
-                textTransform: 'uppercase', color: 'rgba(173,201,5,0.75)',
+                textTransform: 'uppercase', color: '#adc905',
                 marginBottom: '12px', fontFamily: "'Inter', sans-serif",
               }}>Our Work</div>
               <h2 style={{
                 fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
-                color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif",
+                color: '#111', margin: 0, fontFamily: "'Montserrat', sans-serif",
               }}>
                 Events We&apos;ve Delivered
               </h2>
@@ -275,8 +275,8 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
             <div style={{ textAlign: 'center', marginTop: '40px' }}>
               <a href="/portfolio" style={{
                 display: 'inline-block', padding: '13px 32px',
-                border: '1px solid rgba(173,201,5,0.4)', borderRadius: '8px',
-                color: '#adc905', fontSize: '14px', fontWeight: 600,
+                border: '1px solid #adc905', borderRadius: '8px',
+                color: '#0d1117', background: '#adc905', fontSize: '14px', fontWeight: 700,
                 fontFamily: "'Inter', sans-serif", textDecoration: 'none',
               }}>
                 View All Portfolio →
