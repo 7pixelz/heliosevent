@@ -73,26 +73,32 @@ export default function ServiceEditClient({ service, portfolioEvents = [] }: { s
 
   async function handleSave() {
     setSaving(true); setError(''); setSaved(false);
-    const fd = new FormData();
-    fd.append('name', name);
-    fd.append('icon', icon);
-    fd.append('description', description);
-    fd.append('type', type);
-    fd.append('isActive', String(isActive));
-    fd.append('heroHeadline', heroHeadline);
-    fd.append('heroSubtitle', heroSubtitle);
-    fd.append('whatWeDo', whatWeDo);
-    fd.append('signatureEvents', JSON.stringify(sigEvents));
-    fd.append('differentiators', JSON.stringify(differentiators));
-    fd.append('faqs', JSON.stringify(faqs));
-    fd.append('linkedPortfolioIds', JSON.stringify(linkedIds));
-    if (coverFile) fd.append('file', coverFile);
+    try {
+      const fd = new FormData();
+      fd.append('name', name);
+      fd.append('icon', icon);
+      fd.append('description', description);
+      fd.append('type', type);
+      fd.append('isActive', String(isActive));
+      fd.append('heroHeadline', heroHeadline);
+      fd.append('heroSubtitle', heroSubtitle);
+      fd.append('whatWeDo', whatWeDo);
+      fd.append('signatureEvents', JSON.stringify(sigEvents));
+      fd.append('differentiators', JSON.stringify(differentiators));
+      fd.append('faqs', JSON.stringify(faqs));
+      fd.append('linkedPortfolioIds', JSON.stringify(linkedIds));
+      if (coverFile) fd.append('file', coverFile);
 
-    const res = await fetch(`/api/admin/services/${service.id}`, { method: 'PATCH', body: fd });
-    const data = await res.json();
-    if (!res.ok) { setError(data.error || 'Save failed'); setSaving(false); return; }
-    setSaved(true); setSaving(false);
-    setTimeout(() => setSaved(false), 3000);
+      const res = await fetch(`/api/admin/services/${service.id}`, { method: 'PATCH', body: fd });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || 'Save failed'); return; }
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (e) {
+      setError('Network error — please try again.');
+    } finally {
+      setSaving(false);
+    }
   }
 
   // Repeater helpers
