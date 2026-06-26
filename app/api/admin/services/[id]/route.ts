@@ -65,6 +65,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         signatureEvents: getString('signatureEvents'),
         differentiators: getString('differentiators'),
         faqs: getString('faqs'),
+        linkedPortfolioIds: getString('linkedPortfolioIds'),
         type: getString('type') || existing.type,
         isActive: fd.get('isActive') === 'true',
         coverImageUrl,

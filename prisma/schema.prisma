@@ -69,8 +69,9 @@ model Service {
   signatureEvents String?  @db.Text
   differentiators String?  @db.Text
   faqs            String?  @db.Text
-  coverImageUrl   String?
-  storagePath     String?
+  coverImageUrl        String?
+  storagePath          String?
+  linkedPortfolioIds   String?  @db.Text
   metaTitle       String?
   metaDescription String?  @db.Text
   metaKeywords    String?

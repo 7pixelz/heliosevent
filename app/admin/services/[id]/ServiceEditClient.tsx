@@ -13,6 +13,12 @@ interface Service {
   whatWeDo: string | null; signatureEvents: string | null;
   differentiators: string | null; faqs: string | null;
   coverImageUrl: string | null; isActive: boolean;
+  linkedPortfolioIds: string | null;
+}
+
+interface PortfolioEvent {
+  id: string; title: string; category: string;
+  clientName: string | null; coverImageUrl: string | null;
 }
 
 const inputSt: React.CSSProperties = {
@@ -33,7 +39,7 @@ function parseJSON<T>(s: string | null, fallback: T): T {
   try { return JSON.parse(s) as T; } catch { return fallback; }
 }
 
-export default function ServiceEditClient({ service }: { service: Service }) {
+export default function ServiceEditClient({ service, portfolioEvents = [] }: { service: Service; portfolioEvents?: PortfolioEvent[] }) {
   const router = useRouter();
   const coverRef = useRef<HTMLInputElement>(null);
 
@@ -60,6 +66,10 @@ export default function ServiceEditClient({ service }: { service: Service }) {
   const [faqs, setFaqs] = useState<FAQ[]>(
     parseJSON(service.faqs, [{ question: '', answer: '' }])
   );
+  const [linkedIds, setLinkedIds] = useState<string[]>(
+    parseJSON(service.linkedPortfolioIds, [])
+  );
+  const [portfolioSearch, setPortfolioSearch] = useState('');
 
   async function handleSave() {
     setSaving(true); setError(''); setSaved(false);
@@ -75,6 +85,7 @@ export default function ServiceEditClient({ service }: { service: Service }) {
     fd.append('signatureEvents', JSON.stringify(sigEvents));
     fd.append('differentiators', JSON.stringify(differentiators));
     fd.append('faqs', JSON.stringify(faqs));
+    fd.append('linkedPortfolioIds', JSON.stringify(linkedIds));
     if (coverFile) fd.append('file', coverFile);
 
     const res = await fetch(`/api/admin/services/${service.id}`, { method: 'PATCH', body: fd });
@@ -192,6 +203,65 @@ export default function ServiceEditClient({ service }: { service: Service }) {
               </div>
             ))}
             {addBtn(() => setFaqs(s => [...s, { question: '', answer: '' }]))}
+          </div>
+
+          {/* Portfolio Section */}
+          <div style={sectionCard}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#adc905', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '6px', fontFamily: "'Inter',sans-serif" }}>Portfolio Gallery</div>
+            <p style={{ fontSize: '12px', color: '#888', fontFamily: "'Inter',sans-serif", margin: '0 0 14px' }}>
+              Select portfolio events to display as a gallery on this service page. {linkedIds.length > 0 && <strong style={{ color: '#111' }}>{linkedIds.length} selected.</strong>}
+            </p>
+            <input
+              value={portfolioSearch}
+              onChange={e => setPortfolioSearch(e.target.value)}
+              placeholder="Search events…"
+              style={{ ...inputSt, marginBottom: '12px' }}
+            />
+            <div style={{ maxHeight: '360px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {portfolioEvents
+                .filter(ev => ev.title.toLowerCase().includes(portfolioSearch.toLowerCase()) || (ev.clientName || '').toLowerCase().includes(portfolioSearch.toLowerCase()))
+                .map(ev => {
+                  const selected = linkedIds.includes(ev.id);
+                  return (
+                    <div
+                      key={ev.id}
+                      onClick={() => setLinkedIds(ids => selected ? ids.filter(id => id !== ev.id) : [...ids, ev.id])}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: '12px',
+                        padding: '10px 12px', borderRadius: '8px', cursor: 'pointer',
+                        border: `1px solid ${selected ? '#adc905' : '#e5e7eb'}`,
+                        background: selected ? '#f8fce8' : '#fafafa',
+                        transition: 'all 0.15s',
+                      }}
+                    >
+                      {ev.coverImageUrl
+                        ? <img src={ev.coverImageUrl} alt="" style={{ width: '52px', height: '38px', objectFit: 'cover', borderRadius: '6px', flexShrink: 0 }} />
+                        : <div style={{ width: '52px', height: '38px', background: '#e5e7eb', borderRadius: '6px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>📷</div>
+                      }
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: '13px', fontWeight: 600, color: '#111', fontFamily: "'Inter',sans-serif", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{ev.title}</div>
+                        {ev.clientName && <div style={{ fontSize: '11px', color: '#888', fontFamily: "'Inter',sans-serif" }}>{ev.clientName}</div>}
+                      </div>
+                      <div style={{
+                        width: '20px', height: '20px', borderRadius: '50%', flexShrink: 0,
+                        border: `2px solid ${selected ? '#adc905' : '#d1d5db'}`,
+                        background: selected ? '#adc905' : 'transparent',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        {selected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>}
+                      </div>
+                    </div>
+                  );
+                })}
+              {portfolioEvents.length === 0 && (
+                <div style={{ fontSize: '13px', color: '#aaa', fontFamily: "'Inter',sans-serif", textAlign: 'center', padding: '24px' }}>No portfolio events yet.</div>
+              )}
+            </div>
+            {linkedIds.length > 0 && (
+              <button type="button" onClick={() => setLinkedIds([])} style={{ marginTop: '10px', fontSize: '11px', color: '#888', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
+                Clear all selections
+              </button>
+            )}
           </div>
         </div>
 

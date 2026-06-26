@@ -81,6 +81,18 @@ export default async function ServiceDetailPage({ params }: Props) {
   ]);
   if (!service) notFound();
 
+  let portfolioEvents: { id: string; title: string; slug: string; clientName: string | null; coverImageUrl: string | null; category: string }[] = [];
+  try {
+    const ids: string[] = JSON.parse(service.linkedPortfolioIds || '[]');
+    if (ids.length > 0) {
+      portfolioEvents = await prisma.portfolioEvent.findMany({
+        where: { id: { in: ids }, isActive: true },
+        select: { id: true, title: true, slug: true, clientName: true, coverImageUrl: true, category: true },
+      });
+      portfolioEvents.sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id));
+    }
+  } catch { /* ignore parse errors */ }
+
   const jsonLd = SERVICE_SCHEMA[slug];
 
   return (
@@ -92,7 +104,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <ServiceDetailClient service={service} videos={videos} />
+      <ServiceDetailClient service={service} videos={videos} portfolioEvents={portfolioEvents} />
     </>
   );
 }

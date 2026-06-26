@@ -90,7 +90,12 @@ function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
   );
 }
 
-export default function ServiceDetailPage({ service, videos = [] }: { service: ServiceDetail; videos?: VideoItem[] }) {
+interface PortfolioItem {
+  id: string; title: string; slug: string;
+  clientName: string | null; coverImageUrl: string | null; category: string;
+}
+
+export default function ServiceDetailPage({ service, videos = [], portfolioEvents = [] }: { service: ServiceDetail; videos?: VideoItem[]; portfolioEvents?: PortfolioItem[] }) {
   const sigEvents = parseJSON<SignatureEvent[]>(service.signatureEvents, []);
   const diffs = parseJSON<Differentiator[]>(service.differentiators, []);
   const faqs = parseJSON<FAQ[]>(service.faqs, []);
@@ -393,6 +398,77 @@ export default function ServiceDetailPage({ service, videos = [] }: { service: S
               </h2>
             </div>
             <FAQAccordion faqs={faqs} />
+          </div>
+        </section>
+      )}
+
+      {/* ── PORTFOLIO GALLERY ── */}
+      {portfolioEvents.length > 0 && (
+        <section style={{ background: '#0d1117', padding: 'clamp(40px, 8vw, 96px) 0' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <div style={{
+                fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
+                textTransform: 'uppercase', color: 'rgba(173,201,5,0.75)',
+                marginBottom: '12px', fontFamily: "'Inter', sans-serif",
+              }}>Our Work</div>
+              <h2 style={{
+                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
+                color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif",
+              }}>
+                Events We&apos;ve Delivered
+              </h2>
+            </div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+              gap: '20px',
+            }}>
+              {portfolioEvents.map(ev => (
+                <a key={ev.id} href={`/portfolio/${ev.slug}`} style={{ textDecoration: 'none' }}>
+                  <div style={{
+                    position: 'relative', borderRadius: '14px', overflow: 'hidden',
+                    aspectRatio: '4/3', background: '#1a1f2e',
+                    transition: 'transform 0.28s ease, box-shadow 0.28s ease',
+                  }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 20px 60px rgba(0,0,0,0.5)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
+                  >
+                    {ev.coverImageUrl
+                      ? <img src={ev.coverImageUrl} alt={ev.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      : <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px' }}>📷</div>
+                    }
+                    <div style={{
+                      position: 'absolute', inset: 0,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%)',
+                    }} />
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px' }}>
+                      {ev.clientName && (
+                        <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'rgba(173,201,5,0.9)', fontFamily: "'Inter', sans-serif", marginBottom: '4px' }}>
+                          {ev.clientName}
+                        </div>
+                      )}
+                      <div style={{ fontSize: '15px', fontWeight: 700, color: '#fff', fontFamily: "'Montserrat', sans-serif" }}>
+                        {ev.title}
+                      </div>
+                      <div style={{ fontSize: '11px', color: 'rgba(173,201,5,0.8)', fontFamily: "'Inter',sans-serif", marginTop: '6px', fontWeight: 600 }}>
+                        View Event →
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+            <div style={{ textAlign: 'center', marginTop: '40px' }}>
+              <a href="/portfolio" style={{
+                display: 'inline-block', padding: '13px 32px',
+                border: '1px solid rgba(173,201,5,0.4)', borderRadius: '8px',
+                color: '#adc905', fontSize: '14px', fontWeight: 600,
+                fontFamily: "'Inter', sans-serif", textDecoration: 'none',
+              }}>
+                View All Portfolio →
+              </a>
+            </div>
           </div>
         </section>
       )}
