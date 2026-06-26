@@ -126,7 +126,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
             />
             <div style={{
               position: 'absolute', inset: 0,
-              background: 'linear-gradient(to right, rgba(13,17,23,0.95) 40%, rgba(13,17,23,0.65) 100%)',
+              background: 'linear-gradient(to right, rgba(13,17,23,0.78) 35%, rgba(13,17,23,0.35) 100%)',
             }} />
           </>
         )}
