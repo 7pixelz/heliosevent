@@ -92,6 +92,7 @@ export default function ServiceEditClient({ service, portfolioEvents = [] }: { s
       const res = await fetch(`/api/admin/services/${service.id}`, { method: 'PATCH', body: fd });
       const data = await res.json();
       if (!res.ok) { setError(data.error || 'Save failed'); return; }
+      if (data.coverImageUrl) { setCoverPreview(data.coverImageUrl); setCoverFile(null); }
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (e) {

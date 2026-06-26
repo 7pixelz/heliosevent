@@ -22,6 +22,13 @@ function supabaseAdmin() {
   );
 }
 
+async function ensureBucket(sb: ReturnType<typeof supabaseAdmin>) {
+  const { data } = await sb.storage.listBuckets();
+  if (!data?.find(b => b.name === BUCKET)) {
+    await sb.storage.createBucket(BUCKET, { public: true });
+  }
+}
+
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -41,14 +48,16 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     if (file && file.size > 0) {
       const sb = supabaseAdmin();
+      await ensureBucket(sb);
       if (existing.storagePath) await sb.storage.from(BUCKET).remove([existing.storagePath]);
       const ext = file.name.split('.').pop() || 'jpg';
       const path = `covers/${Date.now()}.${ext}`;
-      const { error } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
-      if (!error) {
-        storagePath = path;
-        coverImageUrl = supabaseAdmin().storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+      const { error: uploadError } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
+      if (uploadError) {
+        return NextResponse.json({ error: `Image upload failed: ${uploadError.message}` }, { status: 500 });
       }
+      storagePath = path;
+      coverImageUrl = supabaseAdmin().storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
     }
 
     const getString = (key: string) => (fd.get(key) as string | null)?.trim() || null;
