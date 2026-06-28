@@ -7,6 +7,7 @@ interface Video {
   youtubeId: string;
   title: string;
   serviceSlug: string | null;
+  serviceSlugs: string | null;
   showOnHome: boolean;
   displayOrder: number;
   isActive: boolean;
@@ -44,7 +45,7 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
   // Add form state
   const [addInput, setAddInput] = useState('');
   const [addTitle, setAddTitle] = useState('');
-  const [addSlug, setAddSlug] = useState('');
+  const [addSlugs, setAddSlugs] = useState<string[]>([]);
   const [addOnHome, setAddOnHome] = useState(true);
   const [addOrder, setAddOrder] = useState(0);
   const [addError, setAddError] = useState('');
@@ -52,11 +53,19 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
   // Edit form state
   const [editInput, setEditInput] = useState('');
   const [editTitle, setEditTitle] = useState('');
-  const [editSlug, setEditSlug] = useState('');
+  const [editSlugs, setEditSlugs] = useState<string[]>([]);
   const [editOnHome, setEditOnHome] = useState(true);
   const [editOrder, setEditOrder] = useState(0);
   const [editActive, setEditActive] = useState(true);
   const [editError, setEditError] = useState('');
+
+  function parseSlugs(v: Video): string[] {
+    try { return JSON.parse(v.serviceSlugs || '[]'); } catch { return v.serviceSlug ? [v.serviceSlug] : []; }
+  }
+
+  function toggleSlug(slug: string, current: string[], set: (v: string[]) => void) {
+    set(current.includes(slug) ? current.filter(s => s !== slug) : [...current, slug]);
+  }
 
   async function refresh() {
     const res = await fetch('/api/admin/videos');
@@ -69,11 +78,11 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
     const res = await fetch('/api/admin/videos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ youtubeInput: addInput, title: addTitle, serviceSlug: addSlug || null, showOnHome: addOnHome, displayOrder: addOrder }),
+      body: JSON.stringify({ youtubeInput: addInput, title: addTitle, serviceSlugs: JSON.stringify(addSlugs), showOnHome: addOnHome, displayOrder: addOrder }),
     });
     if (res.ok) {
       await refresh();
-      setShowAdd(false); setAddInput(''); setAddTitle(''); setAddSlug(''); setAddOnHome(true); setAddOrder(0);
+      setShowAdd(false); setAddInput(''); setAddTitle(''); setAddSlugs([]); setAddOnHome(true); setAddOrder(0);
     } else {
       setAddError('Failed to add video');
     }
@@ -84,7 +93,7 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
     setEditVideo(v);
     setEditInput(v.youtubeId);
     setEditTitle(v.title);
-    setEditSlug(v.serviceSlug || '');
+    setEditSlugs(parseSlugs(v));
     setEditOnHome(v.showOnHome);
     setEditOrder(v.displayOrder);
     setEditActive(v.isActive);
@@ -98,7 +107,7 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
     const res = await fetch(`/api/admin/videos/${editVideo.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ youtubeId: editInput.trim(), title: editTitle, serviceSlug: editSlug || null, showOnHome: editOnHome, displayOrder: editOrder, isActive: editActive }),
+      body: JSON.stringify({ youtubeId: editInput.trim(), title: editTitle, serviceSlugs: JSON.stringify(editSlugs), showOnHome: editOnHome, displayOrder: editOrder, isActive: editActive }),
     });
     if (res.ok) {
       await refresh();
@@ -139,10 +148,10 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
     fontFamily: "'Inter',sans-serif",
   };
 
-  function FormFields({ input, setInput, title, setTitle, slug, setSlug, onHome, setOnHome, order, setOrder, active, setActive, showActive, error }: {
+  function FormFields({ input, setInput, title, setTitle, slugs, setSlugs, onHome, setOnHome, order, setOrder, active, setActive, showActive, error }: {
     input: string; setInput: (v: string) => void;
     title: string; setTitle: (v: string) => void;
-    slug: string; setSlug: (v: string) => void;
+    slugs: string[]; setSlugs: (v: string[]) => void;
     onHome: boolean; setOnHome: (v: boolean) => void;
     order: number; setOrder: (v: number) => void;
     active?: boolean; setActive?: (v: boolean) => void;
@@ -160,11 +169,21 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
           <input style={inputSt} placeholder="Video title" value={title} onChange={e => setTitle(e.target.value)} />
         </div>
         <div>
-          <label style={labelSt}>Service Category (optional)</label>
-          <select style={{ ...inputSt, appearance: 'auto' }} value={slug} onChange={e => setSlug(e.target.value)}>
-            <option value="">— None (home page only) —</option>
-            {services.map(s => <option key={s.id} value={s.slug}>{s.name}</option>)}
-          </select>
+          <label style={labelSt}>Service Categories (select multiple)</label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '180px', overflowY: 'auto', padding: '10px 12px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+            {services.map(s => (
+              <label key={s.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
+                <input
+                  type="checkbox"
+                  checked={slugs.includes(s.slug)}
+                  onChange={() => toggleSlug(s.slug, slugs, setSlugs)}
+                  style={{ width: '15px', height: '15px', accentColor: '#adc905' }}
+                />
+                {s.name}
+              </label>
+            ))}
+          </div>
+          {slugs.length > 0 && <div style={{ fontSize: '11px', color: '#adc905', marginTop: '4px', fontWeight: 600 }}>{slugs.length} categor{slugs.length === 1 ? 'y' : 'ies'} selected</div>}
         </div>
         <div style={{ display: 'flex', gap: '20px' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
@@ -207,7 +226,7 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
             <FormFields
               input={addInput} setInput={setAddInput}
               title={addTitle} setTitle={setAddTitle}
-              slug={addSlug} setSlug={setAddSlug}
+              slugs={addSlugs} setSlugs={setAddSlugs}
               onHome={addOnHome} setOnHome={setAddOnHome}
               order={addOrder} setOrder={setAddOrder}
               error={addError}
@@ -228,7 +247,7 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
             <FormFields
               input={editInput} setInput={setEditInput}
               title={editTitle} setTitle={setEditTitle}
-              slug={editSlug} setSlug={setEditSlug}
+              slugs={editSlugs} setSlugs={setEditSlugs}
               onHome={editOnHome} setOnHome={setEditOnHome}
               order={editOrder} setOrder={setEditOrder}
               active={editActive} setActive={setEditActive}
@@ -278,7 +297,7 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
                 <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '6px', lineHeight: 1.4 }}>{v.title}</div>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
                   {v.showOnHome && <span style={{ fontSize: '11px', background: '#f0f4d0', color: '#5a6e00', padding: '2px 8px', borderRadius: '20px', fontWeight: 600 }}>Homepage</span>}
-                  {v.serviceSlug && <span style={{ fontSize: '11px', background: '#e8edf2', color: '#555', padding: '2px 8px', borderRadius: '20px', fontWeight: 600 }}>{services.find(s => s.slug === v.serviceSlug)?.name ?? v.serviceSlug}</span>}
+                  {parseSlugs(v).map(slug => <span key={slug} style={{ fontSize: '11px', background: '#e8edf2', color: '#555', padding: '2px 8px', borderRadius: '20px', fontWeight: 600 }}>{services.find(s => s.slug === slug)?.name ?? slug}</span>)}
                   <span style={{ fontSize: '11px', background: '#f3f4f6', color: '#888', padding: '2px 8px', borderRadius: '20px' }}>Order: {v.displayOrder}</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>

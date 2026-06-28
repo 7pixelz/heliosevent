@@ -33,13 +33,13 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const user = await requireAdmin();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const { youtubeInput, title, serviceSlug, showOnHome, displayOrder } = await req.json();
+  const { youtubeInput, title, serviceSlugs, showOnHome, displayOrder } = await req.json();
   const youtubeId = extractYoutubeId(youtubeInput);
   const video = await prisma.youtubeVideo.create({
     data: {
       youtubeId,
       title,
-      serviceSlug: serviceSlug || null,
+      serviceSlugs: serviceSlugs || null,
       showOnHome: showOnHome ?? true,
       displayOrder: displayOrder ?? 0,
     },

@@ -198,6 +198,7 @@ model YoutubeVideo {
   youtubeId    String
   title        String
   serviceSlug  String?
+  serviceSlugs String?  @db.Text
   showOnHome   Boolean  @default(true)
   displayOrder Int      @default(0)
   isActive     Boolean  @default(true)

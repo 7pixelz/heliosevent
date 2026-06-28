@@ -74,7 +74,13 @@ export default async function ServiceDetailPage({ params }: Props) {
   const [service, videos, logos] = await Promise.all([
     prisma.service.findUnique({ where: { slug } }),
     prisma.youtubeVideo.findMany({
-      where: { isActive: true, serviceSlug: slug },
+      where: {
+        isActive: true,
+        OR: [
+          { serviceSlugs: { contains: `"${slug}"` } },
+          { serviceSlug: slug },
+        ],
+      },
       orderBy: { displayOrder: 'asc' },
       select: { id: true, youtubeId: true, title: true },
     }),
