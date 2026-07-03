@@ -21,6 +21,14 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // ── hyundai subdomain → homepage ──
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'hyundai.heliosevent.in' }],
+        destination: 'https://www.heliosevent.in',
+        permanent: true,
+      },
+
       // ── Old WordPress page slugs ──
       { source: '/about-us',        destination: '/about',     permanent: true },
       { source: '/about-us/',       destination: '/about',     permanent: true },
