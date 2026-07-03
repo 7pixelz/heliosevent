@@ -21,13 +21,23 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // ── hyundai subdomain → homepage ──
+      // ── Subdomains → homepage ──
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'hyundai.heliosevent.in' }],
         destination: 'https://www.heliosevent.in',
         permanent: true,
       },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'events.heliosevent.in' }],
+        destination: 'https://www.heliosevent.in',
+        permanent: true,
+      },
+
+      // ── /demo → homepage ──
+      { source: '/demo', destination: '/', permanent: true },
+      { source: '/demo/', destination: '/', permanent: true },
 
       // ── Old WordPress page slugs ──
       { source: '/about-us',        destination: '/about',     permanent: true },
