@@ -72,15 +72,14 @@ const trustPoints = [
   },
 ];
 
-const labelSt: React.CSSProperties = {
-  display: 'block', fontSize: '10px', fontWeight: 700,
-  letterSpacing: '1.8px', textTransform: 'uppercase',
-  color: 'rgba(0,0,0,0.4)', fontFamily: "'Inter',sans-serif", marginBottom: '6px',
-};
-
 function Field({ label, required = false, error, children }: {
   label: string; required?: boolean; error?: string; children: React.ReactNode;
 }) {
+  const labelSt: React.CSSProperties = {
+    display: 'block', fontSize: '10px', fontWeight: 700,
+    letterSpacing: '1.8px', textTransform: 'uppercase',
+    color: required ? '#111' : 'rgba(0,0,0,0.4)', fontFamily: "'Inter',sans-serif", marginBottom: '6px',
+  };
   return (
     <div>
       <label style={labelSt}>{label}{required && ' *'}</label>
@@ -229,7 +228,7 @@ function GetQuoteClientInner() {
                     </div>
                     <div>
                       <div style={{ fontSize: '13px', fontWeight: 700, color: '#111', fontFamily: "'Inter',sans-serif", marginBottom: '3px' }}>{p.title}</div>
-                      <div style={{ fontSize: '12px', color: '#888', fontFamily: "'Inter',sans-serif", lineHeight: 1.55 }}>{p.desc}</div>
+                      <div style={{ fontSize: '12px', color: '#111', fontFamily: "'Inter',sans-serif", lineHeight: 1.55 }}>{p.desc}</div>
                     </div>
                   </div>
                 ))}
