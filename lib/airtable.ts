@@ -34,7 +34,6 @@ export async function pushToAirtable(fields: {
         Budget: fields.budget ?? '',
         'Preferred Date': fields.preferredDate ?? '',
         'How Did You Hear': fields.howDidYouHear ?? '',
-        'Submitted At': new Date().toISOString(),
       },
     }),
   });
