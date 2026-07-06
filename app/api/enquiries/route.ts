@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '../../../lib/prisma';
 import { sendEnquiryNotification } from '../../../lib/mailer';
+import { pushToAirtable } from '../../../lib/airtable';
 
 const EnquirySchema = z.object({
   recaptchaToken: z.string().min(1, 'reCAPTCHA token missing'),
@@ -69,6 +70,12 @@ export async function POST(req: NextRequest) {
       await sendEnquiryNotification(fields);
     } catch (err) {
       console.error('✗ Email notification failed:', err);
+    }
+
+    try {
+      await pushToAirtable({ ...fields, phone: `${fields.phoneCode} ${fields.phone}` });
+    } catch (err) {
+      console.error('✗ Airtable push failed:', err);
     }
 
     return NextResponse.json({ success: true, id: quote.id });
