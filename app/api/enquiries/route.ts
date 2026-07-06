@@ -66,11 +66,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    try {
-      await sendEnquiryNotification(fields);
-    } catch (err) {
-      console.error('✗ Email notification failed:', err);
-    }
+    sendEnquiryNotification(fields)
+      .catch(err => console.error('✗ Email notification failed:', err));
 
     pushToAirtable({ ...fields, phone: `${fields.phoneCode} ${fields.phone}` })
       .catch(err => console.error('✗ Airtable push failed:', err));
