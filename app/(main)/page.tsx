@@ -17,7 +17,7 @@ import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo('home');
-  return buildMeta({ title: seo?.metaTitle, description: seo?.metaDescription, keywords: seo?.metaKeywords, path: '/' });
+  return buildMeta({ title: seo?.metaTitle, description: seo?.metaDescription, keywords: seo?.metaKeywords, path: '/', image: 'https://www.heliosevent.in/heliosevent-og-image.jpg.webp' });
 }
 
 export default async function Home() {
