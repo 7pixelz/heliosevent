@@ -32,15 +32,14 @@ const initialForm = {
   teamSize: '', budget: '', preferredDate: '', howDidYouHear: '',
 };
 
-const labelSt: React.CSSProperties = {
-  display: 'block', fontSize: '10px', fontWeight: 700,
-  letterSpacing: '1.8px', textTransform: 'uppercase',
-  color: 'rgba(0,0,0,0.4)', fontFamily: "'Inter',sans-serif", marginBottom: '6px',
-};
-
 function Field({ label, required = false, error, children }: {
   label: string; required?: boolean; error?: string; children: React.ReactNode;
 }) {
+  const labelSt: React.CSSProperties = {
+    display: 'block', fontSize: '10px', fontWeight: 700,
+    letterSpacing: '1.8px', textTransform: 'uppercase',
+    color: required ? '#111' : 'rgba(0,0,0,0.4)', fontFamily: "'Inter',sans-serif", marginBottom: '6px',
+  };
   return (
     <div>
       <label style={labelSt}>{label}{required && ' *'}</label>
