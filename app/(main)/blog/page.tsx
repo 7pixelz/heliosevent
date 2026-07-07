@@ -91,12 +91,7 @@ export default async function BlogPage({
                     }
                   </div>
                   <div style={{ padding: '20px 22px 24px' }}>
-                    {post.category && (
-                      <span style={{ fontSize: '11px', fontWeight: 700, color: '#ff6a00', letterSpacing: '1px', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif" }}>
-                        {post.category}
-                      </span>
-                    )}
-                    <h2 style={{ fontSize: '17px', fontWeight: 800, color: '#111', margin: '8px 0 10px', lineHeight: 1.35, fontFamily: "'Inter',sans-serif" }}>
+                    <h2 style={{ fontSize: '17px', fontWeight: 800, color: '#111', margin: '0 0 10px', lineHeight: 1.35, fontFamily: "'Inter',sans-serif" }}>
                       {post.title}
                     </h2>
                     {post.excerpt && (
