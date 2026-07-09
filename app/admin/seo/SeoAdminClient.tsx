@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
+const RichTextEditor = dynamic(() => import('../../../components/admin/RichTextEditor'), { ssr: false });
 
 interface SeoRecord {
   id: string;
@@ -182,22 +184,13 @@ function SeoEditor({
           {/* SEO Content — services only */}
           {type === 'services' && (
             <div>
-              <label style={lbl}>
+              <label style={{ ...lbl, marginBottom: '8px' }}>
                 SEO Content
                 <span style={{ marginLeft: '8px', fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#aaa' }}>
-                  HTML — appears at bottom of service page
+                  appears at bottom of service page
                 </span>
               </label>
-              <textarea
-                value={seoContent}
-                onChange={e => setSeoContent(e.target.value)}
-                placeholder="Paste HTML content here… e.g. <h2>Corporate Event Planning Services</h2><p>…</p>"
-                rows={12}
-                style={{ ...inp, resize: 'vertical', fontFamily: 'monospace', fontSize: '12px' }}
-              />
-              <div style={{ fontSize: '11px', color: '#bbb', marginTop: '4px' }}>
-                Supports HTML tags: h2, h3, p, ul, li, strong, etc. This content is shown as a mini-article below the service page for SEO.
-              </div>
+              <RichTextEditor value={seoContent} onChange={setSeoContent} />
             </div>
           )}
 
