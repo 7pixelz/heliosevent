@@ -3,7 +3,7 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
-import { useEffect } from 'react';
+
 
 function ToolbarBtn({ onClick, active, title, children }: {
   onClick: () => void; active?: boolean; title: string; children: React.ReactNode;
@@ -45,13 +45,6 @@ export default function RichTextEditor({
       onChange(editor.getHTML());
     },
   });
-
-  useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value, false);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   function setLink() {
     const url = window.prompt('Enter URL');
