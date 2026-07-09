@@ -8,7 +8,7 @@ export default async function SeoAdminPage() {
     prisma.pageSeo.findMany({ orderBy: { createdAt: 'asc' } }),
     prisma.service.findMany({
       where: { type: 'MAIN' }, orderBy: { displayOrder: 'asc' },
-      select: { id: true, name: true, slug: true, icon: true, metaTitle: true, metaDescription: true, metaKeywords: true },
+      select: { id: true, name: true, slug: true, icon: true, metaTitle: true, metaDescription: true, metaKeywords: true, seoContent: true },
     }),
     prisma.portfolioEvent.findMany({
       orderBy: { displayOrder: 'asc' },

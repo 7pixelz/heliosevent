@@ -26,6 +26,7 @@ interface ServiceDetail {
   faqs: string | null;
   coverImageUrl: string | null;
   type: string;
+  seoContent: string | null;
 }
 
 interface VideoItem {
@@ -560,6 +561,16 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
         </div>
       </section>
 
+
+      {service.seoContent && (
+        <section style={{ background: '#fff', borderTop: '1px solid #f0f0f0' }}>
+          <div
+            className="blog-content"
+            style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 24px' }}
+            dangerouslySetInnerHTML={{ __html: service.seoContent }}
+          />
+        </section>
+      )}
 
       <VideoGrid videos={videos} heading={`${service.name} – Videos`} />
       <LeadForm />

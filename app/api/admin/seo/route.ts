@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     const services = await prisma.service.findMany({
       where: { type: 'MAIN' },
       orderBy: { displayOrder: 'asc' },
-      select: { id: true, name: true, slug: true, icon: true, metaTitle: true, metaDescription: true, metaKeywords: true },
+      select: { id: true, name: true, slug: true, icon: true, metaTitle: true, metaDescription: true, metaKeywords: true, seoContent: true },
     });
     return NextResponse.json(services);
   }
@@ -53,7 +53,7 @@ export async function PATCH(req: NextRequest) {
   const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { type, id, metaTitle, metaDescription, metaKeywords } = await req.json();
+  const { type, id, metaTitle, metaDescription, metaKeywords, seoContent } = await req.json();
   const data = {
     metaTitle: metaTitle || null,
     metaDescription: metaDescription || null,
@@ -66,7 +66,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json(updated);
   }
   if (type === 'services') {
-    const updated = await prisma.service.update({ where: { id }, data: { ...data, updatedAt: new Date() } });
+    const updated = await prisma.service.update({ where: { id }, data: { ...data, seoContent: seoContent || null, updatedAt: new Date() } });
     revalidatePath('/services', 'layout');
     return NextResponse.json(updated);
   }

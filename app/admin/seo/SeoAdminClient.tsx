@@ -9,7 +9,7 @@ interface SeoRecord {
   metaKeywords: string | null;
 }
 interface PageRecord extends SeoRecord { pageKey: string; pageLabel: string; }
-interface ServiceRecord extends SeoRecord { name: string; slug: string; icon: string; }
+interface ServiceRecord extends SeoRecord { name: string; slug: string; icon: string; seoContent: string | null; }
 interface PortfolioRecord extends SeoRecord { title: string; slug: string; category: string; }
 interface Props {
   pages: PageRecord[];
@@ -39,17 +39,18 @@ const lbl: React.CSSProperties = {
 
 function SeoEditor({
   id, type, label, url,
-  initTitle, initDesc, initKw,
+  initTitle, initDesc, initKw, initSeoContent,
   onSaved,
 }: {
   id: string; type: string; label: string; url: string;
-  initTitle: string | null; initDesc: string | null; initKw: string | null;
+  initTitle: string | null; initDesc: string | null; initKw: string | null; initSeoContent?: string | null;
   onSaved: (id: string, title: string, desc: string, kw: string) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(initTitle || '');
   const [desc, setDesc] = useState(initDesc || '');
   const [kw, setKw] = useState(initKw || '');
+  const [seoContent, setSeoContent] = useState(initSeoContent || '');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -61,7 +62,7 @@ function SeoEditor({
     const res = await fetch('/api/admin/seo', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, id, metaTitle: title, metaDescription: desc, metaKeywords: kw }),
+      body: JSON.stringify({ type, id, metaTitle: title, metaDescription: desc, metaKeywords: kw, seoContent }),
     });
     if (res.ok) {
       onSaved(id, title, desc, kw);
@@ -177,6 +178,28 @@ function SeoEditor({
               Comma-separated. Modern search engines weight content more than keywords, but it helps for tracking.
             </div>
           </div>
+
+          {/* SEO Content — services only */}
+          {type === 'services' && (
+            <div>
+              <label style={lbl}>
+                SEO Content
+                <span style={{ marginLeft: '8px', fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#aaa' }}>
+                  HTML — appears at bottom of service page
+                </span>
+              </label>
+              <textarea
+                value={seoContent}
+                onChange={e => setSeoContent(e.target.value)}
+                placeholder="Paste HTML content here… e.g. <h2>Corporate Event Planning Services</h2><p>…</p>"
+                rows={12}
+                style={{ ...inp, resize: 'vertical', fontFamily: 'monospace', fontSize: '12px' }}
+              />
+              <div style={{ fontSize: '11px', color: '#bbb', marginTop: '4px' }}>
+                Supports HTML tags: h2, h3, p, ul, li, strong, etc. This content is shown as a mini-article below the service page for SEO.
+              </div>
+            </div>
+          )}
 
           {/* SERP Preview */}
           {(title || desc) && (
@@ -340,7 +363,7 @@ export default function SeoAdminClient({ pages, services, portfolio }: Props) {
         {activeTab === 'services' && serviceData.map(s => (
           <SeoEditor key={s.id} id={s.id} type="services"
             label={`${s.icon} ${s.name}`} url={`/services/${s.slug}`}
-            initTitle={s.metaTitle} initDesc={s.metaDescription} initKw={s.metaKeywords}
+            initTitle={s.metaTitle} initDesc={s.metaDescription} initKw={s.metaKeywords} initSeoContent={s.seoContent}
             onSaved={(id, t, d, k) => updateRecord(setServiceData, id, t, d, k)}
           />
         ))}

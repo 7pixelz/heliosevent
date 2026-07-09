@@ -6,22 +6,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum MediaType {
-  IMAGE
-  VIDEO
-}
-
-enum Role {
-  SUPER_ADMIN
-  ADMIN
-}
-
-enum QuoteStatus {
-  NEW
-  CONTACTED
-  CLOSED
-}
-
 model AdminUser {
   id        String   @id @default(cuid())
   name      String
@@ -57,48 +41,49 @@ model ClientLogo {
 }
 
 model Service {
-  id              String   @id @default(cuid())
-  type            String   @default("MAIN")
-  icon            String
-  name            String
-  slug            String   @unique
-  description     String
-  heroHeadline    String?
-  heroSubtitle    String?  @db.Text
-  whatWeDo        String?  @db.Text
-  signatureEvents String?  @db.Text
-  differentiators String?  @db.Text
-  faqs            String?  @db.Text
-  coverImageUrl        String?
-  storagePath          String?
-  linkedPortfolioIds   String?  @db.Text
-  metaTitle       String?
-  metaDescription String?  @db.Text
-  metaKeywords    String?
-  displayOrder    Int      @default(0)
-  isActive        Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  type               String   @default("MAIN")
+  icon               String
+  name               String
+  slug               String   @unique
+  description        String
+  heroHeadline       String?
+  heroSubtitle       String?
+  whatWeDo           String?
+  signatureEvents    String?
+  differentiators    String?
+  faqs               String?
+  coverImageUrl      String?
+  storagePath        String?
+  displayOrder       Int      @default(0)
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  metaDescription    String?
+  metaKeywords       String?
+  metaTitle          String?
+  linkedPortfolioIds String?
+  seoContent         String?
 }
 
 model BlogPost {
-  id            String    @id @default(cuid())
-  title         String
-  slug          String    @unique
-  content       String    @db.Text
-  excerpt       String?   @db.Text
-  coverImageUrl String?
-  storagePath   String?
-  category      String?
-  tags          String?
-  metaTitle       String?
-  metaDescription String?  @db.Text
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  content         String
+  excerpt         String?
+  coverImageUrl   String?
+  storagePath     String?
+  category        String?
+  tags            String?
+  isPublished     Boolean   @default(false)
+  publishedAt     DateTime?
+  wpId            Int?      @unique
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  metaDescription String?
   metaKeywords    String?
-  isPublished   Boolean   @default(false)
-  publishedAt   DateTime?
-  wpId          Int?      @unique
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  metaTitle       String?
 }
 
 model PortfolioItem {
@@ -114,34 +99,34 @@ model PortfolioItem {
 }
 
 model PortfolioEvent {
-  id            String           @id @default(cuid())
-  title         String
-  slug          String           @unique
-  description   String?          @db.Text
-  category      String
-  clientName    String?
-  eventDate     DateTime?
+  id              String           @id @default(cuid())
+  title           String
+  slug            String           @unique
+  description     String?
+  category        String
+  clientName      String?
+  eventDate       DateTime?
   coverImageUrl   String?
-  metaTitle       String?
-  metaDescription String?  @db.Text
-  metaKeywords    String?
   displayOrder    Int              @default(0)
   isActive        Boolean          @default(true)
-  featuredOnHome  Boolean          @default(false)
-  media           PortfolioMedia[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
+  metaDescription String?
+  metaKeywords    String?
+  metaTitle       String?
+  featuredOnHome  Boolean          @default(false)
+  media           PortfolioMedia[]
 }
 
 model PortfolioMedia {
   id           String         @id @default(cuid())
   eventId      String
-  event        PortfolioEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
   type         String         @default("IMAGE")
   url          String
   storagePath  String?
   displayOrder Int            @default(0)
   createdAt    DateTime       @default(now())
+  event        PortfolioEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model PageSeo {
@@ -149,7 +134,7 @@ model PageSeo {
   pageKey         String   @unique
   pageLabel       String
   metaTitle       String?
-  metaDescription String?  @db.Text
+  metaDescription String?
   metaKeywords    String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -162,35 +147,35 @@ model CareerApplication {
   phone           String
   position        String
   experience      String
-  currentCompany  String?
-  currentLocation String?
   currentRole     String?
-  message         String?  @db.Text
+  message         String?
   resumeUrl       String?
   status          String   @default("NEW")
   createdAt       DateTime @default(now())
+  currentCompany  String?
+  currentLocation String?
 }
 
 model Quote {
-  id                     String      @id @default(cuid())
-  name                   String
-  email                  String
-  phoneCode              String      @default("+91")
-  phone                  String
-  company                String
-  location               String
-  teamSize               String?
-  targetAudiences        String?
-  preferredDate          String?
-  typeOfProgram          String?
-  budget                 String?
-  howDidYouHear          String?
-  status                 QuoteStatus @default(NEW)
-  contactedAt            DateTime?
-  notes                  String?
-  isArchived             Boolean     @default(false)
-  createdAt              DateTime    @default(now())
-  updatedAt              DateTime    @updatedAt
+  id              String      @id @default(cuid())
+  name            String
+  email           String
+  phoneCode       String      @default("+91")
+  phone           String
+  company         String
+  location        String
+  teamSize        String?
+  targetAudiences String?
+  preferredDate   String?
+  typeOfProgram   String?
+  budget          String?
+  howDidYouHear   String?
+  status          QuoteStatus @default(NEW)
+  contactedAt     DateTime?
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  isArchived      Boolean     @default(false)
 }
 
 model YoutubeVideo {
@@ -198,12 +183,12 @@ model YoutubeVideo {
   youtubeId    String
   title        String
   serviceSlug  String?
-  serviceSlugs String?  @db.Text
   showOnHome   Boolean  @default(true)
   displayOrder Int      @default(0)
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  serviceSlugs String?
 }
 
 model ClientFeedback {
@@ -212,8 +197,24 @@ model ClientFeedback {
   timeline     Int
   appreciation Int
   referral     Int
-  experience   String?  @db.Text
-  name         String
-  email        String?
+  experience   String?
   submittedAt  DateTime @default(now())
+  email        String?
+  name         String
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+}
+
+enum QuoteStatus {
+  NEW
+  CONTACTED
+  CLOSED
 }
