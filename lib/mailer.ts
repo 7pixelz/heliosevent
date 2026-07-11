@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const ENQUIRY_NOTIFY = ['bala@heliosevent.net', 'mktg@heliosevent.net', 'nakshatra@heliosevent.net'];
+const ENQUIRY_NOTIFY = ['bala@heliosevent.net', 'mktg@heliosevent.net', 'nakshatra@heliosevent.net', 'abishek@heliosevent.net', 'mahadeer@7pixelz.com'];
 const CAREER_NOTIFY  = ['bala@heliosevent.net', 'rajula@heliosevent.net', 'nakshatra@heliosevent.net'];
 
 export interface EnquiryData {

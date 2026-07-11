@@ -66,11 +66,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    sendEnquiryNotification(fields)
-      .catch(err => console.error('✗ Email notification failed:', err));
-
-    pushToAirtable({ ...fields, phone: `${fields.phoneCode} ${fields.phone}` })
-      .catch(err => console.error('✗ Airtable push failed:', err));
+    await Promise.allSettled([
+      sendEnquiryNotification(fields).catch(err => console.error('✗ Email failed:', err)),
+      pushToAirtable({ ...fields, phone: `${fields.phoneCode} ${fields.phone}` }).catch(err => console.error('✗ Airtable failed:', err)),
+    ]);
 
     return NextResponse.json({ success: true, id: quote.id });
   } catch (e) {
