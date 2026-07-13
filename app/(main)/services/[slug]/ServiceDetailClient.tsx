@@ -239,7 +239,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               gap: '20px',
             }}>
               {portfolioEvents.map(ev => (
-                <a key={ev.id} href={`/portfolio/${ev.slug}`} style={{ textDecoration: 'none' }}>
+                <Link key={ev.id} href={`/portfolio/${ev.slug}`} style={{ textDecoration: 'none' }}>
                   <div style={{
                     position: 'relative', borderRadius: '14px', overflow: 'hidden',
                     aspectRatio: '4/3', background: '#1a1f2e',
@@ -270,7 +270,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                       </div>
                     </div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
             <div style={{ textAlign: 'center', marginTop: '40px' }}>
