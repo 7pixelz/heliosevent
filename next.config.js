@@ -48,6 +48,10 @@ const nextConfig = {
       { source: '/event-gallery',   destination: '/portfolio', permanent: true },
       { source: '/event-gallery/',  destination: '/portfolio', permanent: true },
 
+      // ── Corporate events (high priority) ──
+      { source: '/corporate-events',  destination: '/services/corporate-event-management-in-chennai', permanent: true },
+      { source: '/corporate-events/', destination: '/services/corporate-event-management-in-chennai', permanent: true },
+
       // ── Old service pages → active service pages only ──
       { source: '/mice',                                    destination: '/services/business-meeting-organizer-in-chennai',            permanent: true },
       { source: '/mice/',                                   destination: '/services/business-meeting-organizer-in-chennai',            permanent: true },
