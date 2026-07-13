@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { unstable_cache } from 'next/cache';
 import { prisma } from './prisma';
 
 const SITE = 'Helios Event Productions';
@@ -43,13 +44,17 @@ export function buildMeta({
   };
 }
 
-export async function getPageSeo(pageKey: string): Promise<{ metaTitle: string | null; metaDescription: string | null; metaKeywords: string | null } | null> {
-  try {
-    return await prisma.pageSeo.findUnique({
-      where: { pageKey },
-      select: { metaTitle: true, metaDescription: true, metaKeywords: true },
-    });
-  } catch {
-    return null;
-  }
-}
+export const getPageSeo = unstable_cache(
+  async (pageKey: string) => {
+    try {
+      return await prisma.pageSeo.findUnique({
+        where: { pageKey },
+        select: { metaTitle: true, metaDescription: true, metaKeywords: true },
+      });
+    } catch {
+      return null;
+    }
+  },
+  ['page-seo'],
+  { revalidate: 3600 }
+);
