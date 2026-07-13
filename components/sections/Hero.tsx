@@ -79,12 +79,7 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
       {/* ── Content ── */}
       <div className="hero-content" style={{ position: 'relative', zIndex: 3 }}>
         <h1 className="hero-title">
-          {whiteWords.map((w, i) => (
-            <span key={`w${i}`} style={{ display: 'block' }}>{w}</span>
-          ))}
-          {accentWords.map((w, i) => (
-            <span key={`a${i}`} className="g" style={{ display: 'block' }}>{w}</span>
-          ))}
+          {`${whiteWords.join(' ')} ${accentWords.join(' ')}`}
         </h1>
 
         {slides[current]?.subtitle && (
