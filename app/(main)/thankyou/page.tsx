@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Thank You | Helios Event Productions',
@@ -54,21 +55,21 @@ export default function ThankYouPage() {
           </p>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/" style={{
+            <Link href="/" style={{
               padding: '13px 28px', background: '#adc905', color: '#000',
               borderRadius: '8px', textDecoration: 'none', fontSize: '14px',
               fontWeight: 700, fontFamily: "'Inter', sans-serif",
             }}>
               Back to Home
-            </a>
-            <a href="/portfolio" style={{
+            </Link>
+            <Link href="/portfolio" style={{
               padding: '13px 28px', background: 'transparent',
               border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.75)',
               borderRadius: '8px', textDecoration: 'none', fontSize: '14px',
               fontWeight: 600, fontFamily: "'Inter', sans-serif",
             }}>
               View Portfolio
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface ServiceItem { id: string; icon: string; name: string; slug: string }
 
@@ -95,7 +96,7 @@ function DropdownMenu({ items, visible }: { items: ServiceItem[]; visible: boole
           const hasSub = !!SERVICE_SUB_ITEMS[item.slug];
           const isHovered = hoveredSlug === item.slug;
           return (
-            <a
+            <Link
               key={item.id}
               href={`/services/${item.slug}`}
               onMouseEnter={() => setHoveredSlug(item.slug)}
@@ -113,7 +114,7 @@ function DropdownMenu({ items, visible }: { items: ServiceItem[]; visible: boole
                 {item.name}
               </span>
               {hasSub && <span style={{ fontSize: '10px', color: '#adc905' }}>›</span>}
-            </a>
+            </Link>
           );
         })}
 
@@ -170,7 +171,7 @@ function MobileAccordion({ items, open }: { items: ServiceItem[]; open: boolean 
         return (
           <div key={item.id}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <a
+              <Link
                 href={`/services/${item.slug}`}
                 style={{
                   flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
@@ -180,7 +181,7 @@ function MobileAccordion({ items, open }: { items: ServiceItem[]; open: boolean 
                 }}
               >
                 <span>{item.icon}</span>{item.name}
-              </a>
+              </Link>
               {hasSub && (
                 <button onClick={() => setOpenSlug(isOpen ? null : item.slug)} style={{ background: 'none', border: 'none', color: '#adc905', fontSize: '16px', padding: '10px 14px', cursor: 'pointer', borderBottom: '1px solid rgba(173,201,5,0.04)' }}>
                   {isOpen ? '−' : '+'}
@@ -247,13 +248,13 @@ export default function Header() {
 
   return (
     <nav>
-      <a href="/" className="nav-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+      <Link href="/" className="nav-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
         <Image src="/assets/heliosevent_logo_white.webp" alt="Helios Event Productions" width={205} height={56} priority sizes="(max-width:640px) 150px, 205px" style={{ height: '56px', width: 'auto' }} />
-      </a>
+      </Link>
 
       <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`}>
         <li>
-          <a href="/" className={pathname === '/' ? 'active' : ''} onClick={closeMobileMenu}>Home</a>
+          <Link href="/" className={pathname === '/' ? 'active' : ''} onClick={closeMobileMenu}>Home</Link>
         </li>
 
         {/* Services dropdown */}
@@ -290,18 +291,18 @@ export default function Header() {
 
         {/* Activities dropdown — hidden for now */}
 
-        <li><a href="/portfolio" className={pathname === '/portfolio' ? 'active' : ''} onClick={closeMobileMenu}>Portfolio</a></li>
-        <li><a href="/about" className={pathname === '/about' ? 'active' : ''} onClick={closeMobileMenu}>About Us</a></li>
-        <li><a href="/careers" className={pathname === '/careers' ? 'active' : ''} onClick={closeMobileMenu}>Careers</a></li>
-        <li><a href="/contact" className={pathname === '/contact' ? 'active' : ''} onClick={closeMobileMenu}>Contact</a></li>
+        <li><Link href="/portfolio" className={pathname === '/portfolio' ? 'active' : ''} onClick={closeMobileMenu}>Portfolio</Link></li>
+        <li><Link href="/about" className={pathname === '/about' ? 'active' : ''} onClick={closeMobileMenu}>About Us</Link></li>
+        <li><Link href="/careers" className={pathname === '/careers' ? 'active' : ''} onClick={closeMobileMenu}>Careers</Link></li>
+        <li><Link href="/contact" className={pathname === '/contact' ? 'active' : ''} onClick={closeMobileMenu}>Contact</Link></li>
         <li className="mobile-cta">
-          <a href="/get-quote" className="nav-btn" onClick={closeMobileMenu} style={{ textDecoration: 'none', display: 'block', textAlign: 'center' }}>
+          <Link href="/get-quote" className="nav-btn" onClick={closeMobileMenu} style={{ textDecoration: 'none', display: 'block', textAlign: 'center' }}>
             Plan Your Event
-          </a>
+          </Link>
         </li>
       </ul>
 
-      <a href="/get-quote" className="nav-btn hide-mobile" style={{ textDecoration: 'none' }}>Plan Your Event</a>
+      <Link href="/get-quote" className="nav-btn hide-mobile" style={{ textDecoration: 'none' }}>Plan Your Event</Link>
       <button className="hamburger" aria-label="Toggle navigation menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(o => !o)}>
         <span className={`ham-line ${mobileMenuOpen ? 'active' : ''}`}></span>
         <span className={`ham-line ${mobileMenuOpen ? 'active' : ''}`}></span>

@@ -274,14 +274,14 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               ))}
             </div>
             <div style={{ textAlign: 'center', marginTop: '40px' }}>
-              <a href="/portfolio" style={{
+              <Link href="/portfolio" style={{
                 display: 'inline-block', padding: '13px 32px',
                 border: '1px solid #adc905', borderRadius: '8px',
                 color: '#0d1117', background: '#adc905', fontSize: '14px', fontWeight: 700,
                 fontFamily: "'Inter', sans-serif", textDecoration: 'none',
               }}>
                 View All Portfolio →
-              </a>
+              </Link>
             </div>
           </div>
         </section>

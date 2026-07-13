@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface HeroSlide {
   id: string;
@@ -100,14 +101,14 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
         )}
 
         <div className="hero-cta-row">
-          <a
+          <Link
             href={slides[current]?.ctaLink || '/get-quote'}
             className="hero-btn"
             style={{ textDecoration: 'none' }}
           >
             {slides[current]?.ctaText || 'Plan Your Event'}
-          </a>
-          <a href="/portfolio" className="hero-btn-ghost" style={{ textDecoration: 'none' }}>View Portfolio</a>
+          </Link>
+          <Link href="/portfolio" className="hero-btn-ghost" style={{ textDecoration: 'none' }}>View Portfolio</Link>
         </div>
       </div>
 

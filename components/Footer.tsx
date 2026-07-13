@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -29,25 +30,25 @@ export default function Footer() {
         <div>
           <div className="fc-title">Quick Links</div>
           <ul className="flinks">
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/portfolio">Our Portfolio</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/contact">Contact Us</a></li>
-            <li><a href="/get-quote">Get a Quote</a></li>
+            <li><Link href="/about">About Us</Link></li>
+            <li><Link href="/portfolio">Our Portfolio</Link></li>
+            <li><Link href="/blog">Blog</Link></li>
+            <li><Link href="/contact">Contact Us</Link></li>
+            <li><Link href="/get-quote">Get a Quote</Link></li>
           </ul>
         </div>
         <div>
           <div className="fc-title">Our Services</div>
           <ul className="flinks">
-            <li><a href="/services/corporate-event-management-in-chennai">Corporate Events</a></li>
-            <li><a href="/services/entertainment-event-organizer-in-chennai">Entertainment Events</a></li>
-            <li><a href="/services/exhibition-organizer-in-chennai">Exhibitions</a></li>
-            <li><a href="/services/government-events-planner-in-chennai">Government Protocol Events</a></li>
-            <li><a href="/services/business-meeting-organizer-in-chennai">MICE Events</a></li>
-            <li><a href="/services/sports-event-management-company-in-chennai">Sports Events</a></li>
+            <li><Link href="/services/corporate-event-management-in-chennai">Corporate Events</Link></li>
+            <li><Link href="/services/entertainment-event-organizer-in-chennai">Entertainment Events</Link></li>
+            <li><Link href="/services/exhibition-organizer-in-chennai">Exhibitions</Link></li>
+            <li><Link href="/services/government-events-planner-in-chennai">Government Protocol Events</Link></li>
+            <li><Link href="/services/business-meeting-organizer-in-chennai">MICE Events</Link></li>
+            <li><Link href="/services/sports-event-management-company-in-chennai">Sports Events</Link></li>
             <li><a href="https://www.nakshatrawedding.com/" target="_blank" rel="noopener noreferrer">Wedding &amp; Social Events</a></li>
-            <li><a href="/services/virtual-hybrid-event-management-in-chennai">Virtual &amp; Hybrid Events</a></li>
-            <li><a href="/services/gen-z-centric-event-management-in-chennai">Gen Z-Centric Events</a></li>
+            <li><Link href="/services/virtual-hybrid-event-management-in-chennai">Virtual &amp; Hybrid Events</Link></li>
+            <li><Link href="/services/gen-z-centric-event-management-in-chennai">Gen Z-Centric Events</Link></li>
           </ul>
         </div>
         <div>
