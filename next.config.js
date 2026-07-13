@@ -48,17 +48,17 @@ const nextConfig = {
       { source: '/event-gallery',   destination: '/portfolio', permanent: true },
       { source: '/event-gallery/',  destination: '/portfolio', permanent: true },
 
-      // ── Old service pages ──
-      { source: '/mice',                                    destination: '/services',                                                  permanent: true },
-      { source: '/mice/',                                   destination: '/services',                                                  permanent: true },
+      // ── Old service pages → active service pages only ──
+      { source: '/mice',                                    destination: '/services/business-meeting-organizer-in-chennai',            permanent: true },
+      { source: '/mice/',                                   destination: '/services/business-meeting-organizer-in-chennai',            permanent: true },
       { source: '/sports-events',                           destination: '/services/sports-event-management-company-in-chennai',       permanent: true },
       { source: '/sports-events/',                          destination: '/services/sports-event-management-company-in-chennai',       permanent: true },
-      { source: '/seminars-conferences',                    destination: '/services',                                                  permanent: true },
-      { source: '/seminars-conferences/',                   destination: '/services',                                                  permanent: true },
       { source: '/corporate-event-organisers-in-chennai',  destination: '/services/corporate-event-management-in-chennai',            permanent: true },
       { source: '/corporate-event-organisers-in-chennai/', destination: '/services/corporate-event-management-in-chennai',            permanent: true },
-      { source: '/amazing-race-for-corporates-gps-based-truss-run-events',  destination: '/services', permanent: true },
-      { source: '/amazing-race-for-corporates-gps-based-truss-run-events/', destination: '/services', permanent: true },
+      { source: '/seminars-conferences',                    destination: '/',                                                          permanent: true },
+      { source: '/seminars-conferences/',                   destination: '/',                                                          permanent: true },
+      { source: '/amazing-race-for-corporates-gps-based-truss-run-events',  destination: '/', permanent: true },
+      { source: '/amazing-race-for-corporates-gps-based-truss-run-events/', destination: '/', permanent: true },
 
       // ── Old portfolio / case study pages ──
       { source: '/event-gallery',  destination: '/portfolio', permanent: true },
@@ -112,11 +112,31 @@ const nextConfig = {
       { source: '/blog/:slug/feed',         destination: '/blog', permanent: true },
       { source: '/blog/:slug/feed/',        destination: '/blog', permanent: true },
 
-      // ── Dead service pages ──
-      { source: '/services/digital-marketing',  destination: '/services', permanent: true },
-      { source: '/services/digital-marketing/', destination: '/services', permanent: true },
+      // ── Old WordPress root-level service pages ──
+      { source: '/entertainment-events',  destination: '/services/entertainment-event-organizer-in-chennai', permanent: true },
+      { source: '/entertainment-events/', destination: '/services/entertainment-event-organizer-in-chennai', permanent: true },
+      { source: '/social-wedding-events',  destination: '/services/wedding-event-planner-in-chennai', permanent: true },
+      { source: '/social-wedding-events/', destination: '/services/wedding-event-planner-in-chennai', permanent: true },
+      { source: '/press-meets',  destination: '/services/government-events-planner-in-chennai', permanent: true },
+      { source: '/press-meets/', destination: '/services/government-events-planner-in-chennai', permanent: true },
+
+      // ── Dead /services/* sub-pages ──
+      { source: '/services/digital-marketing',                         destination: '/', permanent: true },
+      { source: '/services/digital-marketing/',                        destination: '/', permanent: true },
+      { source: '/services/product-launch-event-planner-in-chennai',  destination: '/', permanent: true },
+      { source: '/services/product-launch-event-planner-in-chennai/', destination: '/', permanent: true },
+      { source: '/services/employee-engagement-planner-in-chennai',   destination: '/', permanent: true },
+      { source: '/services/employee-engagement-planner-in-chennai/',  destination: '/', permanent: true },
+      { source: '/services/trade-show-organizer-in-chennai',          destination: '/services/exhibition-organizer-in-chennai', permanent: true },
+      { source: '/services/trade-show-organizer-in-chennai/',         destination: '/services/exhibition-organizer-in-chennai', permanent: true },
+      { source: '/services/btl-activities-service-in-chennai',        destination: '/', permanent: true },
+      { source: '/services/btl-activities-service-in-chennai/',       destination: '/', permanent: true },
 
       // ── Landing pages & misc → homepage ──
+      { source: '/new',                                 destination: '/', permanent: true },
+      { source: '/new/',                                destination: '/', permanent: true },
+      { source: '/home-old',                            destination: '/', permanent: true },
+      { source: '/home-old/',                           destination: '/', permanent: true },
       { source: '/landing-page',                        destination: '/', permanent: true },
       { source: '/landing-page/',                       destination: '/', permanent: true },
       { source: '/lp_business_gift',                    destination: '/', permanent: true },
