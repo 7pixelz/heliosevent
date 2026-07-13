@@ -40,6 +40,10 @@ const nextConfig = {
       { source: '/demo', destination: '/', permanent: true },
       { source: '/demo/', destination: '/', permanent: true },
 
+      // ── Junk crawl artifacts → homepage ──
+      { source: '/\\$', destination: '/', permanent: true },
+      { source: '/&', destination: '/', permanent: true },
+
       // ── Old WordPress page slugs ──
       { source: '/about-us',        destination: '/about',     permanent: true },
       { source: '/about-us/',       destination: '/about',     permanent: true },
@@ -127,6 +131,8 @@ const nextConfig = {
       { source: '/celebrate-laughter-day-activities-at-workplace/',                              destination: '/blog/celebrate-laughter-day-activities-at-workplace',                             permanent: true },
 
       // ── Renamed blog slugs ──
+      { source: '/blog/tamil-hindu-wedding-ceremony-kalyanam-traditions-and-rituals',  destination: '/blog/tamil-brahmin-weddings-a-tapestry-of-tradition-and-ritual', permanent: true },
+      { source: '/blog/tamil-hindu-wedding-ceremony-kalyanam-traditions-and-rituals/', destination: '/blog/tamil-brahmin-weddings-a-tapestry-of-tradition-and-ritual', permanent: true },
       { source: '/blog/bringing-holi-to-life-with-helios-event-productions',                     destination: '/blog/holi-celebrations-ideas',      permanent: true },
       { source: '/blog/bringing-holi-to-life-with-helios-event-productions/',                    destination: '/blog/holi-celebrations-ideas',      permanent: true },
       { source: '/blog/friendship-day-chennais-ultimate-guide-to-leveling-up-your-squad-goals',  destination: '/blog/friendship-day-guide-chennai', permanent: true },
@@ -136,8 +142,9 @@ const nextConfig = {
       { source: '/blog/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})',  destination: '/blog', permanent: true },
       { source: '/blog/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/', destination: '/blog', permanent: true },
 
-      // ── Old WordPress uploaded PDF ──
+      // ── Old WordPress uploaded files ──
       { source: '/wp-content/uploads/2025/07/PSA-CITPL-Family-Day-Event-2025_-By-Helios-Event-Productions.pdf', destination: '/blog/psa-citpl-family-day-2025-event', permanent: true },
+      { source: '/wp-content/uploads/2024/08/Annual-Celebration-Event-By-Helios-Event-Production.mp4', destination: '/portfolio', permanent: true },
       { source: '/brand-product-launches',          destination: '/',                                                permanent: true },
       { source: '/brand-product-launches/',         destination: '/',                                                permanent: true },
       { source: '/trade-body-association-events',   destination: '/',                                                permanent: true },
