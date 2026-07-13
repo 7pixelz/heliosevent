@@ -145,8 +145,8 @@ const nextConfig = {
       { source: '/press-meets/', destination: '/services/government-events-planner-in-chennai', permanent: true },
 
       // ── Dead /services/* sub-pages ──
-      { source: '/services/digital-marketing',                         destination: '/', permanent: true },
-      { source: '/services/digital-marketing/',                        destination: '/', permanent: true },
+      { source: '/services/digital-marketing',                         destination: '/services', permanent: true },
+      { source: '/services/digital-marketing/',                        destination: '/services', permanent: true },
       { source: '/services/product-launch-event-planner-in-chennai',  destination: '/', permanent: true },
       { source: '/services/product-launch-event-planner-in-chennai/', destination: '/', permanent: true },
       { source: '/services/employee-engagement-planner-in-chennai',   destination: '/', permanent: true },
