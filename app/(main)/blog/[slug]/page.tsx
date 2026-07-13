@@ -43,6 +43,10 @@ function cleanContent(html: string) {
     .replace(/<h2[^>]*>[\s\S]*?<\/h2>/, '')
     .replace(/<a[^>]*(?:facebook\.com\/helios|instagram\.com\/helios|linkedin\.com\/company\/helios|whatsapp\.com|wa\.me)[^>]*>[\s\S]*?<\/a>/gi, '')
     .replace(/<[^>]*class="[^"]*(?:social|share|sharedaddy)[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
+    // Rewrite absolute heliosevent.in URLs to relative paths — prevents GA cross-domain
+    // linker from appending ?_gl= junk when content links use the non-www hostname
+    .replace(/href="https?:\/\/(?:www\.)?heliosevent\.in(\/[^"]*)"/gi, 'href="$1"')
+    .replace(/href="https?:\/\/(?:www\.)?heliosevent\.in\/?"/gi, 'href="/"')
     // Remove target="_blank" from internal links (relative or heliosevent.in)
     .replace(/<a([^>]*href="(?:\/|https?:\/\/(?:www\.)?heliosevent\.in)[^"]*"[^>]*)\s+target="_blank"/gi, '<a$1')
     .replace(/<a([^>]*)\s+target="_blank"([^>]*href="(?:\/|https?:\/\/(?:www\.)?heliosevent\.in)[^"]*")/gi, '<a$1$2');
