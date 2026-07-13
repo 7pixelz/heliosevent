@@ -48,9 +48,29 @@ const nextConfig = {
       { source: '/event-gallery',   destination: '/portfolio', permanent: true },
       { source: '/event-gallery/',  destination: '/portfolio', permanent: true },
 
-      // ── Corporate events (high priority) ──
-      { source: '/corporate-events',  destination: '/services/corporate-event-management-in-chennai', permanent: true },
-      { source: '/corporate-events/', destination: '/services/corporate-event-management-in-chennai', permanent: true },
+      // ── Old WordPress root service slugs (all linked from blog posts) ──
+      { source: '/corporate-events',                destination: '/services/corporate-event-management-in-chennai',  permanent: true },
+      { source: '/corporate-events/',               destination: '/services/corporate-event-management-in-chennai',  permanent: true },
+      { source: '/employee-engagement',             destination: '/services/employee-engagement',                    permanent: true },
+      { source: '/employee-engagement/',            destination: '/services/employee-engagement',                    permanent: true },
+      { source: '/brand-product-launches',          destination: '/',                                                permanent: true },
+      { source: '/brand-product-launches/',         destination: '/',                                                permanent: true },
+      { source: '/trade-body-association-events',   destination: '/',                                                permanent: true },
+      { source: '/trade-body-association-events/',  destination: '/',                                                permanent: true },
+
+      // ── Old blog URLs at root level (no /blog/ prefix) ──
+      { source: '/off-site-retreat-10-effective-team-building-strategies-you-can-use',  destination: '/blog/off-site-retreat-10-effective-team-building-strategies-you-can-use', permanent: true },
+      { source: '/off-site-retreat-10-effective-team-building-strategies-you-can-use/', destination: '/blog/off-site-retreat-10-effective-team-building-strategies-you-can-use', permanent: true },
+      { source: '/unique-corporate-gifts-options-corporate-gift-ideas',                 destination: '/blog/unique-corporate-gifts-options-corporate-gift-ideas',                permanent: true },
+      { source: '/unique-corporate-gifts-options-corporate-gift-ideas/',                destination: '/blog/unique-corporate-gifts-options-corporate-gift-ideas',                permanent: true },
+
+      // ── Dead /services/* slugs linked from blog posts ──
+      { source: '/services/conference-seminars-organizer-in-chennai',  destination: '/services/conferences-seminars',                permanent: true },
+      { source: '/services/conference-seminars-organizer-in-chennai/', destination: '/services/conferences-seminars',                permanent: true },
+      { source: '/services/press-conference-organizer-in-chennai',     destination: '/services/government-events-planner-in-chennai', permanent: true },
+      { source: '/services/press-conference-organizer-in-chennai/',    destination: '/services/government-events-planner-in-chennai', permanent: true },
+      { source: '/services/channel-partner-meeting-organizer-in-chennai',  destination: '/services/business-meeting-organizer-in-chennai', permanent: true },
+      { source: '/services/channel-partner-meeting-organizer-in-chennai/', destination: '/services/business-meeting-organizer-in-chennai', permanent: true },
 
       // ── Old service pages → active service pages only ──
       { source: '/mice',                                    destination: '/services/business-meeting-organizer-in-chennai',            permanent: true },
