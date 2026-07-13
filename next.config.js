@@ -26,7 +26,7 @@ const nextConfig = {
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'hyundai.heliosevent.in' }],
-        destination: 'https://www.heliosevent.in',
+        destination: 'https://www.heliosevent.in/blog/hyundai-partnership-day-2025-collaboration-innovation-global-synergy',
         permanent: true,
       },
       {
