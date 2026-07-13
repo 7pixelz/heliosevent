@@ -83,8 +83,61 @@ const nextConfig = {
       // ── Old WordPress root service slugs (all linked from blog posts) ──
       { source: '/corporate-events',                destination: '/services/corporate-event-management-in-chennai',  permanent: true },
       { source: '/corporate-events/',               destination: '/services/corporate-event-management-in-chennai',  permanent: true },
-      { source: '/employee-engagement',             destination: '/services/employee-engagement',                    permanent: true },
-      { source: '/employee-engagement/',            destination: '/services/employee-engagement',                    permanent: true },
+      { source: '/employee-engagement',             destination: '/services/corporate-event-management-in-chennai',  permanent: true },
+      { source: '/employee-engagement/',            destination: '/services/corporate-event-management-in-chennai',  permanent: true },
+      { source: '/government-protocol-events',      destination: '/services/government-events-planner-in-chennai',   permanent: true },
+      { source: '/government-protocol-events/',     destination: '/services/government-events-planner-in-chennai',   permanent: true },
+      { source: '/exhibition',                      destination: '/services/exhibition-organizer-in-chennai',        permanent: true },
+      { source: '/exhibition/',                     destination: '/services/exhibition-organizer-in-chennai',        permanent: true },
+      { source: '/btl-activations',                 destination: '/services/brand-activations',                      permanent: true },
+      { source: '/btl-activations/',                destination: '/services/brand-activations',                      permanent: true },
+
+      // ── Old /services/* generic slugs (found 404 in Search Console) ──
+      { source: '/services/corporate-events',                 destination: '/services/corporate-event-management-in-chennai',    permanent: true },
+      { source: '/services/corporate-events/',                destination: '/services/corporate-event-management-in-chennai',    permanent: true },
+      { source: '/services/mice-events',                      destination: '/services/business-meeting-organizer-in-chennai',    permanent: true },
+      { source: '/services/mice-events/',                     destination: '/services/business-meeting-organizer-in-chennai',    permanent: true },
+      { source: '/services/exhibitions',                      destination: '/services/exhibition-organizer-in-chennai',          permanent: true },
+      { source: '/services/exhibitions/',                     destination: '/services/exhibition-organizer-in-chennai',          permanent: true },
+      { source: '/services/government-protocol-events',       destination: '/services/government-events-planner-in-chennai',     permanent: true },
+      { source: '/services/government-protocol-events/',      destination: '/services/government-events-planner-in-chennai',     permanent: true },
+      { source: '/services/trade-body-association-events',    destination: '/',                                                  permanent: true },
+      { source: '/services/trade-body-association-events/',   destination: '/',                                                  permanent: true },
+
+      // ── Old root-level blog slugs → actual blog posts ──
+      { source: '/planning-the-perfect-annual-day-celebration-in-chennai',                       destination: '/blog/planning-the-perfect-annual-day-celebration-in-chennai',                     permanent: true },
+      { source: '/planning-the-perfect-annual-day-celebration-in-chennai/',                      destination: '/blog/planning-the-perfect-annual-day-celebration-in-chennai',                     permanent: true },
+      { source: '/tamil-brahmin-weddings-a-tapestry-of-tradition-and-ritual',                    destination: '/blog/tamil-brahmin-weddings-a-tapestry-of-tradition-and-ritual',                  permanent: true },
+      { source: '/tamil-brahmin-weddings-a-tapestry-of-tradition-and-ritual/',                   destination: '/blog/tamil-brahmin-weddings-a-tapestry-of-tradition-and-ritual',                  permanent: true },
+      { source: '/case-study-coca-cola-channel-partner-meet-by-helios-event-productions',        destination: '/blog/case-study-coca-cola-channel-partner-meet-by-helios-event-productions',      permanent: true },
+      { source: '/case-study-coca-cola-channel-partner-meet-by-helios-event-productions/',       destination: '/blog/case-study-coca-cola-channel-partner-meet-by-helios-event-productions',      permanent: true },
+      { source: '/tips-to-organize-a-family-day-event-planning-helios-event',                    destination: '/blog/tips-to-organize-a-family-day-event-planning-helios-event',                  permanent: true },
+      { source: '/tips-to-organize-a-family-day-event-planning-helios-event/',                   destination: '/blog/tips-to-organize-a-family-day-event-planning-helios-event',                  permanent: true },
+      { source: '/creative-wedding-theme-ideas-for-a-south-indian-wedding-in-chennai',           destination: '/blog/creative-wedding-theme-ideas-for-a-south-indian-wedding-in-chennai',         permanent: true },
+      { source: '/creative-wedding-theme-ideas-for-a-south-indian-wedding-in-chennai/',          destination: '/blog/creative-wedding-theme-ideas-for-a-south-indian-wedding-in-chennai',         permanent: true },
+      { source: '/celebrate-childrens-day-in-the-office-fun-ideas-and-activities',               destination: '/blog/celebrate-childrens-day-in-the-office-fun-ideas-and-activities',             permanent: true },
+      { source: '/celebrate-childrens-day-in-the-office-fun-ideas-and-activities/',              destination: '/blog/celebrate-childrens-day-in-the-office-fun-ideas-and-activities',             permanent: true },
+      { source: '/event-ideas-for-a-memorable-independence-day',                                 destination: '/blog/event-ideas-for-a-memorable-independence-day',                               permanent: true },
+      { source: '/event-ideas-for-a-memorable-independence-day/',                                destination: '/blog/event-ideas-for-a-memorable-independence-day',                               permanent: true },
+      { source: '/celebrating-milestones-unique-business-anniversary-ideas',                     destination: '/blog/celebrating-milestones-unique-business-anniversary-ideas',                   permanent: true },
+      { source: '/celebrating-milestones-unique-business-anniversary-ideas/',                    destination: '/blog/celebrating-milestones-unique-business-anniversary-ideas',                   permanent: true },
+      { source: '/types-of-corporate-events-for-b2b-and-b2c',                                    destination: '/blog/types-of-corporate-events-for-b2b-and-b2c',                                  permanent: true },
+      { source: '/types-of-corporate-events-for-b2b-and-b2c/',                                   destination: '/blog/types-of-corporate-events-for-b2b-and-b2c',                                  permanent: true },
+      { source: '/celebrate-laughter-day-activities-at-workplace',                               destination: '/blog/celebrate-laughter-day-activities-at-workplace',                             permanent: true },
+      { source: '/celebrate-laughter-day-activities-at-workplace/',                              destination: '/blog/celebrate-laughter-day-activities-at-workplace',                             permanent: true },
+
+      // ── Renamed blog slugs ──
+      { source: '/blog/bringing-holi-to-life-with-helios-event-productions',                     destination: '/blog/holi-celebrations-ideas',      permanent: true },
+      { source: '/blog/bringing-holi-to-life-with-helios-event-productions/',                    destination: '/blog/holi-celebrations-ideas',      permanent: true },
+      { source: '/blog/friendship-day-chennais-ultimate-guide-to-leveling-up-your-squad-goals',  destination: '/blog/friendship-day-guide-chennai', permanent: true },
+      { source: '/blog/friendship-day-chennais-ultimate-guide-to-leveling-up-your-squad-goals/', destination: '/blog/friendship-day-guide-chennai', permanent: true },
+
+      // ── WordPress date archives (/blog/2025/03/11/ etc.) ──
+      { source: '/blog/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})',  destination: '/blog', permanent: true },
+      { source: '/blog/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/', destination: '/blog', permanent: true },
+
+      // ── Old WordPress uploaded PDF ──
+      { source: '/wp-content/uploads/2025/07/PSA-CITPL-Family-Day-Event-2025_-By-Helios-Event-Productions.pdf', destination: '/blog/psa-citpl-family-day-2025-event', permanent: true },
       { source: '/brand-product-launches',          destination: '/',                                                permanent: true },
       { source: '/brand-product-launches/',         destination: '/',                                                permanent: true },
       { source: '/trade-body-association-events',   destination: '/',                                                permanent: true },
