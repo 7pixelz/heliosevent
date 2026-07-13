@@ -2292,18 +2292,22 @@ footer {
   }
 
   .hero-content {
-    padding: 20px 24px 64px;
+    padding: 20px 24px 88px;
   }
 
   .hero-cta-row {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 12px;
   }
 
   .hero-btn,
   .hero-btn-ghost {
-    width: 100%;
-    padding: 14px 20px;
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 24px;
     font-size: 13px;
   }
 
@@ -2402,19 +2406,23 @@ footer {
   }
 
   .hero-content {
-    padding: 80px 16px 40px;
+    padding: 80px 16px 72px;
   }
 
   .hero-cta-row {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
     margin-top: 20px;
   }
 
   .hero-btn,
   .hero-btn-ghost {
-    width: 100%;
-    padding: 12px 16px;
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
     font-size: 12px;
   }
 
