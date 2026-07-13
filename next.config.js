@@ -112,6 +112,10 @@ const nextConfig = {
       { source: '/blog/:slug/feed',         destination: '/blog', permanent: true },
       { source: '/blog/:slug/feed/',        destination: '/blog', permanent: true },
 
+      // ── Dead service pages ──
+      { source: '/services/digital-marketing',  destination: '/services', permanent: true },
+      { source: '/services/digital-marketing/', destination: '/services', permanent: true },
+
       // ── Landing pages & misc → homepage ──
       { source: '/landing-page',                        destination: '/', permanent: true },
       { source: '/landing-page/',                       destination: '/', permanent: true },
