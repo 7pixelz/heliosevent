@@ -42,7 +42,10 @@ function cleanContent(html: string) {
     .replace(/<h1(\s[^>]*)?>/gi, '<h2$1>').replace(/<\/h1>/gi, '</h2>')
     .replace(/<h2[^>]*>[\s\S]*?<\/h2>/, '')
     .replace(/<a[^>]*(?:facebook\.com\/helios|instagram\.com\/helios|linkedin\.com\/company\/helios|whatsapp\.com|wa\.me)[^>]*>[\s\S]*?<\/a>/gi, '')
-    .replace(/<[^>]*class="[^"]*(?:social|share|sharedaddy)[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '');
+    .replace(/<[^>]*class="[^"]*(?:social|share|sharedaddy)[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
+    // Remove target="_blank" from internal links (relative or heliosevent.in)
+    .replace(/<a([^>]*href="(?:\/|https?:\/\/(?:www\.)?heliosevent\.in)[^"]*"[^>]*)\s+target="_blank"/gi, '<a$1')
+    .replace(/<a([^>]*)\s+target="_blank"([^>]*href="(?:\/|https?:\/\/(?:www\.)?heliosevent\.in)[^"]*")/gi, '<a$1$2');
 }
 
 export default async function BlogPostPage({ params }: Props) {
