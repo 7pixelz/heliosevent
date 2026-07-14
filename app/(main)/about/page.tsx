@@ -6,7 +6,6 @@ export const revalidate = 3600;
 import LeadForm from '../../../components/sections/LeadForm';
 import TeamGallery from './TeamGallery';
 
-import { highlightExp } from '../../../lib/highlight';
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo('about');
@@ -85,7 +84,7 @@ export default function AboutPage() {
           {stats.map((s, i) => (
             <div key={i} style={{ padding: '28px 24px', textAlign: 'center', borderRight: i < stats.length - 1 ? '1px solid rgba(0,0,0,0.12)' : 'none' }}>
               <div style={{ fontSize: 'clamp(28px,4vw,42px)', fontWeight: 900, color: '#1a1f2e', fontFamily: "'Inter',sans-serif", lineHeight: 1 }}>{s.number}</div>
-              <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(26,31,46,0.7)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '6px', fontFamily: "'Inter',sans-serif" }}>{highlightExp(s.label)}</div>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(26,31,46,0.7)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '6px', fontFamily: "'Inter',sans-serif" }}>{s.label}</div>
             </div>
           ))}
         </div>
