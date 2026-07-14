@@ -34,8 +34,8 @@ export default async function VideosPage() {
     <div style={{ background: '#0f0f0f', minHeight: '100vh', paddingTop: '90px', paddingBottom: '80px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Videos' }]} />
+        <div style={{ textAlign: 'left', marginBottom: '48px' }}>
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Videos' }]} />
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', marginBottom: '12px', fontFamily: "'Inter', sans-serif" }}>
             Our Work
           </div>

@@ -36,7 +36,7 @@ export default async function ServicesPage() {
         background: 'linear-gradient(135deg, #0d1117 0%, #1a1f2e 50%, #0d1117 100%)',
         paddingTop: '140px',
         paddingBottom: '80px',
-        textAlign: 'center',
+        textAlign: 'left',
         position: 'relative',
         overflow: 'hidden',
       }}>
@@ -46,7 +46,7 @@ export default async function ServicesPage() {
           pointerEvents: 'none',
         }} />
         <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
-          <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
           <div style={{
             display: 'inline-block',
             fontSize: '11px', fontWeight: 700, letterSpacing: '3px',

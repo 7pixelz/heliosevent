@@ -19,13 +19,6 @@ const FALLBACK: HeroSlide[] = [
   { id: 'f2', type: 'IMAGE', mediaUrl: '/assets/banners/img2.jpg', title: null, subtitle: null, ctaText: null, ctaLink: null },
 ];
 
-function parseTitle(title: string | null) {
-  const parts = title ? title.split('|') : [];
-  const whiteWords = (parts[0] || 'Creating Unforgettable').split(' ').filter(Boolean);
-  const accentWords = (parts[1] || 'Event Experiences').split(' ').filter(Boolean);
-  return { whiteWords, accentWords };
-}
-
 export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
   const slides = propSlides && propSlides.length > 0 ? propSlides : FALLBACK;
   const [current, setCurrent] = useState(0);
@@ -35,8 +28,6 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
     const t = setInterval(() => setCurrent(c => (c + 1) % slides.length), 5000);
     return () => clearInterval(t);
   }, [slides.length]);
-
-  const { whiteWords, accentWords } = parseTitle(slides[current]?.title ?? null);
 
   return (
     <section className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -80,7 +71,7 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
       {/* ── Content ── */}
       <div className="hero-content" style={{ position: 'relative', zIndex: 3 }}>
         <h1 className="hero-title" style={{ whiteSpace: 'pre-line' }}>
-          {`${whiteWords.join(' ')}\n${accentWords.join(' ')}`}
+          {'Trusted Event Management\nCompany in Chennai'}
         </h1>
 
         {slides[current]?.subtitle && (

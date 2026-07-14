@@ -55,20 +55,22 @@ export default async function BlogPage({
   return (
     <main style={{ background: '#f8f9fa', minHeight: '100vh' }}>
       {/* Hero banner */}
-      <section className="page-hero" style={{ background: '#1a1f2e', paddingTop: '100px', padding: '100px 24px 60px', textAlign: 'center' }}>
-        <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} />
+      <section className="page-hero" style={{ background: '#1a1f2e', paddingTop: '100px', padding: '100px 24px 60px', textAlign: 'left' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} />
         <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '12px' }}>
           Helios Event
         </p>
         <h1 style={{ fontSize: 'clamp(32px,5vw,52px)', fontWeight: 900, color: '#fff', margin: '0 0 16px', fontFamily: "'Inter',sans-serif", lineHeight: 1.1 }}>
           Event Planning <span style={{ color: '#adc905' }}>Insights</span>
         </h1>
-        <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', fontFamily: "'Inter',sans-serif", maxWidth: '480px', margin: '0 auto' }}>
+        <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', fontFamily: "'Inter',sans-serif", maxWidth: '480px', margin: 0 }}>
           Tips, ideas and inspiration for corporate events, team building, and more.
         </p>
         <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', fontFamily: "'Inter',sans-serif", marginTop: '12px' }}>
           {total} articles
         </p>
+        </div>
       </section>
 
       {/* Grid */}

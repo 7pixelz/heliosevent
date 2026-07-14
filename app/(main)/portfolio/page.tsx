@@ -51,14 +51,14 @@ export default function PortfolioPage() {
       <section className="page-hero" style={{
         background: 'linear-gradient(135deg, #0d1117 0%, #1a1f2e 60%, #0d1117 100%)',
         paddingTop: '140px', paddingBottom: '80px',
-        textAlign: 'center', position: 'relative', overflow: 'hidden',
+        textAlign: 'left', position: 'relative', overflow: 'hidden',
       }}>
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(173,201,5,0.08) 0%, transparent 70%)',
         }} />
         <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
-          <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }]} />
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }]} />
           <div style={{
             fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
             textTransform: 'uppercase', color: 'rgba(173,201,5,0.8)',

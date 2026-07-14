@@ -178,8 +178,8 @@ function CareersPageInner() {
       {/* Hero */}
       <div style={{ background: 'linear-gradient(135deg,#1a1f2e 0%,#0f1318 100%)', padding: '100px 24px 72px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(173,201,5,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,106,0,0.06) 0%, transparent 40%)' }} />
-        <div style={{ maxWidth: '860px', margin: '0 auto', position: 'relative', textAlign: 'center' }}>
-          <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Careers' }]} />
+        <div style={{ maxWidth: '860px', margin: '0 auto', position: 'relative', textAlign: 'left' }}>
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Careers' }]} />
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(173,201,5,0.1)', border: '1px solid rgba(173,201,5,0.25)', borderRadius: '999px', padding: '6px 16px', marginBottom: '20px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adc905', display: 'inline-block' }} />
             <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif" }}>We're Hiring</span>
@@ -187,7 +187,7 @@ function CareersPageInner() {
           <h1 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,5vw,52px)', color: '#fff', lineHeight: 1.15, margin: '0 0 16px' }}>
             Join. Grow. Succeed.
           </h1>
-          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', fontFamily: "'Inter',sans-serif", maxWidth: '600px', margin: '0 auto', lineHeight: 1.8 }}>
+          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', fontFamily: "'Inter',sans-serif", maxWidth: '600px', margin: 0, lineHeight: 1.8 }}>
             Helios Event is one of the most renowned names in the event management space. At Helios, you'll work on diverse, high-impact projects — from corporate summits and luxury weddings to global conferences and brand activations.
           </p>
         </div>
