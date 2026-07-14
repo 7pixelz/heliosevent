@@ -5,6 +5,7 @@ import { getPageSeo, buildMeta } from '../../../lib/seo';
 export const revalidate = 3600;
 import type { Metadata } from 'next';
 import LeadForm from '../../../components/sections/LeadForm';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import Stats from '../../../components/sections/Stats';
 import Testimonials from '../../../components/sections/Testimonials';
 import CtaBanner from '../../../components/sections/CtaBanner';
@@ -45,6 +46,7 @@ export default async function ServicesPage() {
           pointerEvents: 'none',
         }} />
         <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
+          <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
           <div style={{
             display: 'inline-block',
             fontSize: '11px', fontWeight: 700, letterSpacing: '3px',

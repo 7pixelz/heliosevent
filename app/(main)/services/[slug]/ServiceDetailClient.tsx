@@ -7,6 +7,7 @@ const LeadForm = dynamic(() => import('../../../../components/sections/LeadForm'
 import VideoGrid from '../../../../components/sections/VideoGrid';
 import Clients from '../../../../components/sections/Clients';
 import { highlightExp } from '../../../../lib/highlight';
+import Breadcrumbs from '../../../../components/Breadcrumbs';
 
 interface SignatureEvent { icon: string; title: string; desc: string }
 interface Differentiator { title: string; desc: string }
@@ -108,7 +109,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
   return (
     <>
       <style>{`
-        .svc-breadcrumb, .svc-badge { display: none !important; }
+        .svc-badge { display: none !important; }
         @media (max-width: 640px) {
           .svc-hero { min-height: unset !important; align-items: flex-start !important; padding-top: 72px !important; }
         }
@@ -141,17 +142,11 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
         }} />
 
         <div style={{ position: 'relative', maxWidth: '1100px', margin: '0 auto', padding: 'clamp(24px, 5vw, 80px) 24px', width: '100%' }}>
-          {/* Breadcrumb — hidden on mobile */}
-          <Link href="/services" style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            color: 'rgba(255,255,255,0.45)', textDecoration: 'none',
-            fontSize: '13px', fontFamily: "'Inter', sans-serif", marginBottom: '28px',
-            letterSpacing: '0.3px',
-          }}
-            className="svc-breadcrumb"
-          >
-            ← All Services
-          </Link>
+          <Breadcrumbs items={[
+            { label: 'Home', href: '/' },
+            { label: 'Services', href: '/services' },
+            { label: service.name },
+          ]} />
 
           <div style={{ maxWidth: '700px' }}>
             {/* Badge — hidden on mobile */}

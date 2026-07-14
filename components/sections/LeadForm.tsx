@@ -146,7 +146,7 @@ function LeadFormInner() {
             <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif" }}>Free Quote · No Obligation</span>
           </div>
           <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(24px,4vw,38px)', color: '#fff', margin: '0 0 12px', lineHeight: 1.2 }}>
-            Let's Plan Your Next Event
+            Book Your Event Management Consultation
           </h2>
           <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', fontFamily: "'Inter',sans-serif", margin: 0 }}>
             Share a few details and we'll send you a personalised proposal within 24 hours.

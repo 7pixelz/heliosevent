@@ -26,7 +26,7 @@ export default function Portfolio({ events: propEvents }: { events?: PortfolioEv
     <section className="portfolio">
       <div className="port-hdr fade-up">
         <div className="sec-label">Our Work</div>
-        <h2 className="port-title">Events That Made An Impression</h2>
+        <h2 className="port-title">Our Event Management Portfolio</h2>
       </div>
 
       <div className="port-grid">

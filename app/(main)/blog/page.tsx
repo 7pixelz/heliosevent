@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 export const revalidate = 3600;
 
 import { getPageSeo, buildMeta } from '../../../lib/seo';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo('blog');
@@ -55,6 +56,7 @@ export default async function BlogPage({
     <main style={{ background: '#f8f9fa', minHeight: '100vh' }}>
       {/* Hero banner */}
       <section className="page-hero" style={{ background: '#1a1f2e', paddingTop: '100px', padding: '100px 24px 60px', textAlign: 'center' }}>
+        <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} />
         <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '12px' }}>
           Helios Event
         </p>

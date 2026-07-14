@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
 import CountryPicker from '../../../components/CountryPicker';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 const FormSchema = z.object({
   name: z.string().min(2, 'Please enter your full name'),
@@ -154,6 +155,7 @@ function ContactPageClientInner() {
       }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(173,201,5,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,106,0,0.06) 0%, transparent 40%)' }} />
         <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', textAlign: 'center' }}>
+          <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(173,201,5,0.1)', border: '1px solid rgba(173,201,5,0.25)', borderRadius: '999px', padding: '6px 16px', marginBottom: '20px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adc905', display: 'inline-block' }} />
             <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif" }}>Get In Touch</span>

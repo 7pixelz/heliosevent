@@ -5,6 +5,7 @@ import { getPageSeo, buildMeta } from '../../../lib/seo';
 export const revalidate = 3600;
 import LeadForm from '../../../components/sections/LeadForm';
 import TeamGallery from './TeamGallery';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -68,6 +69,7 @@ export default function AboutPage() {
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/assets/banners/img3.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(26,31,46,0.92) 0%, rgba(26,31,46,0.7) 60%, rgba(26,31,46,0.4) 100%)' }} />
         <div style={{ position: 'relative', maxWidth: '1200px', margin: '0 auto', padding: '0 40px', width: '100%' }}>
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About Us' }]} />
           <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '14px' }}>Who We Are</p>
           <h1 style={{ fontSize: 'clamp(36px,6vw,64px)', fontWeight: 900, color: '#fff', margin: '0 0 20px', lineHeight: 1.05, fontFamily: "'Inter',sans-serif" }}>
             Our <span style={{ color: '#adc905' }}>Story</span>

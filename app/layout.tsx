@@ -17,6 +17,38 @@ const inter = Inter({
   display: 'swap',
 });
 
+const LOCAL_BUSINESS_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Helios Event Productions',
+  image: 'https://www.heliosevent.in/assets/heliosevent_logo_white.webp',
+  '@id': 'https://www.heliosevent.in/#localbusiness',
+  url: 'https://www.heliosevent.in/',
+  telephone: '+91 74010 30000',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '28, Judge Jambulingam Road, Mylapore,',
+    addressLocality: 'chennai',
+    postalCode: '600 004',
+    addressCountry: 'IN',
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    opens: '09:00',
+    closes: '17:00',
+  },
+};
+
+const ORGANIZATION_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Helios Event Productions',
+  alternateName: 'Helios',
+  url: 'https://www.heliosevent.in/',
+  logo: 'https://www.heliosevent.in/assets/heliosevent_logo_white.webp',
+};
+
 export const metadata: Metadata = {
   title: 'Helios Event - Premium Event Management Solutions',
   description: 'Helios Event Productions offers comprehensive event management services for corporate events, weddings, exhibitions, and more.',
@@ -31,6 +63,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${inter.variable}`} suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_SCHEMA) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_SCHEMA) }}
+        />
         <Script
           id="gtm-script"
           strategy="afterInteractive"

@@ -117,7 +117,7 @@ export default function Testimonials() {
 
       <div className="test-hdr fade-up">
         <div className="sec-label">Client Stories</div>
-        <h2 className="test-title">Hear it straight from our clients</h2>
+        <h2 className="test-title">Event Management Success Stories</h2>
       </div>
 
       <div className="testi-grid">

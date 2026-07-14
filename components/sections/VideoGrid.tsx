@@ -15,7 +15,7 @@ interface Props {
   showViewAll?: boolean;
 }
 
-export default function VideoGrid({ videos, heading = 'Our Videos', showViewAll = false }: Props) {
+export default function VideoGrid({ videos, heading = 'Event Organizing Services in Action', showViewAll = false }: Props) {
   const [playing, setPlaying] = useState<string | null>(null);
 
   if (videos.length === 0) return null;

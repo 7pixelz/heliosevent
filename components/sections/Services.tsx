@@ -29,7 +29,7 @@ export default function Services({ mainServices }: { mainServices?: ServiceItem[
     <section className="services" id="services">
       <div className="svc-header fade-up">
         <div className="sec-label" style={{ color: 'rgba(173,201,5,.7)' }}>What We Do</div>
-        <h2 className="svc-title">Our wide range of services</h2>
+        <h2 className="svc-title">Top Event Planning Services in Chennai</h2>
       </div>
 
       <div className="svc-grid">

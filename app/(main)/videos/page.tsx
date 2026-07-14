@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { prisma } from '../../../lib/prisma';
 import VideosClient from './VideosClient';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 export const revalidate = 3600;
 
@@ -34,6 +35,7 @@ export default async function VideosPage() {
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <Breadcrumbs center items={[{ label: 'Home', href: '/' }, { label: 'Videos' }]} />
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', marginBottom: '12px', fontFamily: "'Inter', sans-serif" }}>
             Our Work
           </div>

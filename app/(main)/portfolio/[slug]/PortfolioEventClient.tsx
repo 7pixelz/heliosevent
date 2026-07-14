@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import LeadForm from '../../../../components/sections/LeadForm';
+import Breadcrumbs from '../../../../components/Breadcrumbs';
 
 interface MediaItem {
   id: string;
@@ -237,13 +238,11 @@ export default function PortfolioEventPage() {
         )}
 
         <div style={{ position: 'relative', maxWidth: '1100px', margin: '0 auto', padding: '0 24px 56px', width: '100%' }}>
-          <Link href="/portfolio" style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            color: 'rgba(255,255,255,0.45)', textDecoration: 'none',
-            fontSize: '13px', fontFamily: "'Inter', sans-serif", marginBottom: '24px',
-          }}>
-            ← Portfolio
-          </Link>
+          <Breadcrumbs items={[
+            { label: 'Home', href: '/' },
+            { label: 'Portfolio', href: '/portfolio' },
+            { label: event.title },
+          ]} />
 
           {event.clientName && (
             <div style={{

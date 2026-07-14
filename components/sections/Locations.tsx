@@ -224,7 +224,7 @@ export default function Locations() {
             <div style={{ height: '1px', width: '32px', background: 'rgba(173,201,5,0.4)' }} />
           </div>
           <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,44px)', color: '#fff', margin: '0 0 12px', lineHeight: 1.2 }}>
-            Events Across the Globe
+            Events Management Services Across the Globe
           </h2>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter',sans-serif", margin: 0 }}>
             From the Himalayas to Europe — every dot is an event delivered.
