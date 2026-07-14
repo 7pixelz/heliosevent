@@ -148,9 +148,9 @@ function ContactPageClientInner() {
       `}</style>
 
       {/* ── Hero ── */}
-      <div style={{
+      <div className="page-hero" style={{
         background: 'linear-gradient(135deg,#1a1f2e 0%,#0f1318 100%)',
-        padding: '100px 24px 72px',
+        padding: '140px 24px 80px',
         position: 'relative', overflow: 'hidden',
       }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(173,201,5,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,106,0,0.06) 0%, transparent 40%)' }} />

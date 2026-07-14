@@ -176,9 +176,9 @@ function CareersPageInner() {
       `}</style>
 
       {/* Hero */}
-      <div style={{ background: 'linear-gradient(135deg,#1a1f2e 0%,#0f1318 100%)', padding: '100px 24px 72px', position: 'relative', overflow: 'hidden' }}>
+      <div className="page-hero" style={{ background: 'linear-gradient(135deg,#1a1f2e 0%,#0f1318 100%)', padding: '140px 24px 80px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(173,201,5,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,106,0,0.06) 0%, transparent 40%)' }} />
-        <div style={{ maxWidth: '860px', margin: '0 auto', position: 'relative', textAlign: 'left' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', textAlign: 'left' }}>
           <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Careers' }]} />
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(173,201,5,0.1)', border: '1px solid rgba(173,201,5,0.25)', borderRadius: '999px', padding: '6px 16px', marginBottom: '20px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adc905', display: 'inline-block' }} />

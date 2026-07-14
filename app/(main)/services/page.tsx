@@ -45,7 +45,7 @@ export default async function ServicesPage() {
           background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(173,201,5,0.08) 0%, transparent 70%)',
           pointerEvents: 'none',
         }} />
-        <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
+        <div style={{ position: 'relative', maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
           <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
           <div style={{
             display: 'inline-block',

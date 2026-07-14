@@ -57,7 +57,7 @@ export default function PortfolioPage() {
           position: 'absolute', inset: 0, pointerEvents: 'none',
           background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(173,201,5,0.08) 0%, transparent 70%)',
         }} />
-        <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
+        <div style={{ position: 'relative', maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
           <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }]} />
           <div style={{
             fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
