@@ -154,7 +154,7 @@ function DropdownMenu({ items, visible }: { items: ServiceItem[]; visible: boole
   );
 }
 
-function MobileAccordion({ items, open }: { items: ServiceItem[]; open: boolean }) {
+function MobileAccordion({ items, open, onNavigate }: { items: ServiceItem[]; open: boolean; onNavigate?: () => void }) {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
 
   const totalItems = items.reduce((acc, item) => {
@@ -173,6 +173,7 @@ function MobileAccordion({ items, open }: { items: ServiceItem[]; open: boolean 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Link
                 href={`/services/${item.slug}`}
+                onClick={onNavigate}
                 style={{
                   flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                   padding: '10px 12px', textDecoration: 'none', color: 'rgba(255,255,255,0.55)',
@@ -285,7 +286,7 @@ export default function Header() {
 
           {/* Mobile accordion */}
           <div className="show-mobile-only">
-            <MobileAccordion items={mainServices} open={mobileServicesOpen} />
+            <MobileAccordion items={mainServices} open={mobileServicesOpen} onNavigate={closeMobileMenu} />
           </div>
         </li>
 

@@ -2395,11 +2395,11 @@ footer {
 
   .hero {
     min-height: 480px;
-    height: 100svh;
+    height: 88svh;
   }
 
   .hero-title {
-    font-size: clamp(24px, 6.5vw, 34px) !important;
+    font-size: clamp(28px, 8vw, 38px) !important;
     line-height: 1.2;
   }
 
