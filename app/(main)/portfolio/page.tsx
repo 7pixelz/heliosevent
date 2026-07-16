@@ -71,7 +71,7 @@ export default function PortfolioPage() {
             color: '#fff', margin: '0 0 20px', lineHeight: 1.1,
             fontFamily: "'Montserrat', sans-serif",
           }}>
-            Portfolio
+            Event Management Portfolio
           </h1>
           <p style={{
             fontSize: '17px', color: 'rgba(255,255,255,0.55)',

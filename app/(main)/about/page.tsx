@@ -99,7 +99,7 @@ export default function AboutPage() {
           <div>
             <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#ff6a00', fontFamily: "'Inter',sans-serif", marginBottom: '14px' }}>About Helios Event</p>
             <h2 style={{ fontSize: 'clamp(28px,3.5vw,42px)', fontWeight: 900, color: '#1a1f2e', margin: '0 0 24px', lineHeight: 1.15, fontFamily: "'Inter',sans-serif" }}>
-              A Reliable Partner for<br /><span style={{ color: '#adc905' }}>Exceptional Events</span>
+              A Reliable Partner for<br /><span style={{ color: '#adc905' }}>Exceptional Event Management Services in Chennai</span>
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
               <p style={{ fontSize: '15px', color: '#555', lineHeight: 1.8, fontFamily: "'Inter',sans-serif", margin: 0 }}>
@@ -178,7 +178,7 @@ export default function AboutPage() {
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
             <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '14px' }}>The People Behind The Magic</p>
             <h2 style={{ fontSize: 'clamp(28px,3.5vw,42px)', fontWeight: 900, color: '#fff', margin: 0, fontFamily: "'Inter',sans-serif", lineHeight: 1.15 }}>
-              Meet Our <span style={{ color: '#adc905' }}>Team</span>
+              Meet our <span style={{ color: '#adc905' }}>Event Management Expertise</span>
             </h2>
           </div>
 

@@ -100,11 +100,52 @@ interface PortfolioItem {
 
 interface Logo { id: string; name: string; imageUrl: string; }
 
+interface SectionHeadings {
+  events: string; about: string; signature: string;
+  whyChoose: string; numbers: string; faq: string;
+}
+
+const SERVICE_HEADINGS: Record<string, SectionHeadings> = {
+  'corporate-event-management-in-chennai': {
+    events: 'Our Corporate Event Management Services in Chennai',
+    about: 'About Corporate Event Services',
+    signature: 'Signature Corporate Event Planning Services',
+    whyChoose: 'Why Choose Us For Corporate Events in Chennai?',
+    numbers: 'Corporate Event Management Excellence in Numbers',
+    faq: 'FAQ for Corporate Event Planning',
+  },
+  'government-events-planner-in-chennai': {
+    events: 'Our Government Event Management Services in Chennai',
+    about: 'About Government & Protocol Event Services',
+    signature: 'Signature Government & Protocol Event Planning Services',
+    whyChoose: 'Why Choose Us For Government Events in Chennai?',
+    numbers: 'Government Event Management Excellence in Numbers',
+    faq: 'FAQ for Government & Protocol Event Planning',
+  },
+  'sports-event-management-company-in-chennai': {
+    events: 'Our Sports Event Management Services in Chennai',
+    about: 'About Sports Event Management Services',
+    signature: 'Signature Sports Event Planning Services',
+    whyChoose: 'Why Choose Us For Sports Events in Chennai?',
+    numbers: 'Sports Event Management Excellence in Numbers',
+    faq: 'FAQ for Sports Event Planning',
+  },
+};
+
 export default function ServiceDetailPage({ service, videos = [], portfolioEvents = [], logos = [] }: { service: ServiceDetail; videos?: VideoItem[]; portfolioEvents?: PortfolioItem[]; logos?: Logo[] }) {
   const sigEvents = parseJSON<SignatureEvent[]>(service.signatureEvents, []);
   const diffs = parseJSON<Differentiator[]>(service.differentiators, []);
   const faqs = parseJSON<FAQ[]>(service.faqs, []);
   const headline = service.heroHeadline || service.name;
+  const customHeadings = SERVICE_HEADINGS[service.slug];
+  const h: SectionHeadings = customHeadings ?? {
+    events: "Events We've Delivered",
+    about: `About ${service.name}`,
+    signature: 'Signature Events & Specialties',
+    whyChoose: 'Why Choose Helios Event?',
+    numbers: 'Numbers That Tell Our Story',
+    faq: 'Frequently Asked Questions',
+  };
 
   return (
     <>
@@ -225,7 +266,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
                 color: '#111', margin: 0, fontFamily: "'Montserrat', sans-serif",
               }}>
-                Events We&apos;ve Delivered
+                {h.events}
               </h2>
             </div>
             <div style={{
@@ -298,7 +339,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
                 color: '#111', margin: '0 0 28px', fontFamily: "'Montserrat', sans-serif",
               }}>
-                About {service.name}
+                {h.about}
               </h2>
               <div style={{
                 width: '60px', height: '4px', borderRadius: '2px',
@@ -333,7 +374,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
                 color: '#fff', margin: '0 0 16px', fontFamily: "'Montserrat', sans-serif",
               }}>
-                Signature Events &amp; Specialties
+                {h.signature}
               </h2>
               <p style={{
                 fontSize: '15px', color: 'rgba(255,255,255,0.45)',
@@ -402,7 +443,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
                 color: '#111', margin: 0, fontFamily: "'Montserrat', sans-serif",
               }}>
-                Why Choose Helios Event?
+                {h.whyChoose}
               </h2>
             </div>
 
@@ -455,7 +496,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: 'rgba(173,201,5,0.75)', marginBottom: '10px', fontFamily: "'Inter', sans-serif" }}>Our Track Record</div>
-            <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif" }}>Numbers That Tell Our Story</h2>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif" }}>{h.numbers}</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '2px', background: 'rgba(255,255,255,0.06)', borderRadius: '20px', overflow: 'hidden' }}>
             {[
@@ -489,7 +530,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
                 color: '#111', margin: 0, fontFamily: "'Montserrat', sans-serif",
               }}>
-                Frequently Asked Questions
+                {h.faq}
               </h2>
             </div>
             <FAQAccordion faqs={faqs} />
