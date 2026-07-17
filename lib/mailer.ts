@@ -18,7 +18,7 @@ import { Resend } from 'resend';
 const resend = new Resend(process.env.RESEND_API_KEY);
 const SENDER = 'Helios Event <digital@heliosevent.in>';
 
-const ENQUIRY_NOTIFY = ['bala@heliosevent.net', 'mktg@heliosevent.net', 'nakshatra@heliosevent.net', 'abishek@heliosevent.net', 'mahadeer@7pixelz.com'];
+const ENQUIRY_NOTIFY = ['bala@heliosevent.net', 'mktg@heliosevent.net', 'nakshatra@heliosevent.net', 'abishek@heliosevent.net'];
 const CAREER_NOTIFY  = ['bala@heliosevent.net', 'rajula@heliosevent.net', 'nakshatra@heliosevent.net'];
 
 export interface EnquiryData {
