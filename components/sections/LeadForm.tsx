@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { z } from 'zod';
@@ -205,6 +205,7 @@ function LeadFormInner() {
                 </Field>
                 <Field label="Type of Event" required error={err('typeOfProgram')}>
                   <select value={form.typeOfProgram}
+                    aria-label="Type of event"
                     onChange={e => set('typeOfProgram', e.target.value)}
                     onBlur={() => touch('typeOfProgram')}
                     style={{ ...inpSt('typeOfProgram'), appearance: 'none', cursor: 'pointer', paddingRight: '32px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}>
@@ -244,6 +245,7 @@ function LeadFormInner() {
                 </Field>
                 <Field label="Preferred Date">
                   <input type="date" value={form.preferredDate}
+                    aria-label="Preferred event date"
                     onChange={e => set('preferredDate', e.target.value)}
                     style={inputStyle(false)} />
                 </Field>
@@ -301,9 +303,37 @@ function LeadFormInner() {
 }
 
 export default function LeadForm() {
+  // Mount the form (and the heavy reCAPTCHA script it pulls in) only when the
+  // visitor scrolls near it — keeps ~1.2s of script work off the initial load.
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || visible) return;
+    if (typeof IntersectionObserver === 'undefined') { setVisible(true); return; }
+    const io = new IntersectionObserver(
+      entries => {
+        if (entries.some(e => e.isIntersecting)) {
+          setVisible(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '600px 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [visible]);
+
   return (
-    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
-      <LeadFormInner />
-    </GoogleReCaptchaProvider>
+    <div ref={ref}>
+      {visible ? (
+        <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
+          <LeadFormInner />
+        </GoogleReCaptchaProvider>
+      ) : (
+        <section style={{ minHeight: '600px', background: 'linear-gradient(135deg,#1a1f2e 0%,#0f1318 100%)' }} />
+      )}
+    </div>
   );
 }

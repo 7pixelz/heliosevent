@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 const LeadForm = dynamic(() => import('../../../../components/sections/LeadForm'), { ssr: false });
 import VideoGrid from '../../../../components/sections/VideoGrid';
@@ -165,10 +166,15 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
       }}>
         {service.coverImageUrl && (
           <>
-            <img
+            <Image
               src={service.coverImageUrl}
               alt={service.name}
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              fill
+              priority
+              fetchPriority="high"
+              sizes="100vw"
+              quality={70}
+              style={{ objectFit: 'cover' }}
             />
             <div style={{
               position: 'absolute', inset: 0,
@@ -285,7 +291,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
                   >
                     {ev.coverImageUrl
-                      ? <img src={ev.coverImageUrl} alt={ev.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ? <Image src={ev.coverImageUrl} alt={ev.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px" quality={70} style={{ objectFit: 'cover' }} />
                       : <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px' }}>📷</div>
                     }
                     <div style={{
