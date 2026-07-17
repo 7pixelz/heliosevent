@@ -1,12 +1,22 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
+// ─── Previous provider: Gmail via nodemailer ───
+// Kept here (not deleted) in case we ever need to switch back.
+// To restore: `npm install nodemailer @types/nodemailer`, uncomment below,
+// and replace `resend.emails.send({...})` calls with `transporter.sendMail({...})`,
+// swapping `from: SENDER` back to `from: `"Helios Event" <${process.env.GMAIL_USER}>``.
+//
+// import nodemailer from 'nodemailer';
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     user: process.env.GMAIL_USER,
+//     pass: process.env.GMAIL_APP_PASSWORD,
+//   },
+// });
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+const SENDER = 'Helios Event <digital@heliosevent.in>';
 
 const ENQUIRY_NOTIFY = ['bala@heliosevent.net', 'mktg@heliosevent.net', 'nakshatra@heliosevent.net', 'abishek@heliosevent.net'];
 const CAREER_NOTIFY  = ['bala@heliosevent.net', 'rajula@heliosevent.net', 'nakshatra@heliosevent.net'];
@@ -94,8 +104,8 @@ export async function sendEnquiryNotification(data: EnquiryData) {
 </html>`;
 
   // Admin notification
-  await transporter.sendMail({
-    from: `"Helios Event" <${process.env.GMAIL_USER}>`,
+  await resend.emails.send({
+    from: SENDER,
     to: ENQUIRY_NOTIFY,
     subject: `New Enquiry from ${data.name} — ${data.company}`,
     html,
@@ -144,8 +154,8 @@ export async function sendEnquiryNotification(data: EnquiryData) {
 </body>
 </html>`;
 
-  await transporter.sendMail({
-    from: `"Helios Event Productions" <${process.env.GMAIL_USER}>`,
+  await resend.emails.send({
+    from: SENDER,
     to: data.email,
     subject: `We've received your enquiry — Helios Event Productions`,
     html: confirmHtml,
@@ -221,8 +231,8 @@ export async function sendFeedbackNotification(data: FeedbackData) {
 </body>
 </html>`;
 
-  await transporter.sendMail({
-    from: `"Helios Event" <${process.env.GMAIL_USER}>`,
+  await resend.emails.send({
+    from: SENDER,
     to: FEEDBACK_NOTIFY,
     subject: `New Client Feedback${data.name ? ` from ${data.name}` : ''} — Avg ${Math.round((data.service + data.timeline + data.appreciation + data.referral) / 4)}/5`,
     html,
@@ -285,16 +295,16 @@ export async function sendCareerNotification(data: CareerData) {
 </body>
 </html>`;
 
-  await transporter.sendMail({
-    from: `"Helios Event" <${process.env.GMAIL_USER}>`,
+  await resend.emails.send({
+    from: SENDER,
     to: CAREER_NOTIFY,
     subject: `New Application: ${data.position} — ${data.name}`,
     html,
   });
 
   // Confirmation to applicant
-  await transporter.sendMail({
-    from: `"Helios Event Productions" <${process.env.GMAIL_USER}>`,
+  await resend.emails.send({
+    from: SENDER,
     to: data.email,
     subject: `Application Received — Helios Event Productions`,
     html: `

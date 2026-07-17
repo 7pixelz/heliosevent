@@ -54,6 +54,7 @@
     "react-google-recaptcha-v3": "^1.11.0",
     "react-hook-form": "^7.72.0",
     "react-simple-maps": "^3.0.0",
+    "resend": "^6.17.2",
     "shadcn-ui": "^0.9.5",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3",
