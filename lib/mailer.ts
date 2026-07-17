@@ -17,6 +17,7 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const SENDER = 'Helios Event <digital@heliosevent.in>';
+const REPLY_TO = 'digital@heliosevent.net'; // replies go to a real mailbox — no inbox exists on heliosevent.in
 
 const ENQUIRY_NOTIFY = ['bala@heliosevent.net', 'mktg@heliosevent.net', 'nakshatra@heliosevent.net', 'abishek@heliosevent.net'];
 const CAREER_NOTIFY  = ['bala@heliosevent.net', 'rajula@heliosevent.net', 'nakshatra@heliosevent.net'];
@@ -106,6 +107,7 @@ export async function sendEnquiryNotification(data: EnquiryData) {
   // Admin notification
   await resend.emails.send({
     from: SENDER,
+    replyTo: REPLY_TO,
     to: ENQUIRY_NOTIFY,
     subject: `New Enquiry from ${data.name} — ${data.company}`,
     html,
@@ -156,6 +158,7 @@ export async function sendEnquiryNotification(data: EnquiryData) {
 
   await resend.emails.send({
     from: SENDER,
+    replyTo: REPLY_TO,
     to: data.email,
     subject: `We've received your enquiry — Helios Event Productions`,
     html: confirmHtml,
@@ -233,6 +236,7 @@ export async function sendFeedbackNotification(data: FeedbackData) {
 
   await resend.emails.send({
     from: SENDER,
+    replyTo: REPLY_TO,
     to: FEEDBACK_NOTIFY,
     subject: `New Client Feedback${data.name ? ` from ${data.name}` : ''} — Avg ${Math.round((data.service + data.timeline + data.appreciation + data.referral) / 4)}/5`,
     html,
@@ -297,6 +301,7 @@ export async function sendCareerNotification(data: CareerData) {
 
   await resend.emails.send({
     from: SENDER,
+    replyTo: REPLY_TO,
     to: CAREER_NOTIFY,
     subject: `New Application: ${data.position} — ${data.name}`,
     html,
@@ -305,6 +310,7 @@ export async function sendCareerNotification(data: CareerData) {
   // Confirmation to applicant
   await resend.emails.send({
     from: SENDER,
+    replyTo: REPLY_TO,
     to: data.email,
     subject: `Application Received — Helios Event Productions`,
     html: `
