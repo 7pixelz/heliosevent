@@ -607,7 +607,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
       {service.seoContent && (
         <section style={{ background: '#fff', borderTop: '1px solid #f0f0f0' }}>
           <div
-            className="blog-content"
+            className="blog-content blog-content-xs"
             style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 24px' }}
             dangerouslySetInnerHTML={{ __html: service.seoContent }}
           />

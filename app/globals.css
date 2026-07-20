@@ -3905,6 +3905,18 @@ footer {
 .blog-content th, .blog-content td { border: 1px solid #e5e7eb; padding: 10px 14px; text-align: left; }
 .blog-content th { background: #f9fafb; font-weight: 700; }
 
+/* Small SEO content — used on home page above footer */
+.blog-content.blog-content-sm { font-size: 13px; }
+.blog-content.blog-content-sm h1 { font-size: clamp(18px, 2.4vw, 24px); }
+.blog-content.blog-content-sm h2 { font-size: clamp(16px, 2vw, 20px); }
+.blog-content.blog-content-sm h3 { font-size: clamp(14px, 1.6vw, 17px); }
+
+/* Very small SEO content — used on service pages */
+.blog-content.blog-content-xs { font-size: 12px; }
+.blog-content.blog-content-xs h1 { font-size: clamp(15px, 1.8vw, 18px); }
+.blog-content.blog-content-xs h2 { font-size: clamp(14px, 1.6vw, 16px); }
+.blog-content.blog-content-xs h3 { font-size: clamp(12.5px, 1.4vw, 14px); }
+
 /* About page responsive */
 @media (max-width: 768px) {
   .about-story-grid { grid-template-columns: 1fr !important; gap: 40px !important; }

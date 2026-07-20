@@ -11,6 +11,7 @@ import CtaBanner from '../../components/sections/CtaBanner';
 import Locations from '../../components/sections/LocationsClient';
 import LeadForm from '../../components/sections/LeadForm';
 import VideoGrid from '../../components/sections/VideoGrid';
+import HomeSeoContent from '../../components/sections/HomeSeoContent';
 import { prisma } from '../../lib/prisma';
 import { getPageSeo, buildMeta } from '../../lib/seo';
 import type { Metadata } from 'next';
@@ -86,6 +87,7 @@ export default async function Home() {
       <CtaBanner />
       <Locations />
       <LeadForm />
+      <HomeSeoContent />
     </>
   );
 }
