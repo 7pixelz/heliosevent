@@ -604,6 +604,9 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
       </section>
 
 
+      <VideoGrid videos={videos} heading={`${service.name} – Videos`} />
+      <LeadForm />
+
       {service.seoContent && (
         <section style={{ background: '#fff', borderTop: '1px solid #f0f0f0' }}>
           <div
@@ -613,9 +616,6 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
           />
         </section>
       )}
-
-      <VideoGrid videos={videos} heading={`${service.name} – Videos`} />
-      <LeadForm />
     </>
   );
 }
