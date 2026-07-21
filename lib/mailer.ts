@@ -90,7 +90,7 @@ export async function sendEnquiryNotification(data: EnquiryData) {
 
     <!-- CTA -->
     <div style="padding:24px 32px 32px;text-align:center">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/admin/enquiries"
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.heliosevent.in'}/admin/enquiries"
         style="display:inline-block;background:#adc905;color:#fff;font-weight:700;font-size:14px;padding:14px 32px;border-radius:10px;text-decoration:none;letter-spacing:0.5px">
         View in Admin Panel →
       </a>
@@ -221,7 +221,7 @@ export async function sendFeedbackNotification(data: FeedbackData) {
     </div>` : ''}
 
     <div style="padding:24px 32px 32px;text-align:center">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/admin/feedback"
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.heliosevent.in'}/admin/feedback"
         style="display:inline-block;background:#adc905;color:#fff;font-weight:700;font-size:14px;padding:14px 32px;border-radius:10px;text-decoration:none;letter-spacing:0.5px">
         View in Admin Panel →
       </a>
@@ -287,7 +287,7 @@ export async function sendCareerNotification(data: CareerData) {
       <p style="font-size:12px;color:#888;margin:0 0 8px">Resume is stored securely. Download from the admin panel.</p>
     </div>` : ''}
     <div style="padding:24px 32px 32px;text-align:center">
-      <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/admin/careers"
+      <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.heliosevent.in'}/admin/careers"
         style="display:inline-block;background:#1a1f2e;color:#fff;font-weight:700;font-size:14px;padding:14px 32px;border-radius:10px;text-decoration:none">
         View in Admin Panel →
       </a>
