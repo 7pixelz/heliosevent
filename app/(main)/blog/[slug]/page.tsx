@@ -1,6 +1,7 @@
 import { prisma } from '../../../../lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const revalidate = 3600;
 import type { Metadata } from 'next';
@@ -80,7 +81,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Hero */}
       <div style={{ position: 'relative', height: '420px', overflow: 'hidden', background: '#1a1f2e' }}>
         {post.coverImageUrl && (
-          <img src={post.coverImageUrl} alt={post.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35 }} />
+          <Image src={post.coverImageUrl} alt={post.title} fill priority sizes="100vw" quality={65} style={{ objectFit: 'cover', opacity: 0.35 }} />
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,31,46,0.95) 0%, rgba(26,31,46,0.4) 100%)' }} />
         <div style={{ position: 'relative', maxWidth: '820px', margin: '0 auto', padding: '0 24px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '32px' }}>
@@ -113,7 +114,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <Link key={r.slug} href={`/blog/${r.slug}`} style={{ textDecoration: 'none' }}>
                   <div style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e5e7eb' }}>
                     {r.coverImageUrl
-                      ? <img src={r.coverImageUrl} alt={r.title} style={{ width: '100%', height: '120px', objectFit: 'cover', display: 'block' }} />
+                      ? <div style={{ position: 'relative', width: '100%', height: '120px' }}><Image src={r.coverImageUrl} alt={r.title} fill sizes="220px" quality={65} style={{ objectFit: 'cover' }} /></div>
                       : <div style={{ width: '100%', height: '120px', background: '#e5e7eb' }} />
                     }
                     <div style={{ padding: '12px 14px' }}>

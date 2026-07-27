@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import LeadForm from '../../../../components/sections/LeadForm';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 
@@ -225,10 +226,14 @@ export default function PortfolioEventPage() {
       }}>
         {event.coverImageUrl && (
           <>
-            <img
+            <Image
               src={event.coverImageUrl}
               alt={event.title}
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              fill
+              priority
+              sizes="100vw"
+              quality={65}
+              style={{ objectFit: 'cover' }}
             />
             <div style={{
               position: 'absolute', inset: 0,

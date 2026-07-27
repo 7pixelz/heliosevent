@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import LeadForm from '../../../components/sections/LeadForm';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 
@@ -167,12 +168,14 @@ export default function PortfolioPage() {
                   >
                     {/* Cover image */}
                     {ev.coverImageUrl ? (
-                      <img
+                      <Image
                         src={ev.coverImageUrl}
                         alt={ev.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
+                        quality={70}
                         style={{
-                          position: 'absolute', inset: 0,
-                          width: '100%', height: '100%', objectFit: 'cover',
+                          objectFit: 'cover',
                           transform: hovered === ev.id ? 'scale(1.05)' : 'scale(1)',
                           transition: 'transform 0.5s ease',
                         }}
