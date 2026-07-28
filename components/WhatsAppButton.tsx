@@ -1,11 +1,21 @@
 'use client';
 
+// Phone number is assembled at click-time (not present as static text in the
+// page HTML) so simple regex-based scrapers that scan for wa.me/api.whatsapp.com
+// links on the raw page source can't harvest it for spam/video-call bots.
+const PARTS = ['91', '740', '103', '0000'];
+
+function openWhatsApp() {
+  const phone = PARTS.join('');
+  const text = encodeURIComponent("Hi, I'd like to plan an event.");
+  window.open(`https://api.whatsapp.com/send/?phone=${phone}&text=${text}&type=phone_number&app_absent=0`, '_blank', 'noopener,noreferrer');
+}
+
 export default function WhatsAppButton() {
   return (
     <a
-      href="https://api.whatsapp.com/send/?phone=917401030000&text=Hi%2C%20I%27d%20like%20to%20plan%20an%20event.&type=phone_number&app_absent=0"
-      target="_blank"
-      rel="noopener noreferrer nofollow"
+      href="#"
+      onClick={e => { e.preventDefault(); openWhatsApp(); }}
       aria-label="Chat on WhatsApp"
       style={{
         position: 'fixed',
