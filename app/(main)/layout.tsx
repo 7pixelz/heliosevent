@@ -2,7 +2,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ScrollObserver from '../../components/ScrollObserver';
 import FloatingCTA from '../../components/FloatingCTA';
-import WhatsAppButton from '../../components/WhatsAppButton';
+// import WhatsAppButton from '../../components/WhatsAppButton'; // temporarily disabled to test if spam calls originate from the site
 import ScrollToTop from '../../components/ScrollToTop';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
@@ -20,7 +20,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
 <FloatingCTA />
-        <WhatsAppButton />
+        {/* <WhatsAppButton /> */}
         <ScrollObserver />
         <ScrollToTop />
     </div>
