@@ -77,6 +77,12 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
 
   useEffect(() => { if (step === 'name') inputRef.current?.focus(); }, [step]);
 
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prevOverflow; };
+  }, []);
+
   function chooseRequirement(value: string) {
     setRequirement(value);
     setInputValue('');
@@ -84,8 +90,8 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
     setStep('name');
   }
 
-  async function completeWithName(name: string) {
-    if (!name.trim()) return;
+  async function completeWithName(name: string, popup: Window | null) {
+    if (!name.trim()) { popup?.close(); return; }
     setFormError('');
     setSubmitting(true);
     try {
@@ -98,17 +104,25 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
       const data = await res.json();
       if (!res.ok || !data.ok) {
         setFormError('Verification failed, please try again.');
+        popup?.close();
         setSubmitting(false);
         return;
       }
       const url = buildWhatsAppUrl(name.trim(), requirement);
-      window.open(url, '_blank', 'noopener,noreferrer');
+      if (popup) {
+        popup.location.href = url;
+      } else {
+        // Popup was blocked when we tried to open it synchronously — fall back
+        // to opening now (may still be blocked by strict browsers, but best effort).
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
       onClose();
       setStep('menu');
       setRequirement('');
       setInputValue('');
     } catch {
       setFormError('Something went wrong, please try again.');
+      popup?.close();
     } finally {
       setSubmitting(false);
     }
@@ -121,7 +135,12 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
     if (step === 'menu') {
       chooseRequirement(value);
     } else {
-      completeWithName(value);
+      // Open the tab synchronously, inside the click/submit handler, so it
+      // still counts as a direct user gesture and isn't blocked by the
+      // browser's popup blocker — we redirect it once verification finishes.
+      const popup = window.open('about:blank', '_blank');
+      if (popup) popup.opener = null;
+      completeWithName(value, popup);
     }
   }
 
@@ -131,6 +150,7 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="wa-gate-title"
+      className="wa-gate-overlay"
       style={{
         position: 'fixed',
         inset: 0,
@@ -144,6 +164,7 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
     >
       <div
         onClick={e => e.stopPropagation()}
+        className="wa-gate-panel"
         style={{
           background: '#e9e3dc',
           borderRadius: '18px',
@@ -246,7 +267,9 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
             disabled={submitting}
             style={{
               flex: 1, border: '1px solid #ddd', borderRadius: '24px', padding: '10px 16px',
-              fontSize: '13px', outline: 'none', fontFamily: "'Inter',sans-serif", color: '#111',
+              // fontSize must stay >= 16px — iOS Safari auto-zooms the page on focus
+              // for any input below that, which is what caused the popup to jump/scale
+              fontSize: '16px', outline: 'none', fontFamily: "'Inter',sans-serif", color: '#111',
             }}
           />
           <button
@@ -264,6 +287,18 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
           </button>
         </form>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .wa-gate-overlay { align-items: flex-end !important; padding: 0 !important; }
+          .wa-gate-panel {
+            max-width: 100% !important;
+            height: 92dvh !important;
+            max-height: 92dvh !important;
+            border-radius: 18px 18px 0 0 !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
