@@ -71,12 +71,13 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
   const messagesRef = useRef<HTMLDivElement>(null);
 
   // Tracks the actually-visible area on mobile, since the on-screen keyboard
-  // shrinks the visual viewport without shrinking `dvh`/`100vh` on iOS Safari —
-  // without this the popup stays sized to the full screen and gets pushed
-  // upward until only the bottom (input bar) is still visible.
-  const [viewportHeight, setViewportHeight] = useState(() =>
-    typeof window !== 'undefined' ? (window.visualViewport?.height ?? window.innerHeight) : 0
-  );
+  // shrinks the visual viewport (and shifts its top offset) without shrinking
+  // `dvh`/`100vh` on iOS Safari — without this the popup stays sized/positioned
+  // for the full screen and drifts out of view above the keyboard.
+  const [viewport, setViewport] = useState(() => ({
+    height: typeof window !== 'undefined' ? (window.visualViewport?.height ?? window.innerHeight) : 0,
+    offsetTop: typeof window !== 'undefined' ? (window.visualViewport?.offsetTop ?? 0) : 0,
+  }));
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.matchMedia('(max-width: 640px)').matches : false
   );
@@ -88,7 +89,9 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   useEffect(() => {
-    if (step === 'name') inputRef.current?.focus();
+    // No auto-focus here on purpose — focusing immediately on step change
+    // opens the keyboard mid-transition on iOS, which is what caused the
+    // popup to jump/misposition. Let the user tap the input themselves.
     messagesRef.current?.scrollTo({ top: messagesRef.current.scrollHeight });
   }, [step]);
 
@@ -100,7 +103,9 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     const vv = window.visualViewport;
-    function update() { setViewportHeight(vv?.height ?? window.innerHeight); }
+    function update() {
+      setViewport({ height: vv?.height ?? window.innerHeight, offsetTop: vv?.offsetTop ?? 0 });
+    }
     vv?.addEventListener('resize', update);
     vv?.addEventListener('scroll', update);
     window.addEventListener('resize', update);
@@ -189,8 +194,10 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
       className="wa-gate-overlay"
       style={{
         position: 'fixed',
-        inset: 0,
-        height: `${viewportHeight}px`,
+        top: `${viewport.offsetTop}px`,
+        left: 0,
+        right: 0,
+        height: `${viewport.height}px`,
         background: 'rgba(0,0,0,0.6)',
         display: 'flex',
         alignItems: 'center',
@@ -207,7 +214,7 @@ function WhatsAppLeadGateModal({ onClose }: { onClose: () => void }) {
           borderRadius: '18px',
           width: '100%',
           maxWidth: '380px',
-          height: isMobile ? `${Math.round(viewportHeight * 0.92)}px` : 'min(560px, 80vh)',
+          height: isMobile ? `${Math.round(viewport.height * 0.92)}px` : 'min(560px, 80vh)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
