@@ -347,14 +347,18 @@ export default function PortfolioEventPage() {
                     breakInside: 'avoid',
                     cursor: 'pointer',
                     position: 'relative',
+                    aspectRatio: '4/3',
                   }}
                   className="portfolio-img-wrap"
                 >
-                  <img
+                  <Image
                     src={img.url}
                     alt={`${event.title} — photo ${i + 1}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
+                    quality={70}
                     style={{
-                      width: '100%', display: 'block',
+                      objectFit: 'cover',
                       transition: 'transform 0.35s ease',
                     }}
                     className="portfolio-img"
