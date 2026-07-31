@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -213,24 +213,15 @@ function MobileAccordion({ items, open, onNavigate }: { items: ServiceItem[]; op
   );
 }
 
-export default function Header() {
+export default function Header({ initialServices }: { initialServices?: ServiceItem[] }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [mainServices, setMainServices] = useState<ServiceItem[]>(FALLBACK_MAIN);
+  const [mainServices] = useState<ServiceItem[]>(initialServices?.length ? initialServices : FALLBACK_MAIN);
 
   const servicesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const pathname = usePathname();
-
-  useEffect(() => {
-    fetch('/api/services')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data?.main?.length) setMainServices(data.main.filter((s: ServiceItem) => !s.name.toLowerCase().includes('wedding')));
-      })
-      .catch(() => {});
-  }, []);
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);

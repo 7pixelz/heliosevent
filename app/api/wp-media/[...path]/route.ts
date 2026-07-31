@@ -5,6 +5,8 @@ import { IncomingMessage } from 'http';
 
 const OLD_IP = '69.62.80.189';
 const OLD_HOST = 'www.heliosevent.in';
+const FETCH_TIMEOUT_MS = 6000;
+const ALLOWED_EXTENSIONS = /\.(jpe?g|png|gif|webp|svg|pdf|mp4)$/i;
 
 function fetchFromIP(protocol: 'https' | 'http', filePath: string): Promise<{ data: Buffer; contentType: string; status: number }> {
   return new Promise((resolve, reject) => {
@@ -18,6 +20,7 @@ function fetchFromIP(protocol: 'https' | 'http', filePath: string): Promise<{ da
         method: 'GET',
         headers: { Host: OLD_HOST },
         rejectUnauthorized: false,
+        timeout: FETCH_TIMEOUT_MS,
       },
       (res: IncomingMessage) => {
         const chunks: Buffer[] = [];
@@ -31,6 +34,7 @@ function fetchFromIP(protocol: 'https' | 'http', filePath: string): Promise<{ da
         );
       }
     );
+    req.on('timeout', () => req.destroy(new Error('timeout')));
     req.on('error', reject);
     req.end();
   });
@@ -39,6 +43,15 @@ function fetchFromIP(protocol: 'https' | 'http', filePath: string): Promise<{ da
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const filePath = path.join('/');
+
+  // Old media uploads were only ever these file types — anything else (.php, wp-admin
+  // probes, etc.) is a scanner/bot request; reject instantly without hitting the legacy host.
+  if (!ALLOWED_EXTENSIONS.test(filePath)) {
+    return new Response('Not found', {
+      status: 404,
+      headers: { 'Cache-Control': 'public, max-age=86400' },
+    });
+  }
 
   let result: { data: Buffer; contentType: string; status: number } | null = null;
 
@@ -50,12 +63,18 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ pat
     try {
       result = await fetchFromIP('http', filePath);
     } catch (e) {
-      return new Response('Error fetching media', { status: 500 });
+      return new Response('Error fetching media', {
+        status: 502,
+        headers: { 'Cache-Control': 'public, max-age=300' },
+      });
     }
   }
 
   if (!result || result.status >= 400) {
-    return new Response('Not found', { status: 404 });
+    return new Response('Not found', {
+      status: 404,
+      headers: { 'Cache-Control': 'public, max-age=86400' },
+    });
   }
 
   return new Response(result.data.buffer as ArrayBuffer, {
