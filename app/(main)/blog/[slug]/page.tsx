@@ -38,6 +38,17 @@ function decodeHtmlEntities(str: string) {
     .replace(/&nbsp;/g, ' ');
 }
 
+function optimizeContentImages(html: string) {
+  return html.replace(/<img\b([^>]*)>/gi, (tag, attrs) => {
+    const srcMatch = attrs.match(/\ssrc="(https?:\/\/[^"]+)"/i);
+    if (!srcMatch) return tag;
+    const optimizedSrc = `/_next/image?url=${encodeURIComponent(srcMatch[1])}&w=1200&q=70`;
+    let newAttrs = attrs.replace(srcMatch[0], ` src="${optimizedSrc}"`).replace(/\/\s*$/, '');
+    if (!/\sloading=/i.test(newAttrs)) newAttrs += ' loading="lazy"';
+    return `<img${newAttrs}>`;
+  });
+}
+
 function cleanContent(html: string) {
   return html
     .replace(/<h1(\s[^>]*)?>/gi, '<h2$1>').replace(/<\/h1>/gi, '</h2>')
@@ -101,7 +112,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div style={{ maxWidth: '820px', margin: '0 auto', padding: '16px 24px' }}>
         <div
           className="blog-content"
-          dangerouslySetInnerHTML={{ __html: cleanContent(post.content) }}
+          dangerouslySetInnerHTML={{ __html: optimizeContentImages(cleanContent(post.content)) }}
           style={{ fontFamily: "'Inter',sans-serif", fontSize: '16px', lineHeight: 1.8, color: '#333' }}
         />
 
