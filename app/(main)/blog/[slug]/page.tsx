@@ -125,7 +125,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <Link key={r.slug} href={`/blog/${r.slug}`} style={{ textDecoration: 'none' }}>
                   <div style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e5e7eb' }}>
                     {r.coverImageUrl
-                      ? <div style={{ position: 'relative', width: '100%', height: '120px' }}><Image src={r.coverImageUrl} alt={r.title} fill sizes="220px" quality={65} style={{ objectFit: 'cover' }} /></div>
+                      ? <div style={{ position: 'relative', width: '100%', height: '120px' }}><Image src={r.coverImageUrl} alt={r.title} width={220} height={120} quality={65} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                       : <div style={{ width: '100%', height: '120px', background: '#e5e7eb' }} />
                     }
                     <div style={{ padding: '12px 14px' }}>

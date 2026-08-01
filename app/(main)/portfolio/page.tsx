@@ -171,10 +171,12 @@ export default function PortfolioPage() {
                       <Image
                         src={ev.coverImageUrl}
                         alt={ev.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
+                        width={340}
+                        height={255}
                         quality={70}
                         style={{
+                          position: 'absolute', inset: 0,
+                          width: '100%', height: '100%',
                           objectFit: 'cover',
                           transform: hovered === ev.id ? 'scale(1.05)' : 'scale(1)',
                           transition: 'transform 0.5s ease',

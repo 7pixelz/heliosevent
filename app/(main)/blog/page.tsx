@@ -87,7 +87,7 @@ export default async function BlogPage({
                 <article className="blog-card">
                   <div style={{ height: '200px', background: '#e5e7eb', overflow: 'hidden', position: 'relative' }}>
                     {post.coverImageUrl
-                      ? <Image src={post.coverImageUrl} alt={post.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px" quality={70} style={{ objectFit: 'cover' }} />
+                      ? <Image src={post.coverImageUrl} alt={post.title} width={340} height={200} quality={70} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                       : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1a1f2e' }}>
                           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5">
                             <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />

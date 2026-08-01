@@ -354,10 +354,12 @@ export default function PortfolioEventPage() {
                   <Image
                     src={img.url}
                     alt={`${event.title} — photo ${i + 1}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
+                    width={300}
+                    height={225}
                     quality={70}
                     style={{
+                      position: 'absolute', inset: 0,
+                      width: '100%', height: '100%',
                       objectFit: 'cover',
                       transition: 'transform 0.35s ease',
                     }}
