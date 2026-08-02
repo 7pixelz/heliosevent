@@ -46,6 +46,7 @@ export default function Portfolio({ events: propEvents }: { events?: PortfolioEv
                     width={380}
                     height={240}
                     quality={75}
+                    unoptimized
                     placeholder="blur"
                     blurDataURL="data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADQAQCdASoIAAYAAkA4JYgCdAEO/gHOAAD++3f/yf/Yf/ef/////q3/gf/gH/bP+5f+r/0D/Rf+n/+n/wH/ef/Yf/UP/V//UAAA"
                     style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}

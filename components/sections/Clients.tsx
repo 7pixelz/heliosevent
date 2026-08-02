@@ -90,7 +90,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         <div className="marquee-track marquee-track-left">
           {[...row1, ...row1].map((logo, i) => (
             <div key={`r1-${logo.id}-${i}`} className="brand-logo-item">
-              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} sizes="130px" style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
+              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} unoptimized style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
             </div>
           ))}
         </div>
@@ -101,7 +101,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         <div className="marquee-track marquee-track-right">
           {[...row2, ...row2].map((logo, i) => (
             <div key={`r2-${logo.id}-${i}`} className="brand-logo-item">
-              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} sizes="130px" style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
+              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} unoptimized style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
             </div>
           ))}
         </div>
@@ -112,7 +112,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
         <div className="marquee-track marquee-track-left2">
           {[...row3, ...row3].map((logo, i) => (
             <div key={`r3-${logo.id}-${i}`} className="brand-logo-item">
-              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} sizes="130px" style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
+              <Image src={logo.imageUrl} alt={logo.name} width={130} height={72} quality={30} unoptimized style={{ width: '130px', height: '72px', objectFit: 'contain' }} />
             </div>
           ))}
         </div>
