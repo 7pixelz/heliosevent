@@ -174,6 +174,7 @@ export default function PortfolioPage() {
                         width={340}
                         height={255}
                         quality={70}
+                        unoptimized
                         style={{
                           position: 'absolute', inset: 0,
                           width: '100%', height: '100%',
