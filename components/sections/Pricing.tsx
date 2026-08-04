@@ -43,7 +43,7 @@ export default function Pricing() {
             Packages & Pricing
             <span style={{ width: '22px', height: '2px', background: '#adc905', display: 'inline-block' }}></span>
           </div>
-          <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,3.5vw,46px)', color: '#fff', lineHeight: 1.15, marginBottom: '14px' }}>
+          <h2 className="pricing-title">
             Pick the Right Plan<br />for Your Team
           </h2>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter',sans-serif", maxWidth: '480px', margin: '0 auto', lineHeight: 1.7 }}>

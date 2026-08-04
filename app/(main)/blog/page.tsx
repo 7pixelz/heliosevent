@@ -62,7 +62,7 @@ export default async function BlogPage({
         <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '12px' }}>
           Helios Event
         </p>
-        <h1 style={{ fontSize: 'clamp(32px,5vw,52px)', fontWeight: 900, color: '#fff', margin: '0 0 16px', fontFamily: "'Inter',sans-serif", lineHeight: 1.1 }}>
+        <h1 className="blog-hero-title">
           Event Planning <span style={{ color: '#adc905' }}>Insights</span>
         </h1>
         <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', fontFamily: "'Inter',sans-serif", maxWidth: '480px', margin: 0 }}>
@@ -96,7 +96,7 @@ export default async function BlogPage({
                     }
                   </div>
                   <div style={{ padding: '20px 22px 24px' }}>
-                    <h2 style={{ fontSize: '17px', fontWeight: 800, color: '#111', margin: '0 0 10px', lineHeight: 1.35, fontFamily: "'Inter',sans-serif" }}>
+                    <h2 className="blog-card-title">
                       {post.title}
                     </h2>
                     {post.excerpt && (

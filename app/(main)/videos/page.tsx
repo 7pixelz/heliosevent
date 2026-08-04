@@ -39,7 +39,7 @@ export default async function VideosPage() {
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', marginBottom: '12px', fontFamily: "'Inter', sans-serif" }}>
             Our Work
           </div>
-          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: '#fff', margin: '0 0 16px', fontFamily: "'Montserrat', sans-serif" }}>
+          <h1 className="videos-hero-title">
             Videos
           </h1>
           <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.45)', margin: 0, fontFamily: "'Inter', sans-serif" }}>

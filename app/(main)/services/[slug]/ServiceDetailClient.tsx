@@ -214,11 +214,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               </span>
             </div>
 
-            <h1 style={{
-              fontSize: 'clamp(2rem, 5vw, 3.2rem)', fontWeight: 900,
-              color: '#fff', margin: '0 0 20px', lineHeight: 1.12,
-              fontFamily: "'Montserrat', sans-serif",
-            }}>
+            <h1 className="svc-hero-title">
               {headline}
             </h1>
 
@@ -268,10 +264,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 textTransform: 'uppercase', color: '#adc905',
                 marginBottom: '12px', fontFamily: "'Inter', sans-serif",
               }}>Our Work</div>
-              <h2 style={{
-                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
-                color: '#111', margin: 0, fontFamily: "'Montserrat', sans-serif",
-              }}>
+              <h2 className="svc-section-h2">
                 {h.events}
               </h2>
             </div>
@@ -341,10 +334,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               }}>
                 What We Do
               </div>
-              <h2 style={{
-                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
-                color: '#111', margin: '0 0 28px', fontFamily: "'Montserrat', sans-serif",
-              }}>
+              <h2 className="svc-whatwedo-h2">
                 {h.about}
               </h2>
               <div style={{
@@ -376,10 +366,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               }}>
                 What&apos;s Included
               </div>
-              <h2 style={{
-                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
-                color: '#fff', margin: '0 0 16px', fontFamily: "'Montserrat', sans-serif",
-              }}>
+              <h2 className="svc-signature-h2">
                 {h.signature}
               </h2>
               <p style={{
@@ -445,10 +432,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               }}>
                 Our Edge
               </div>
-              <h2 style={{
-                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
-                color: '#111', margin: 0, fontFamily: "'Montserrat', sans-serif",
-              }}>
+              <h2 className="svc-section-h2">
                 {h.whyChoose}
               </h2>
             </div>
@@ -502,7 +486,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: 'rgba(173,201,5,0.75)', marginBottom: '10px', fontFamily: "'Inter', sans-serif" }}>Our Track Record</div>
-            <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif" }}>{h.numbers}</h2>
+            <h2 className="svc-numbers-h2">{h.numbers}</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '2px', background: 'rgba(255,255,255,0.06)', borderRadius: '20px', overflow: 'hidden' }}>
             {[
@@ -532,10 +516,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               }}>
                 FAQs
               </div>
-              <h2 style={{
-                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
-                color: '#111', margin: 0, fontFamily: "'Montserrat', sans-serif",
-              }}>
+              <h2 className="svc-section-h2">
                 {h.faq}
               </h2>
             </div>
@@ -567,10 +548,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
           }}>
             Let&apos;s Work Together
           </div>
-          <h2 style={{
-            fontSize: 'clamp(1.6rem, 3.5vw, 2.6rem)', fontWeight: 900,
-            color: '#0d1117', margin: '0 0 16px', fontFamily: "'Montserrat', sans-serif",
-          }}>
+          <h2 className="svc-cta-h2">
             Ready to plan your {service.name}?
           </h2>
           <p style={{

@@ -184,7 +184,7 @@ function CareersPageInner() {
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adc905', display: 'inline-block' }} />
             <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif" }}>We're Hiring</span>
           </div>
-          <h1 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,5vw,52px)', color: '#fff', lineHeight: 1.15, margin: '0 0 16px' }}>
+          <h1 className="careers-hero-title">
             Join. Grow. Succeed.
           </h1>
           <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', fontFamily: "'Inter',sans-serif", maxWidth: '600px', margin: 0, lineHeight: 1.8 }}>
@@ -197,7 +197,7 @@ function CareersPageInner() {
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: 'clamp(36px, 7vw, 72px) 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '10px' }}>Why Helios</div>
-          <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(24px,3.5vw,36px)', color: '#1a1f2e', margin: 0 }}>Benefits & Perks</h2>
+          <h2 className="careers-benefits-h2">Benefits & Perks</h2>
           <p style={{ fontSize: '15px', color: '#666', fontFamily: "'Inter',sans-serif", marginTop: '12px', maxWidth: '540px', margin: '12px auto 0', lineHeight: 1.7 }}>
             With customer delight at the core of our business ethos, our practices are strongly rooted in our values.
           </p>
@@ -216,7 +216,7 @@ function CareersPageInner() {
       {/* Join strip */}
       <div style={{ background: 'linear-gradient(135deg,#1a1f2e,#0f1318)', padding: '64px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3vw,34px)', color: '#fff', margin: '0 0 16px' }}>
+          <h2 className="careers-openings-h2">
             Your journey toward professional growth starts here.
           </h2>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.55)', fontFamily: "'Inter',sans-serif", lineHeight: 1.8, margin: 0 }}>
@@ -229,7 +229,7 @@ function CareersPageInner() {
       <div style={{ maxWidth: '780px', margin: '0 auto', padding: 'clamp(36px, 7vw, 72px) 24px clamp(40px, 8vw, 80px)' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '10px' }}>Apply Now</div>
-          <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3vw,32px)', color: '#1a1f2e', margin: 0 }}>Send Us Your Application</h2>
+          <h2 className="careers-apply-h2">Send Us Your Application</h2>
         </div>
 
         <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.07)', border: '1px solid #e8edf2' }}>
@@ -252,7 +252,7 @@ function CareersPageInner() {
             ) : (
               <form onSubmit={handleSubmit} noValidate>
                 <div style={{ marginBottom: '20px' }}>
-                  <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '20px', color: '#111', margin: '0 0 4px' }}>Your Details</h2>
+                  <h2 className="careers-details-h2">Your Details</h2>
                   <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
                 </div>
 

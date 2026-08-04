@@ -33,10 +33,7 @@ export default function ThankYouPage() {
             </svg>
           </div>
 
-          <h1 style={{
-            fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 900,
-            color: '#fff', margin: '0 0 16px', fontFamily: "'Montserrat', sans-serif",
-          }}>
+          <h1 className="thankyou-title">
             Thank You!
           </h1>
 

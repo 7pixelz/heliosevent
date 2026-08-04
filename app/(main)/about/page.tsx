@@ -71,7 +71,7 @@ export default function AboutPage() {
         <div style={{ position: 'relative', maxWidth: '1100px', margin: '0 auto', padding: '0 24px', width: '100%' }}>
           <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About Us' }]} />
           <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '14px' }}>Who We Are</p>
-          <h1 style={{ fontSize: 'clamp(36px,6vw,64px)', fontWeight: 900, color: '#fff', margin: '0 0 20px', lineHeight: 1.05, fontFamily: "'Inter',sans-serif" }}>
+          <h1 className="about-hero-title">
             Our <span style={{ color: '#adc905' }}>Story</span>
           </h1>
           <p style={{ fontSize: 'clamp(14px,1.6vw,18px)', color: 'rgba(255,255,255,0.65)', maxWidth: '520px', lineHeight: 1.7, fontFamily: "'Inter',sans-serif", margin: 0 }}>
@@ -98,7 +98,7 @@ export default function AboutPage() {
           {/* Text */}
           <div>
             <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#ff6a00', fontFamily: "'Inter',sans-serif", marginBottom: '14px' }}>About Helios Event</p>
-            <h2 style={{ fontSize: 'clamp(28px,3.5vw,42px)', fontWeight: 900, color: '#1a1f2e', margin: '0 0 24px', lineHeight: 1.15, fontFamily: "'Inter',sans-serif" }}>
+            <h2 className="about-story-h2">
               A Reliable Partner for<br /><span style={{ color: '#adc905' }}>Exceptional Event Management Services in Chennai</span>
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
@@ -146,7 +146,7 @@ export default function AboutPage() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#ff6a00', fontFamily: "'Inter',sans-serif", marginBottom: '14px' }}>What Drives Us</p>
-            <h2 style={{ fontSize: 'clamp(28px,3.5vw,42px)', fontWeight: 900, color: '#1a1f2e', margin: '0 0 16px', fontFamily: "'Inter',sans-serif", lineHeight: 1.15 }}>
+            <h2 className="about-values-h2">
               Our <span style={{ color: '#adc905' }}>Values</span>
             </h2>
             <p style={{ fontSize: '15px', color: '#888', fontFamily: "'Inter',sans-serif", maxWidth: '520px', margin: '0 auto', lineHeight: 1.7 }}>
@@ -177,7 +177,7 @@ export default function AboutPage() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
             <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '14px' }}>The People Behind The Magic</p>
-            <h2 style={{ fontSize: 'clamp(28px,3.5vw,42px)', fontWeight: 900, color: '#fff', margin: 0, fontFamily: "'Inter',sans-serif", lineHeight: 1.15 }}>
+            <h2 className="about-team-h2">
               Meet our <span style={{ color: '#adc905' }}>Event Management Expertise</span>
             </h2>
           </div>
@@ -192,7 +192,7 @@ export default function AboutPage() {
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,31,46,0.8)' }} />
         <div style={{ position: 'relative', textAlign: 'center', padding: '0 24px' }}>
           <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif", marginBottom: '16px' }}>See Our Work</p>
-          <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, color: '#fff', margin: '0 0 28px', lineHeight: 1.15, fontFamily: "'Inter',sans-serif" }}>
+          <h2 className="about-work-h2">
             Turning Visions Into<br /><span style={{ color: '#ff6a00' }}>Reality</span>
           </h2>
           <Link href="/get-quote" style={{ display: 'inline-block', padding: '14px 36px', background: 'linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)', color: '#fff', textDecoration: 'none', borderRadius: '50px', fontSize: '15px', fontWeight: 700, fontFamily: "'Inter',sans-serif", letterSpacing: '0.5px', boxShadow: '0 6px 20px rgba(255,106,0,0.35)' }}>

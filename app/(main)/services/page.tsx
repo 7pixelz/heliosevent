@@ -55,11 +55,7 @@ export default async function ServicesPage() {
           }}>
             What We Do
           </div>
-          <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800,
-            color: '#fff', margin: '0 0 20px', lineHeight: 1.1,
-            fontFamily: "'Montserrat', sans-serif",
-          }}>
+          <h1 className="services-hero-title">
             Our Services
           </h1>
           <p style={{
@@ -82,10 +78,7 @@ export default async function ServicesPage() {
             }}>
               Main Services
             </div>
-            <h2 style={{
-              fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 800,
-              color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif",
-            }}>
+            <h2 className="services-grid-h2">
               Our wide range of services
             </h2>
           </div>

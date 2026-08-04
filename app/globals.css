@@ -344,6 +344,7 @@ nav {
   max-width: 1000px;
   letter-spacing: -0.5px;
   margin-bottom: 20px;
+  white-space: pre-line;
 }
 
 .hero-title .g {
@@ -3995,3 +3996,218 @@ footer {
   }
 }
 .portfolio-img-wrap:hover .portfolio-zoom-icon { opacity: 1 !important; }
+
+/* ===== Heading classes (migrated from inline h1/h2 styles) ===== */
+
+/* services/[slug]/ServiceDetailClient.tsx */
+.svc-hero-title {
+  font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900;
+  color: #fff; margin: 0 0 20px; line-height: 1.12;
+  font-family: 'Montserrat', sans-serif;
+}
+.svc-section-h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800;
+  color: #111; margin: 0; font-family: 'Montserrat', sans-serif;
+}
+.svc-whatwedo-h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800;
+  color: #111; margin: 0 0 28px; font-family: 'Montserrat', sans-serif;
+}
+.svc-signature-h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800;
+  color: #fff; margin: 0 0 16px; font-family: 'Montserrat', sans-serif;
+}
+.svc-numbers-h2 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800;
+  color: #fff; margin: 0; font-family: 'Montserrat', sans-serif;
+}
+.svc-cta-h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 900;
+  color: #0d1117; margin: 0 0 16px; font-family: 'Montserrat', sans-serif;
+}
+
+/* services/page.tsx */
+.services-hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800;
+  color: #fff; margin: 0 0 20px; line-height: 1.1;
+  font-family: 'Montserrat', sans-serif;
+}
+.services-grid-h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800;
+  color: #fff; margin: 0; font-family: 'Montserrat', sans-serif;
+}
+
+/* portfolio/page.tsx + portfolio/[slug]/PortfolioEventClient.tsx */
+.portfolio-hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
+  color: #fff; margin: 0 0 20px; line-height: 1.1;
+  font-family: 'Montserrat', sans-serif;
+}
+.portfolio-cta-h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900;
+  color: #0d1117; margin: 0 0 14px; font-family: 'Montserrat', sans-serif;
+}
+.portfolio-event-title {
+  font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900;
+  color: #fff; margin: 0 0 16px; line-height: 1.15;
+  font-family: 'Montserrat', sans-serif;
+}
+.portfolio-event-h2 {
+  font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 800;
+  color: #fff; margin: 0; font-family: 'Montserrat', sans-serif;
+}
+
+/* thankyou/page.tsx */
+.thankyou-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900;
+  color: #fff; margin: 0 0 16px; font-family: 'Montserrat', sans-serif;
+}
+
+/* about/page.tsx */
+.about-hero-title {
+  font-size: clamp(36px, 6vw, 64px); font-weight: 900;
+  color: #fff; margin: 0 0 20px; line-height: 1.05;
+  font-family: 'Inter', sans-serif;
+}
+.about-story-h2 {
+  font-size: clamp(28px, 3.5vw, 42px); font-weight: 900;
+  color: #1a1f2e; margin: 0 0 24px; line-height: 1.15;
+  font-family: 'Inter', sans-serif;
+}
+.about-values-h2 {
+  font-size: clamp(28px, 3.5vw, 42px); font-weight: 900;
+  color: #1a1f2e; margin: 0 0 16px; line-height: 1.15;
+  font-family: 'Inter', sans-serif;
+}
+.about-team-h2 {
+  font-size: clamp(28px, 3.5vw, 42px); font-weight: 900;
+  color: #fff; margin: 0; line-height: 1.15;
+  font-family: 'Inter', sans-serif;
+}
+.about-work-h2 {
+  font-size: clamp(26px, 4vw, 44px); font-weight: 900;
+  color: #fff; margin: 0 0 28px; line-height: 1.15;
+  font-family: 'Inter', sans-serif;
+}
+
+/* blog/page.tsx + blog/[slug]/page.tsx */
+.blog-hero-title {
+  font-size: clamp(32px, 5vw, 52px); font-weight: 900;
+  color: #fff; margin: 0 0 16px; line-height: 1.1;
+  font-family: 'Inter', sans-serif;
+}
+.blog-card-title {
+  font-size: 17px; font-weight: 800;
+  color: #111; margin: 0 0 10px; line-height: 1.35;
+  font-family: 'Inter', sans-serif;
+}
+.blog-post-title {
+  font-size: clamp(24px, 4vw, 40px); font-weight: 900;
+  color: #fff; margin: 0; line-height: 1.2;
+  font-family: 'Inter', sans-serif;
+}
+
+/* careers/page.tsx */
+.careers-hero-title {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(28px, 5vw, 52px); color: #fff;
+  line-height: 1.15; margin: 0 0 16px;
+}
+.careers-benefits-h2 {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(24px, 3.5vw, 36px); color: #1a1f2e; margin: 0;
+}
+.careers-openings-h2 {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(22px, 3vw, 34px); color: #fff; margin: 0 0 16px;
+}
+.careers-apply-h2 {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(22px, 3vw, 32px); color: #1a1f2e; margin: 0;
+}
+.careers-details-h2 {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: 20px; color: #111; margin: 0 0 4px;
+}
+
+/* videos/page.tsx */
+.videos-hero-title {
+  font-size: clamp(2rem, 5vw, 3rem); font-weight: 900;
+  color: #fff; margin: 0 0 16px; font-family: 'Montserrat', sans-serif;
+}
+
+/* get-quote/GetQuoteClient.tsx + contact/ContactPageClient.tsx */
+.quote-hero-title {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(30px, 5vw, 54px); color: #fff;
+  line-height: 1.15; margin: 0 0 18px;
+}
+.contact-hero-title {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(32px, 5vw, 58px); color: #fff;
+  line-height: 1.15; margin: 0 0 16px;
+}
+.consult-widget-h2 {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: 22px; color: #111; margin: 0 0 6px;
+}
+
+/* chennai/[slug]/page.tsx */
+.chennai-hero-title {
+  position: relative; font-size: clamp(24px, 4vw, 48px); font-weight: 900;
+  color: #fff; line-height: 1.2; margin: 0 auto 16px;
+  font-family: 'Poppins', sans-serif; max-width: 800px;
+}
+.chennai-section-h2 {
+  font-size: clamp(22px, 3vw, 36px); font-weight: 800;
+  color: #111; font-family: 'Poppins', sans-serif;
+}
+.chennai-cta-h2 {
+  font-size: clamp(22px, 3vw, 38px); font-weight: 900;
+  color: #0d1117; margin-bottom: 12px; font-family: 'Poppins', sans-serif;
+}
+
+/* components/sections: LeadForm, Locations, ContactForm, Pricing, VideoGrid, Clients */
+.leadform-title {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(24px, 4vw, 38px); color: #fff;
+  margin: 0 0 12px; line-height: 1.2;
+}
+.locations-title {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(28px, 4vw, 44px); color: #fff;
+  margin: 0 0 12px; line-height: 1.2;
+}
+.contactform-title {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(26px, 3vw, 42px); color: #111;
+  line-height: 1.2; margin-bottom: 16px;
+}
+.pricing-title {
+  font-family: 'Poppins', sans-serif; font-weight: 800;
+  font-size: clamp(28px, 3.5vw, 46px); color: #fff;
+  line-height: 1.15; margin-bottom: 14px;
+}
+.videogrid-title {
+  text-align: center; font-size: 32px; font-weight: 800;
+  color: #fff; margin-bottom: 8px; font-family: 'Inter', sans-serif;
+}
+.clients-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(22px, 3.5vw, 44px); font-weight: 800;
+  color: #1a1a1a; margin: 0;
+}
+
+/* feedback/page.tsx */
+.feedback-thanks-h2 {
+  font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 700;
+  color: #fff; margin-bottom: 12px;
+}
+.feedback-hero-title {
+  font-family: 'Poppins', sans-serif; font-size: clamp(22px, 5vw, 36px); font-weight: 800;
+  color: #fff; line-height: 1.2; margin: 0 0 10px;
+}
+.feedback-quote-h2 {
+  font-family: 'Poppins', sans-serif; font-size: clamp(18px, 4vw, 24px); font-weight: 700;
+  color: #fff; font-style: italic; margin: 0 0 8px;
+}

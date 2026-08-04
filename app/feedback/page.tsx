@@ -83,7 +83,7 @@ export default function FeedbackPage() {
       <div style={{ minHeight: '100vh', background: '#0a0c12', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
         <div style={{ textAlign: 'center', maxWidth: '480px' }}>
           <div style={{ fontSize: '64px', marginBottom: '24px' }}>✨</div>
-          <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>
+          <h2 className="feedback-thanks-h2">
             Thank You{name ? `, ${name.split(' ')[0]}` : ''}!
           </h2>
           <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '15px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: '32px' }}>
@@ -111,7 +111,7 @@ export default function FeedbackPage() {
         <div style={{ display: 'inline-block', background: ACCENT, color: '#0a0c12', fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: '11px', letterSpacing: '2px', padding: '6px 18px', borderRadius: '999px', marginBottom: '20px' }}>
           CLIENT FEEDBACK
         </div>
-        <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(22px, 5vw, 36px)', fontWeight: 800, color: '#fff', lineHeight: 1.2, margin: '0 0 10px' }}>
+        <h1 className="feedback-hero-title">
           How did we make<br />your moment shine?
         </h1>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.45)', margin: 0 }}>
@@ -151,7 +151,7 @@ export default function FeedbackPage() {
 
         {/* Question */}
         <div style={{ padding: '36px 32px 28px', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(18px, 4vw, 24px)', fontWeight: 700, color: '#fff', fontStyle: 'italic', margin: '0 0 8px' }}>
+          <h2 className="feedback-quote-h2">
             "{highlightExp(currentStep.title)}"
           </h2>
           <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.4)', margin: '0 0 32px' }}>

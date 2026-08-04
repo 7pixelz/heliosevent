@@ -145,7 +145,7 @@ function LeadFormInner() {
             <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#adc905', display: 'inline-block' }} />
             <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif" }}>Free Quote · No Obligation</span>
           </div>
-          <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(24px,4vw,38px)', color: '#fff', margin: '0 0 12px', lineHeight: 1.2 }}>
+          <h2 className="leadform-title">
             Book Your Event Management Consultation
           </h2>
           <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', fontFamily: "'Inter',sans-serif", margin: 0 }}>

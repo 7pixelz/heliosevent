@@ -201,7 +201,7 @@ function GetQuoteClientInner() {
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ff6a00', display: 'inline-block' }} />
             <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#ff6a00', fontFamily: "'Inter',sans-serif" }}>Free Quote · No Obligation</span>
           </div>
-          <h1 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(30px,5vw,54px)', color: '#fff', lineHeight: 1.15, margin: '0 0 18px' }}>
+          <h1 className="quote-hero-title">
             Plan Your Event With<br />
             <span style={{ color: '#adc905' }}>Helios Event Productions</span>
           </h1>
@@ -284,7 +284,7 @@ function GetQuoteClientInner() {
 
               <form onSubmit={handleSubmit} noValidate>
                   <div style={{ marginBottom: '28px' }}>
-                    <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#111', margin: '0 0 6px' }}>Free Event Budget Consultation</h2>
+                    <h2 className="consult-widget-h2">Free Event Budget Consultation</h2>
                     <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
                   </div>
 

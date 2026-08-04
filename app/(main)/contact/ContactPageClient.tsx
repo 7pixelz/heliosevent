@@ -160,7 +160,7 @@ function ContactPageClientInner() {
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adc905', display: 'inline-block' }} />
             <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif" }}>Get In Touch</span>
           </div>
-          <h1 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(32px,5vw,58px)', color: '#fff', lineHeight: 1.15, margin: '0 0 16px' }}>
+          <h1 className="contact-hero-title">
             Let's Create Something<br />
             <span style={{ background: 'linear-gradient(90deg,#adc905,#ff6a00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Extraordinary</span>
           </h1>
@@ -285,7 +285,7 @@ function ContactPageClientInner() {
             <div style={{ padding: '36px' }}>
               <form onSubmit={handleSubmit} noValidate>
                 <div style={{ marginBottom: '28px' }}>
-                  <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: '22px', color: '#111', margin: '0 0 6px' }}>Free Event Budget Consultation</h2>
+                  <h2 className="consult-widget-h2">Free Event Budget Consultation</h2>
                   <p style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif", margin: 0 }}>Fields marked * are required.</p>
                 </div>
 

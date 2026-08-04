@@ -104,7 +104,7 @@ export default async function BlogPostPage({ params }: Props) {
             <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', fontFamily: "'Inter',sans-serif" }}>›</span>
             <span style={{ fontSize: '12px', color: '#fff', fontFamily: "'Inter',sans-serif", overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '340px' }}>{decodeHtmlEntities(post.title)}</span>
           </div>
-          <h1 style={{ fontSize: 'clamp(24px,4vw,40px)', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.2, fontFamily: "'Inter',sans-serif" }}>{decodeHtmlEntities(post.title)}</h1>
+          <h1 className="blog-post-title">{decodeHtmlEntities(post.title)}</h1>
         </div>
       </div>
 

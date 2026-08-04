@@ -71,7 +71,7 @@ export default function Hero({ slides: propSlides }: { slides?: HeroSlide[] }) {
 
       {/* ── Content ── */}
       <div className="hero-content" style={{ position: 'relative', zIndex: 3 }}>
-        <h1 className="hero-title" style={{ whiteSpace: 'pre-line' }}>
+        <h1 className="hero-title">
           {'Trusted Event Management\nCompany in Chennai'}
         </h1>
 

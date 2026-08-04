@@ -44,7 +44,7 @@ export default function VideoGrid({ videos, heading = 'Event Organizing Services
       `}</style>
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '32px', fontWeight: 800, color: '#fff', marginBottom: '8px', fontFamily: "'Inter', sans-serif" }}>
+        <h2 className="videogrid-title">
           {heading}
         </h2>
         <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.45)', fontSize: '15px', marginBottom: '40px', fontFamily: "'Inter', sans-serif" }}>

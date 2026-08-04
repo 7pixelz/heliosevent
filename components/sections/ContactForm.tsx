@@ -198,7 +198,7 @@ function ContactFormInner() {
             <span style={{ width: '22px', height: '2px', background: '#adc905', display: 'inline-block' }} />
             Get In Touch
           </div>
-          <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3vw,42px)', color: '#111', lineHeight: 1.2, marginBottom: '16px' }}>
+          <h2 className="contactform-title">
             Let's Plan Your<br />Next Event Together
           </h2>
           <p style={{ fontSize: '15px', color: '#6b7280', lineHeight: 1.8, marginBottom: '40px', fontFamily: "'Inter',sans-serif" }}>

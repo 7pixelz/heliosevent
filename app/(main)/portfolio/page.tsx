@@ -67,11 +67,7 @@ export default function PortfolioPage() {
           }}>
             Our Work
           </div>
-          <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900,
-            color: '#fff', margin: '0 0 20px', lineHeight: 1.1,
-            fontFamily: "'Montserrat', sans-serif",
-          }}>
+          <h1 className="portfolio-hero-title">
             Event Management Portfolio
           </h1>
           <p style={{
@@ -294,10 +290,7 @@ export default function PortfolioPage() {
           borderRadius: '50%', background: 'rgba(255,255,255,0.08)', pointerEvents: 'none',
         }} />
         <div style={{ position: 'relative' }}>
-          <h2 style={{
-            fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900,
-            color: '#0d1117', margin: '0 0 14px', fontFamily: "'Montserrat', sans-serif",
-          }}>
+          <h2 className="portfolio-cta-h2">
             Ready to be our next success story?
           </h2>
           <p style={{

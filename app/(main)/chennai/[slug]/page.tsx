@@ -384,7 +384,7 @@ export default async function LocationPage({ params }: Props) {
         <div style={{ position: 'relative', display: 'inline-block', background: 'rgba(173,201,5,0.12)', border: '1px solid rgba(173,201,5,0.3)', borderRadius: '100px', padding: '6px 18px', fontSize: '11px', fontWeight: 700, color: '#adc905', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '20px' }}>
           Chennai — {loc.area}
         </div>
-        <h1 style={{ position: 'relative', fontSize: 'clamp(24px, 4vw, 48px)', fontWeight: 900, color: '#fff', lineHeight: 1.2, marginBottom: '16px', fontFamily: "'Poppins', sans-serif", maxWidth: '800px', margin: '0 auto 16px' }}>
+        <h1 className="chennai-hero-title">
           {loc.title}
         </h1>
         <p style={{ position: 'relative', fontSize: 'clamp(14px, 2vw, 17px)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, maxWidth: '640px', margin: '0 auto 36px', fontFamily: "'Inter', sans-serif" }}>
@@ -414,7 +414,7 @@ export default async function LocationPage({ params }: Props) {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#adc905', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '12px' }}>What We Offer</div>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 800, color: '#111', fontFamily: "'Poppins', sans-serif" }}>
+            <h2 className="chennai-section-h2">
               Comprehensive Event Services in {loc.area}
             </h2>
           </div>
@@ -434,7 +434,7 @@ export default async function LocationPage({ params }: Props) {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#adc905', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '12px' }}>Why Helios</div>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 800, color: '#111', fontFamily: "'Poppins', sans-serif" }}>
+            <h2 className="chennai-section-h2">
               Why Choose Our Event Services
             </h2>
           </div>
@@ -455,7 +455,7 @@ export default async function LocationPage({ params }: Props) {
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#adc905', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '12px' }}>FAQ</div>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 800, color: '#111', fontFamily: "'Poppins', sans-serif" }}>
+            <h2 className="chennai-section-h2">
               Frequently Asked Questions
             </h2>
           </div>
@@ -477,7 +477,7 @@ export default async function LocationPage({ params }: Props) {
 
       {/* CTA Strip */}
       <div style={{ background: 'linear-gradient(135deg, #adc905 0%, #c8e606 100%)', padding: 'clamp(48px, 6vw, 72px) clamp(20px, 6vw, 80px)', textAlign: 'center' }}>
-        <h2 style={{ fontSize: 'clamp(22px, 3vw, 38px)', fontWeight: 900, color: '#0d1117', marginBottom: '12px', fontFamily: "'Poppins', sans-serif" }}>
+        <h2 className="chennai-cta-h2">
           Ready to Plan Your Event in {loc.area}?
         </h2>
         <p style={{ fontSize: '16px', color: '#2a3000', marginBottom: '32px', fontFamily: "'Inter', sans-serif" }}>

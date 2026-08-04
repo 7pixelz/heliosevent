@@ -223,7 +223,7 @@ export default function Locations() {
             <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#adc905', fontFamily: "'Inter',sans-serif" }}>Where We've Delivered</span>
             <div style={{ height: '1px', width: '32px', background: 'rgba(173,201,5,0.4)' }} />
           </div>
-          <h2 style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,44px)', color: '#fff', margin: '0 0 12px', lineHeight: 1.2 }}>
+          <h2 className="locations-title">
             Events Management Services Across the Globe
           </h2>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter',sans-serif", margin: 0 }}>

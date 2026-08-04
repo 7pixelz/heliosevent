@@ -77,7 +77,7 @@ export default function Clients({ logos }: { logos: Logo[] }) {
 
       {/* Heading */}
       <div style={{ textAlign: 'center', marginBottom: '48px', padding: '0 24px' }}>
-        <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(22px, 3.5vw, 44px)', fontWeight: 800, color: '#1a1a1a', margin: 0 }}>
+        <h2 className="clients-title">
           Brands That Trust Our Event Management Services
         </h2>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '15px', color: '#888', marginTop: '10px' }}>

@@ -260,11 +260,7 @@ export default function PortfolioEventPage() {
             </div>
           )}
 
-          <h1 style={{
-            fontSize: 'clamp(1.8rem, 4.5vw, 3rem)', fontWeight: 900,
-            color: '#fff', margin: '0 0 16px', lineHeight: 1.15,
-            fontFamily: "'Montserrat', sans-serif",
-          }}>
+          <h1 className="portfolio-event-title">
             {event.title}
           </h1>
 
@@ -324,10 +320,7 @@ export default function PortfolioEventPage() {
               }}>
                 Gallery
               </div>
-              <h2 style={{
-                fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 800,
-                color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif",
-              }}>
+              <h2 className="portfolio-event-h2">
                 Event Photos
               </h2>
             </div>
@@ -404,10 +397,7 @@ export default function PortfolioEventPage() {
               }}>
                 Videos
               </div>
-              <h2 style={{
-                fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 800,
-                color: '#fff', margin: 0, fontFamily: "'Montserrat', sans-serif",
-              }}>
+              <h2 className="portfolio-event-h2">
                 Event Videos
               </h2>
             </div>
@@ -468,10 +458,7 @@ export default function PortfolioEventPage() {
           borderRadius: '50%', background: 'rgba(255,255,255,0.08)', pointerEvents: 'none',
         }} />
         <div style={{ position: 'relative' }}>
-          <h2 style={{
-            fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900,
-            color: '#0d1117', margin: '0 0 14px', fontFamily: "'Montserrat', sans-serif",
-          }}>
+          <h2 className="portfolio-cta-h2">
             Want an event like this?
           </h2>
           <p style={{
