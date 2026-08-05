@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
 import { uploadObject, getPublicUrl, removeObjects } from '../../../../../lib/storage';
+import { optimizeImage } from '../../../../../lib/image';
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -33,9 +34,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     if (file && file.size > 0) {
       if (existing.storagePath) await removeObjects(BUCKET, [existing.storagePath]);
-      const ext = file.name.split('.').pop() || 'jpg';
-      const path = `covers/${Date.now()}.${ext}`;
-      const { error: uploadError } = await uploadObject(BUCKET, path, file, file.type);
+      const optimized = await optimizeImage(file, { maxWidth: 1920, quality: 75 });
+      const path = `covers/${Date.now()}.${optimized.ext}`;
+      const { error: uploadError } = await uploadObject(BUCKET, path, optimized.body, optimized.contentType);
       if (uploadError) {
         return NextResponse.json({ error: `Image upload failed: ${uploadError}` }, { status: 500 });
       }

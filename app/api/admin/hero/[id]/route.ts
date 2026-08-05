@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
 import { uploadObject, getPublicUrl, removeObjects } from '../../../../../lib/storage';
+import { optimizeImage } from '../../../../../lib/image';
 
 const BUCKET_HERO = 'hero-media';
 
@@ -38,10 +39,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (file) {
       await removeObjects(BUCKET_HERO, [existing.storagePath]);
       const isVideo = file.type.startsWith('video/');
-      const ext = file.name.split('.').pop()?.toLowerCase() || (isVideo ? 'mp4' : 'jpg');
-      const storagePath = `${Date.now()}-hero-slide.${ext}`;
+      const optimized = await optimizeImage(file, { maxWidth: 2560, quality: 78 });
+      const storagePath = `${Date.now()}-hero-slide.${optimized.ext}`;
 
-      const { error } = await uploadObject(BUCKET_HERO, storagePath, file, file.type);
+      const { error } = await uploadObject(BUCKET_HERO, storagePath, optimized.body, optimized.contentType);
       if (error) return NextResponse.json({ error }, { status: 500 });
 
       data.type = isVideo ? 'VIDEO' : 'IMAGE';

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../../../lib/auth';
 import { uploadObject, getPublicUrl } from '../../../../../../../lib/storage';
+import { optimizeImage } from '../../../../../../../lib/image';
 
 const BUCKET = 'portfolio-media';
 
@@ -46,9 +47,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const created: { url: string }[] = [];
   for (const file of files) {
     if (!file.size) continue;
-    const ext = file.name.split('.').pop() || 'jpg';
-    const path = `events/${eventId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error } = await uploadObject(BUCKET, path, file, file.type);
+    const optimized = await optimizeImage(file, { maxWidth: 1600, quality: 78 });
+    const path = `events/${eventId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${optimized.ext}`;
+    const { error } = await uploadObject(BUCKET, path, optimized.body, optimized.contentType);
     if (error) continue;
     const url = getPublicUrl(BUCKET, path);
     const media = await prisma.portfolioMedia.create({ data: { eventId, type: 'IMAGE', url, storagePath: path, displayOrder } });

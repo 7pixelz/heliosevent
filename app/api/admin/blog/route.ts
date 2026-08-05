@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
 import { uploadObject, getPublicUrl } from '../../../../lib/storage';
+import { optimizeImage } from '../../../../lib/image';
 
 const BUCKET = 'blog-images';
 
@@ -53,9 +54,9 @@ export async function POST(req: Request) {
   let storagePath: string | null = null;
 
   if (file && file.size > 0) {
-    const ext = file.name.split('.').pop() || 'jpg';
-    const path = `covers/${Date.now()}.${ext}`;
-    const { error } = await uploadObject(BUCKET, path, file, file.type);
+    const optimized = await optimizeImage(file, { maxWidth: 1920, quality: 75 });
+    const path = `covers/${Date.now()}.${optimized.ext}`;
+    const { error } = await uploadObject(BUCKET, path, optimized.body, optimized.contentType);
     if (!error) {
       storagePath = path;
       coverImageUrl = getPublicUrl(BUCKET, path);

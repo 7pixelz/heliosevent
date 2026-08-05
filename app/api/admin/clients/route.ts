@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
 import { uploadObject, getPublicUrl } from '../../../../lib/storage';
+import { optimizeImage } from '../../../../lib/image';
 
 const BUCKET = 'client-logos';
 
@@ -34,10 +35,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'File and name are required' }, { status: 400 });
   }
 
-  const ext = file.name.split('.').pop()?.toLowerCase() || 'png';
-  const storagePath = `${Date.now()}-${name.replace(/\s+/g, '-').toLowerCase()}.${ext}`;
+  const optimized = await optimizeImage(file, { maxWidth: 300, quality: 85 });
+  const storagePath = `${Date.now()}-${name.replace(/\s+/g, '-').toLowerCase()}.${optimized.ext}`;
 
-  const { error: uploadError } = await uploadObject(BUCKET, storagePath, file, file.type);
+  const { error: uploadError } = await uploadObject(BUCKET, storagePath, optimized.body, optimized.contentType);
 
   if (uploadError) {
     return NextResponse.json({ error: uploadError }, { status: 500 });

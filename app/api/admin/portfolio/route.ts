@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
 import { uploadObject, getPublicUrl } from '../../../../lib/storage';
+import { optimizeImage } from '../../../../lib/image';
 
 const BUCKET = 'portfolio-media';
 
@@ -38,9 +39,9 @@ export async function POST(req: NextRequest) {
   const created: Record<string, unknown>[] = [];
   for (const file of files) {
     if (!file.size) continue;
-    const ext = file.name.split('.').pop() || 'jpg';
-    const path = `${category}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error } = await uploadObject(BUCKET, path, file, file.type);
+    const optimized = await optimizeImage(file, { maxWidth: 800, quality: 78 });
+    const path = `${category}/${Date.now()}-${Math.random().toString(36).slice(2)}.${optimized.ext}`;
+    const { error } = await uploadObject(BUCKET, path, optimized.body, optimized.contentType);
     if (error) continue;
     const imageUrl = getPublicUrl(BUCKET, path);
     const item = await prisma.portfolioItem.create({ data: { category, title, imageUrl, storagePath: path, displayOrder } });

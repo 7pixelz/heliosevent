@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
 import { uploadObject, getPublicUrl, removeObjects } from '../../../../../lib/storage';
+import { optimizeImage } from '../../../../../lib/image';
 
 const BUCKET = 'blog-images';
 
@@ -44,9 +45,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if (existing.storagePath && !existing.storagePath.startsWith('wp-import/')) {
         await removeObjects(BUCKET, [existing.storagePath]);
       }
-      const ext = file.name.split('.').pop() || 'jpg';
-      const path = `covers/${Date.now()}.${ext}`;
-      const { error } = await uploadObject(BUCKET, path, file, file.type);
+      const optimized = await optimizeImage(file, { maxWidth: 1920, quality: 75 });
+      const path = `covers/${Date.now()}.${optimized.ext}`;
+      const { error } = await uploadObject(BUCKET, path, optimized.body, optimized.contentType);
       if (!error) {
         storagePath = path;
         coverImageUrl = getPublicUrl(BUCKET, path);

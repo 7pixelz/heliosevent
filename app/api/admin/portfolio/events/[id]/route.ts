@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../../lib/auth';
 import { uploadObject, getPublicUrl, removeObjects } from '../../../../../../lib/storage';
+import { optimizeImage } from '../../../../../../lib/image';
 
 const BUCKET = 'portfolio-media';
 
@@ -51,9 +52,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (file && file.size > 0) {
       const existing = await prisma.portfolioEvent.findUnique({ where: { id } });
       if (existing?.storagePath) await removeObjects(BUCKET, [existing.storagePath]);
-      const ext = file.name.split('.').pop() || 'jpg';
-      const path = `covers/${id}-${Date.now()}.${ext}`;
-      await uploadObject(BUCKET, path, file, file.type);
+      const optimized = await optimizeImage(file, { maxWidth: 800, quality: 78 });
+      const path = `covers/${id}-${Date.now()}.${optimized.ext}`;
+      await uploadObject(BUCKET, path, optimized.body, optimized.contentType);
       updateData.coverImageUrl = getPublicUrl(BUCKET, path);
       updateData.storagePath = path;
     }

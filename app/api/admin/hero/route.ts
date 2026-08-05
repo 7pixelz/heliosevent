@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
 import { uploadObject, getPublicUrl } from '../../../../lib/storage';
+import { optimizeImage } from '../../../../lib/image';
 
 const BUCKET_HERO = 'hero-media';
 
@@ -36,10 +37,10 @@ export async function POST(req: NextRequest) {
 
   const isVideo = file.type.startsWith('video/');
   const type = isVideo ? 'VIDEO' : 'IMAGE';
-  const ext = file.name.split('.').pop()?.toLowerCase() || (isVideo ? 'mp4' : 'jpg');
-  const storagePath = `${Date.now()}-hero-slide.${ext}`;
+  const optimized = await optimizeImage(file, { maxWidth: 2560, quality: 78 });
+  const storagePath = `${Date.now()}-hero-slide.${optimized.ext}`;
 
-  const { error: uploadError } = await uploadObject(BUCKET_HERO, storagePath, file, file.type);
+  const { error: uploadError } = await uploadObject(BUCKET_HERO, storagePath, optimized.body, optimized.contentType);
 
   if (uploadError) return NextResponse.json({ error: uploadError }, { status: 500 });
 
