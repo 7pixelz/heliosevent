@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
-import { supabaseAdmin } from '../../../../../lib/supabase-server';
+import { removeObjects } from '../../../../../lib/storage';
 
 const BUCKET = 'career-resumes';
 
@@ -47,8 +47,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     const match = application.resumeUrl.match(/\/object\/career-resumes\/(.+)$/);
     const storagePath = match ? match[1] : application.resumeUrl.startsWith('http') ? null : application.resumeUrl;
     if (storagePath) {
-      const sb = supabaseAdmin();
-      await sb.storage.from(BUCKET).remove([storagePath]);
+      await removeObjects(BUCKET, [storagePath]);
     }
   }
 

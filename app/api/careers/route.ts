@@ -1,24 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../lib/prisma';
 import { sendCareerNotification } from '../../../lib/mailer';
-import { createClient } from '@supabase/supabase-js';
+import { uploadObject } from '../../../lib/storage';
 
 const BUCKET = 'career-resumes';
-
-function supabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
-  );
-}
-
-async function ensureBucket(sb: ReturnType<typeof supabaseAdmin>) {
-  const { data } = await sb.storage.listBuckets();
-  if (!data?.find(b => b.name === BUCKET)) {
-    await sb.storage.createBucket(BUCKET, { public: false });
-  }
-}
 
 async function verifyRecaptcha(token: string): Promise<boolean> {
   const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
@@ -59,14 +44,9 @@ export async function POST(req: NextRequest) {
 
     let resumeUrl: string | null = null;
     if (resumeFile && resumeFile.size > 0) {
-      const sb = supabaseAdmin();
-      await ensureBucket(sb);
       const ext = resumeFile.name.split('.').pop() || 'pdf';
       const path = `resumes/${Date.now()}-${name.replace(/\s+/g, '-')}.${ext}`;
-      const { error } = await sb.storage.from(BUCKET).upload(path, await resumeFile.arrayBuffer(), {
-        contentType: resumeFile.type,
-        upsert: false,
-      });
+      const { error } = await uploadObject(BUCKET, path, resumeFile, resumeFile.type);
       if (!error) {
         // Store the storage path — admin uses signed URL endpoint to download
         resumeUrl = path;

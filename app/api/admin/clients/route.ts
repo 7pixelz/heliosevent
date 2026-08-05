@@ -3,7 +3,9 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
-import { supabaseAdmin, ensureBucket, BUCKET_CLIENTS as BUCKET } from '../../../../lib/supabase-server';
+import { uploadObject, getPublicUrl } from '../../../../lib/storage';
+
+const BUCKET = 'client-logos';
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -24,8 +26,6 @@ export async function POST(req: NextRequest) {
   const user = await requireAdmin();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  await ensureBucket(BUCKET);
-
   const form = await req.formData();
   const file = form.get('file') as File | null;
   const name = (form.get('name') as string | null)?.trim();
@@ -37,22 +37,19 @@ export async function POST(req: NextRequest) {
   const ext = file.name.split('.').pop()?.toLowerCase() || 'png';
   const storagePath = `${Date.now()}-${name.replace(/\s+/g, '-').toLowerCase()}.${ext}`;
 
-  const sb = supabaseAdmin();
-  const { error: uploadError } = await sb.storage
-    .from(BUCKET)
-    .upload(storagePath, file, { contentType: file.type, upsert: false, cacheControl: "31536000" });
+  const { error: uploadError } = await uploadObject(BUCKET, storagePath, file, file.type);
 
   if (uploadError) {
-    return NextResponse.json({ error: uploadError.message }, { status: 500 });
+    return NextResponse.json({ error: uploadError }, { status: 500 });
   }
 
-  const { data: urlData } = sb.storage.from(BUCKET).getPublicUrl(storagePath);
+  const publicUrl = getPublicUrl(BUCKET, storagePath);
 
   const max = await prisma.clientLogo.aggregate({ _max: { displayOrder: true } });
   const nextOrder = (max._max.displayOrder ?? 0) + 1;
 
   const logo = await prisma.clientLogo.create({
-    data: { name, imageUrl: urlData.publicUrl, storagePath, displayOrder: nextOrder },
+    data: { name, imageUrl: publicUrl, storagePath, displayOrder: nextOrder },
   });
 
   revalidatePath('/');

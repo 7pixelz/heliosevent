@@ -3,7 +3,9 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
-import { supabaseAdmin, ensureBucket, BUCKET_HERO } from '../../../../lib/supabase-server';
+import { uploadObject, getPublicUrl } from '../../../../lib/storage';
+
+const BUCKET_HERO = 'hero-media';
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -23,8 +25,6 @@ export async function POST(req: NextRequest) {
   const user = await requireAdmin();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  await ensureBucket(BUCKET_HERO);
-
   const form = await req.formData();
   const file = form.get('file') as File | null;
   const title = (form.get('title') as string | null)?.trim() || null;
@@ -39,20 +39,17 @@ export async function POST(req: NextRequest) {
   const ext = file.name.split('.').pop()?.toLowerCase() || (isVideo ? 'mp4' : 'jpg');
   const storagePath = `${Date.now()}-hero-slide.${ext}`;
 
-  const sb = supabaseAdmin();
-  const { error: uploadError } = await sb.storage
-    .from(BUCKET_HERO)
-    .upload(storagePath, file, { contentType: file.type, upsert: false, cacheControl: "31536000" });
+  const { error: uploadError } = await uploadObject(BUCKET_HERO, storagePath, file, file.type);
 
-  if (uploadError) return NextResponse.json({ error: uploadError.message }, { status: 500 });
+  if (uploadError) return NextResponse.json({ error: uploadError }, { status: 500 });
 
-  const { data: urlData } = sb.storage.from(BUCKET_HERO).getPublicUrl(storagePath);
+  const publicUrl = getPublicUrl(BUCKET_HERO, storagePath);
 
   const max = await prisma.heroSlide.aggregate({ _max: { displayOrder: true } });
   const nextOrder = (max._max.displayOrder ?? 0) + 1;
 
   const slide = await prisma.heroSlide.create({
-    data: { type, mediaUrl: urlData.publicUrl, storagePath, title, subtitle, ctaText, ctaLink, displayOrder: nextOrder },
+    data: { type, mediaUrl: publicUrl, storagePath, title, subtitle, ctaText, ctaLink, displayOrder: nextOrder },
   });
 
   revalidatePath('/');

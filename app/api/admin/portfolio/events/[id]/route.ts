@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../../lib/auth';
-import { createClient } from '@supabase/supabase-js';
+import { uploadObject, getPublicUrl, removeObjects } from '../../../../../../lib/storage';
 
 const BUCKET = 'portfolio-media';
 
@@ -12,14 +12,6 @@ async function requireAdmin() {
   const token = cookieStore.get(COOKIE_NAME)?.value;
   if (!token) return null;
   return await verifyToken(token);
-}
-
-function supabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
-  );
 }
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -57,11 +49,13 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (category) updateData.category = category;
 
     if (file && file.size > 0) {
-      const sb = supabaseAdmin();
+      const existing = await prisma.portfolioEvent.findUnique({ where: { id } });
+      if (existing?.storagePath) await removeObjects(BUCKET, [existing.storagePath]);
       const ext = file.name.split('.').pop() || 'jpg';
       const path = `covers/${id}-${Date.now()}.${ext}`;
-      await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
-      updateData.coverImageUrl = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+      await uploadObject(BUCKET, path, file, file.type);
+      updateData.coverImageUrl = getPublicUrl(BUCKET, path);
+      updateData.storagePath = path;
     }
 
     const event = await prisma.portfolioEvent.update({ where: { id }, data: updateData });
@@ -82,9 +76,13 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
 
-  const media = await prisma.portfolioMedia.findMany({ where: { eventId: id } });
+  const [event, media] = await Promise.all([
+    prisma.portfolioEvent.findUnique({ where: { id } }),
+    prisma.portfolioMedia.findMany({ where: { eventId: id } }),
+  ]);
   const paths = media.filter(m => m.storagePath).map(m => m.storagePath!);
-  if (paths.length) await supabaseAdmin().storage.from(BUCKET).remove(paths);
+  if (event?.storagePath) paths.push(event.storagePath);
+  if (paths.length) await removeObjects(BUCKET, paths);
 
   await prisma.portfolioEvent.delete({ where: { id } });
   revalidatePath('/');

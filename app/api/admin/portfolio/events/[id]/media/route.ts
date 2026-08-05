@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../../../lib/auth';
-import { createClient } from '@supabase/supabase-js';
+import { uploadObject, getPublicUrl } from '../../../../../../../lib/storage';
 
 const BUCKET = 'portfolio-media';
 
@@ -11,21 +11,6 @@ async function requireAdmin() {
   const token = cookieStore.get(COOKIE_NAME)?.value;
   if (!token) return null;
   return await verifyToken(token);
-}
-
-function supabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
-  );
-}
-
-async function ensureBucket(sb: ReturnType<typeof supabaseAdmin>) {
-  const { data } = await sb.storage.listBuckets();
-  if (!data?.find(b => b.name === BUCKET)) {
-    await sb.storage.createBucket(BUCKET, { public: true });
-  }
 }
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -55,9 +40,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const files = fd.getAll('files') as File[];
   if (!files.length) return NextResponse.json({ error: 'No files' }, { status: 400 });
 
-  const sb = supabaseAdmin();
-  await ensureBucket(sb);
-
   const maxOrder = await prisma.portfolioMedia.aggregate({ _max: { displayOrder: true }, where: { eventId } });
   let displayOrder = (maxOrder._max.displayOrder ?? 0) + 1;
 
@@ -66,9 +48,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     if (!file.size) continue;
     const ext = file.name.split('.').pop() || 'jpg';
     const path = `events/${eventId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
+    const { error } = await uploadObject(BUCKET, path, file, file.type);
     if (error) continue;
-    const url = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+    const url = getPublicUrl(BUCKET, path);
     const media = await prisma.portfolioMedia.create({ data: { eventId, type: 'IMAGE', url, storagePath: path, displayOrder } });
     created.push({ ...media, url: media.url });
     displayOrder++;

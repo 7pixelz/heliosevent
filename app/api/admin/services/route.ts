@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
-import { createClient } from '@supabase/supabase-js';
+import { uploadObject, getPublicUrl } from '../../../../lib/storage';
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -13,21 +13,6 @@ async function requireAdmin() {
 }
 
 const BUCKET = 'service-media';
-
-function supabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
-  );
-}
-
-async function ensureBucket(sb: ReturnType<typeof supabaseAdmin>) {
-  const { data } = await sb.storage.listBuckets();
-  if (!data?.find(b => b.name === BUCKET)) {
-    await sb.storage.createBucket(BUCKET, { public: true });
-  }
-}
 
 function slugify(text: string) {
   return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
@@ -64,14 +49,12 @@ export async function POST(req: NextRequest) {
   let storagePath: string | null = null;
 
   if (file && file.size > 0) {
-    const sb = supabaseAdmin();
-    await ensureBucket(sb);
     const ext = file.name.split('.').pop() || 'jpg';
     const path = `covers/${Date.now()}.${ext}`;
-    const { error } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: "31536000" });
+    const { error } = await uploadObject(BUCKET, path, file, file.type);
     if (!error) {
       storagePath = path;
-      coverImageUrl = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+      coverImageUrl = getPublicUrl(BUCKET, path);
     }
   }
 

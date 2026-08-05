@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
-import { createClient } from '@supabase/supabase-js';
+import { uploadObject, getPublicUrl, removeObjects } from '../../../../../lib/storage';
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -13,21 +13,6 @@ async function requireAdmin() {
 }
 
 const BUCKET = 'service-media';
-
-function supabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
-  );
-}
-
-async function ensureBucket(sb: ReturnType<typeof supabaseAdmin>) {
-  const { data } = await sb.storage.listBuckets();
-  if (!data?.find(b => b.name === BUCKET)) {
-    await sb.storage.createBucket(BUCKET, { public: true });
-  }
-}
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const admin = await requireAdmin();
@@ -47,17 +32,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     let storagePath = existing.storagePath;
 
     if (file && file.size > 0) {
-      const sb = supabaseAdmin();
-      await ensureBucket(sb);
-      if (existing.storagePath) await sb.storage.from(BUCKET).remove([existing.storagePath]);
+      if (existing.storagePath) await removeObjects(BUCKET, [existing.storagePath]);
       const ext = file.name.split('.').pop() || 'jpg';
       const path = `covers/${Date.now()}.${ext}`;
-      const { error: uploadError } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
+      const { error: uploadError } = await uploadObject(BUCKET, path, file, file.type);
       if (uploadError) {
-        return NextResponse.json({ error: `Image upload failed: ${uploadError.message}` }, { status: 500 });
+        return NextResponse.json({ error: `Image upload failed: ${uploadError}` }, { status: 500 });
       }
       storagePath = path;
-      coverImageUrl = supabaseAdmin().storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+      coverImageUrl = getPublicUrl(BUCKET, path);
     }
 
     const getString = (key: string) => (fd.get(key) as string | null)?.trim() || null;
@@ -107,7 +90,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!service) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   if (service.storagePath) {
-    await supabaseAdmin().storage.from(BUCKET).remove([service.storagePath]);
+    await removeObjects(BUCKET, [service.storagePath]);
   }
   await prisma.service.delete({ where: { id } });
   revalidatePath('/');

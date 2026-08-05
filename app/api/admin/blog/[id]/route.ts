@@ -2,17 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
-import { createClient } from '@supabase/supabase-js';
+import { uploadObject, getPublicUrl, removeObjects } from '../../../../../lib/storage';
 
 const BUCKET = 'blog-images';
-
-function supabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
-  );
-}
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -49,16 +41,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     let storagePath = existing.storagePath;
 
     if (file && file.size > 0) {
-      const sb = supabaseAdmin();
       if (existing.storagePath && !existing.storagePath.startsWith('wp-import/')) {
-        await sb.storage.from(BUCKET).remove([existing.storagePath]);
+        await removeObjects(BUCKET, [existing.storagePath]);
       }
       const ext = file.name.split('.').pop() || 'jpg';
       const path = `covers/${Date.now()}.${ext}`;
-      const { error } = await sb.storage.from(BUCKET).upload(path, await file.arrayBuffer(), { contentType: file.type, upsert: true, cacheControl: '31536000' });
+      const { error } = await uploadObject(BUCKET, path, file, file.type);
       if (!error) {
         storagePath = path;
-        coverImageUrl = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+        coverImageUrl = getPublicUrl(BUCKET, path);
       }
     }
 
@@ -110,7 +101,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   if (post.storagePath && !post.storagePath.startsWith('wp-import/')) {
-    await supabaseAdmin().storage.from(BUCKET).remove([post.storagePath]);
+    await removeObjects(BUCKET, [post.storagePath]);
   }
 
   await prisma.blogPost.delete({ where: { id } });

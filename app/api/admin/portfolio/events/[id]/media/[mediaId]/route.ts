@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../../../../lib/auth';
-import { createClient } from '@supabase/supabase-js';
+import { removeObjects } from '../../../../../../../../lib/storage';
 
 const BUCKET = 'portfolio-media';
 
@@ -22,12 +22,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!media) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   if (media.storagePath) {
-    const sb = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      { auth: { persistSession: false } }
-    );
-    await sb.storage.from(BUCKET).remove([media.storagePath]);
+    await removeObjects(BUCKET, [media.storagePath]);
   }
 
   await prisma.portfolioMedia.delete({ where: { id: mediaId } });

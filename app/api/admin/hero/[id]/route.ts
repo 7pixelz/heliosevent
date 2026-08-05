@@ -3,7 +3,9 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
-import { supabaseAdmin, BUCKET_HERO } from '../../../../../lib/supabase-server';
+import { uploadObject, getPublicUrl, removeObjects } from '../../../../../lib/storage';
+
+const BUCKET_HERO = 'hero-media';
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -34,19 +36,16 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     };
 
     if (file) {
-      await supabaseAdmin().storage.from(BUCKET_HERO).remove([existing.storagePath]);
+      await removeObjects(BUCKET_HERO, [existing.storagePath]);
       const isVideo = file.type.startsWith('video/');
       const ext = file.name.split('.').pop()?.toLowerCase() || (isVideo ? 'mp4' : 'jpg');
       const storagePath = `${Date.now()}-hero-slide.${ext}`;
 
-      const { error } = await supabaseAdmin().storage
-        .from(BUCKET_HERO)
-        .upload(storagePath, file, { contentType: file.type, upsert: false, cacheControl: '31536000' });
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      const { error } = await uploadObject(BUCKET_HERO, storagePath, file, file.type);
+      if (error) return NextResponse.json({ error }, { status: 500 });
 
-      const { data: urlData } = supabaseAdmin().storage.from(BUCKET_HERO).getPublicUrl(storagePath);
       data.type = isVideo ? 'VIDEO' : 'IMAGE';
-      data.mediaUrl = urlData.publicUrl;
+      data.mediaUrl = getPublicUrl(BUCKET_HERO, storagePath);
       data.storagePath = storagePath;
     }
 
@@ -73,7 +72,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const slide = await prisma.heroSlide.findUnique({ where: { id } });
   if (!slide) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  await supabaseAdmin().storage.from(BUCKET_HERO).remove([slide.storagePath]);
+  await removeObjects(BUCKET_HERO, [slide.storagePath]);
   await prisma.heroSlide.delete({ where: { id } });
   revalidatePath('/');
   return NextResponse.json({ success: true });

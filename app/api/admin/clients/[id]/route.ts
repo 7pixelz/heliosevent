@@ -3,7 +3,9 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
-import { supabaseAdmin, BUCKET_CLIENTS as BUCKET } from '../../../../../lib/supabase-server';
+import { uploadObject, getPublicUrl, removeObjects } from '../../../../../lib/storage';
+
+const BUCKET = 'client-logos';
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -33,19 +35,16 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     if (file) {
       // Delete old file from storage
-      await supabaseAdmin().storage.from(BUCKET).remove([existing.storagePath]);
+      await removeObjects(BUCKET, [existing.storagePath]);
 
       const ext = file.name.split('.').pop()?.toLowerCase() || 'png';
       const storagePath = `${Date.now()}-${(name || existing.name).replace(/\s+/g, '-').toLowerCase()}.${ext}`;
 
-      const { error: uploadError } = await supabaseAdmin().storage
-        .from(BUCKET)
-        .upload(storagePath, file, { contentType: file.type, upsert: false, cacheControl: '31536000' });
+      const { error: uploadError } = await uploadObject(BUCKET, storagePath, file, file.type);
 
-      if (uploadError) return NextResponse.json({ error: uploadError.message }, { status: 500 });
+      if (uploadError) return NextResponse.json({ error: uploadError }, { status: 500 });
 
-      const { data: urlData } = supabaseAdmin().storage.from(BUCKET).getPublicUrl(storagePath);
-      data.imageUrl = urlData.publicUrl;
+      data.imageUrl = getPublicUrl(BUCKET, storagePath);
       data.storagePath = storagePath;
     }
 
@@ -73,7 +72,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const logo = await prisma.clientLogo.findUnique({ where: { id } });
   if (!logo) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  await supabaseAdmin().storage.from(BUCKET).remove([logo.storagePath]);
+  await removeObjects(BUCKET, [logo.storagePath]);
   await prisma.clientLogo.delete({ where: { id } });
   revalidatePath('/');
   return NextResponse.json({ success: true });

@@ -107,6 +107,7 @@ model PortfolioEvent {
   clientName      String?
   eventDate       DateTime?
   coverImageUrl   String?
+  storagePath     String?
   displayOrder    Int              @default(0)
   isActive        Boolean          @default(true)
   createdAt       DateTime         @default(now())
