@@ -151,6 +151,60 @@ async function migrateResumes() {
   }
 }
 
+async function migrateBlogContentImages() {
+  const bucket = 'blog-images';
+  if (scopeBucket && scopeBucket !== bucket) return;
+
+  const posts = await prisma.blogPost.findMany({ select: { id: true, content: true } });
+  console.log(`\n── Blog post content images (bucket: ${bucket}) — ${posts.length} post(s)`);
+
+  const urlCache = new Map<string, string>(); // supabase url -> r2 url
+
+  for (const post of posts) {
+    const urlPattern = new RegExp(`https?:\\/\\/dndigemwjlbukfauxyqx\\.supabase\\.co\\/storage\\/v1\\/object\\/public\\/${bucket}\\/[^"'\\s)]+`, 'g');
+    const matches = [...new Set(post.content.match(urlPattern) || [])];
+    if (!matches.length) continue;
+
+    let newContent = post.content;
+    let changed = false;
+
+    for (const supabaseUrl of matches) {
+      let r2Url = urlCache.get(supabaseUrl);
+      if (!r2Url) {
+        const key = keyFromSupabaseUrl(supabaseUrl, bucket);
+        if (!key) {
+          console.error(`  ✗ ${post.id}: could not derive storage key from "${supabaseUrl}"`);
+          failed++;
+          continue;
+        }
+        try {
+          if (await objectExistsInR2(bucket, key)) {
+            r2Url = getPublicUrl(bucket, key);
+          } else {
+            const { buffer, contentType } = await fetchPublicBytes(supabaseUrl);
+            const { error } = await uploadObject(bucket, key, buffer, contentType);
+            if (error) throw new Error(error);
+            r2Url = getPublicUrl(bucket, key);
+          }
+          urlCache.set(supabaseUrl, r2Url);
+        } catch (e) {
+          console.error(`  ✗ ${post.id}: ${e}`);
+          failed++;
+          continue;
+        }
+      }
+      newContent = newContent.split(supabaseUrl).join(r2Url);
+      changed = true;
+    }
+
+    if (changed) {
+      await prisma.blogPost.update({ where: { id: post.id }, data: { content: newContent } });
+      console.log(`  ✓ ${post.id} (${matches.length} image(s))`);
+      migrated++;
+    }
+  }
+}
+
 async function run() {
   const [heroSlides, clientLogos, services, blogPosts, portfolioItems, portfolioEvents, portfolioMedia] =
     await Promise.all([
@@ -192,6 +246,7 @@ async function run() {
   );
 
   await migrateResumes();
+  await migrateBlogContentImages();
 
   console.log(`\n${'─'.repeat(40)}`);
   console.log(`Migrated : ${migrated}`);
