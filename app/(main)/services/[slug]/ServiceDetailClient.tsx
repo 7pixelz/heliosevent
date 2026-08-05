@@ -174,6 +174,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               fetchPriority="high"
               sizes="100vw"
               quality={70}
+              unoptimized
               style={{ objectFit: 'cover' }}
             />
             <div style={{
@@ -284,7 +285,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
                   >
                     {ev.coverImageUrl
-                      ? <Image src={ev.coverImageUrl} alt={ev.title} width={400} height={300} quality={70} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ? <Image src={ev.coverImageUrl} alt={ev.title} width={400} height={300} quality={70} unoptimized style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                       : <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px' }}>📷</div>
                     }
                     <div style={{
