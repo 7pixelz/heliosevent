@@ -75,7 +75,7 @@ export default function BlogEditClient({ post }: { post: Post }) {
     extensions: [
       StarterKit,
       Image.configure({ allowBase64: true }),
-      Link.configure({ openOnClick: false }),
+      Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
     ],
     content: post.content,
     editorProps: {

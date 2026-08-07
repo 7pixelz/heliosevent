@@ -38,7 +38,7 @@ export default function RichTextEditor({
     immediatelyRender: false,
     extensions: [
       StarterKit,
-      Link.configure({ openOnClick: false }),
+      Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
     ],
     content: value,
     onUpdate({ editor }) {

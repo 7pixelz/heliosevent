@@ -2,6 +2,7 @@ import { prisma } from '../../../../lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { cleanInternalLinks } from '../../../../lib/content';
 
 export const revalidate = 3600;
 import type { Metadata } from 'next';
@@ -57,10 +58,7 @@ function cleanContent(html: string) {
     // Rewrite absolute heliosevent.in URLs to relative paths — prevents GA cross-domain
     // linker from appending ?_gl= junk when content links use the non-www hostname
     .replace(/href="https?:\/\/(?:www\.)?heliosevent\.in(\/[^"]*)"/gi, 'href="$1"')
-    .replace(/href="https?:\/\/(?:www\.)?heliosevent\.in\/?"/gi, 'href="/"')
-    // Remove target="_blank" from internal links (relative or heliosevent.in)
-    .replace(/<a([^>]*href="(?:\/|https?:\/\/(?:www\.)?heliosevent\.in)[^"]*"[^>]*)\s+target="_blank"/gi, '<a$1')
-    .replace(/<a([^>]*)\s+target="_blank"([^>]*href="(?:\/|https?:\/\/(?:www\.)?heliosevent\.in)[^"]*")/gi, '<a$1$2');
+    .replace(/href="https?:\/\/(?:www\.)?heliosevent\.in\/?"/gi, 'href="/"');
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -111,7 +109,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div style={{ maxWidth: '820px', margin: '0 auto', padding: '16px 24px' }}>
         <div
           className="blog-content"
-          dangerouslySetInnerHTML={{ __html: optimizeContentImages(cleanContent(post.content)) }}
+          dangerouslySetInnerHTML={{ __html: optimizeContentImages(cleanInternalLinks(cleanContent(post.content))) }}
           style={{ fontFamily: "'Inter',sans-serif", fontSize: '16px', lineHeight: 1.8, color: '#333' }}
         />
 

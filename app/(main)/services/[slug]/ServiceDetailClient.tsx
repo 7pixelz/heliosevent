@@ -8,6 +8,7 @@ const LeadForm = dynamic(() => import('../../../../components/sections/LeadForm'
 import VideoGrid from '../../../../components/sections/VideoGrid';
 import Clients from '../../../../components/sections/Clients';
 import { highlightExp } from '../../../../lib/highlight';
+import { cleanInternalLinks } from '../../../../lib/content';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 
 interface SignatureEvent { icon: string; title: string; desc: string }
@@ -591,7 +592,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
           <div
             className="blog-content blog-content-xs"
             style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 24px' }}
-            dangerouslySetInnerHTML={{ __html: service.seoContent }}
+            dangerouslySetInnerHTML={{ __html: cleanInternalLinks(service.seoContent) }}
           />
         </section>
       )}
