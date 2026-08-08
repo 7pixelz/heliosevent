@@ -68,6 +68,7 @@ export async function PATCH(req: NextRequest) {
   if (type === 'services') {
     const updated = await prisma.service.update({ where: { id }, data: { ...data, seoContent: seoContent || null, updatedAt: new Date() } });
     revalidatePath('/services', 'layout');
+    revalidatePath(`/${updated.slug}`);
     return NextResponse.json(updated);
   }
   if (type === 'portfolio') {

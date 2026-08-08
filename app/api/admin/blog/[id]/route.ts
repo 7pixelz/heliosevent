@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../lib/auth';
@@ -73,6 +74,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         updatedAt: new Date(),
       },
     });
+    revalidatePath('/blog', 'layout');
+    revalidatePath(`/blog/${post.slug}`);
     return NextResponse.json(post);
   }
 
@@ -89,6 +92,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       updatedAt: new Date(),
     },
   });
+  revalidatePath('/blog', 'layout');
+  revalidatePath(`/blog/${post.slug}`);
   return NextResponse.json(post);
 }
 
@@ -106,5 +111,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   }
 
   await prisma.blogPost.delete({ where: { id } });
+  revalidatePath('/blog', 'layout');
+  revalidatePath(`/blog/${post.slug}`);
   return NextResponse.json({ ok: true });
 }

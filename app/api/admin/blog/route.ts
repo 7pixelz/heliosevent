@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../lib/auth';
@@ -78,5 +79,7 @@ export async function POST(req: Request) {
     },
   });
 
+  revalidatePath('/blog', 'layout');
+  revalidatePath(`/blog/${post.slug}`);
   return NextResponse.json(post, { status: 201 });
 }

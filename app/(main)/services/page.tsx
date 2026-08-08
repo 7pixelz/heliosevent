@@ -14,8 +14,6 @@ import { highlightExp } from '../../../lib/highlight';
 
 type Service = { id: string; name: string; slug: string; icon: string; description: string; type: string; displayOrder: number; isActive: boolean; heroHeadline?: string | null; coverImageUrl?: string | null };
 
-export const dynamic = 'force-dynamic';
-
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo('services');
   return buildMeta({ title: seo?.metaTitle, description: seo?.metaDescription, keywords: seo?.metaKeywords, path: '/services' });
@@ -85,7 +83,7 @@ export default async function ServicesPage() {
 
           <div className="svc-grid">
             {mainServices.map((svc: Service, i: number) => (
-              <Link key={svc.id} href={`/services/${svc.slug}`} style={{ textDecoration: 'none' }}>
+              <Link key={svc.id} href={`/${svc.slug}`} style={{ textDecoration: 'none' }}>
                 <div className={`svc-card ${colorClasses[i % colorClasses.length]}`} style={{ cursor: 'pointer' }}>
                   <div className="svc-bg"></div>
                   <div className="svc-icon">{svc.icon}</div>

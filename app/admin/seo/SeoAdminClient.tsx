@@ -355,7 +355,7 @@ export default function SeoAdminClient({ pages, services, portfolio }: Props) {
 
         {activeTab === 'services' && serviceData.map(s => (
           <SeoEditor key={s.id} id={s.id} type="services"
-            label={`${s.icon} ${s.name}`} url={`/services/${s.slug}`}
+            label={`${s.icon} ${s.name}`} url={`/${s.slug}`}
             initTitle={s.metaTitle} initDesc={s.metaDescription} initKw={s.metaKeywords} initSeoContent={s.seoContent}
             onSaved={(id, t, d, k) => updateRecord(setServiceData, id, t, d, k)}
           />

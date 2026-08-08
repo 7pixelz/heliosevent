@@ -98,7 +98,7 @@ function DropdownMenu({ items, visible }: { items: ServiceItem[]; visible: boole
           return (
             <Link
               key={item.id}
-              href={`/services/${item.slug}`}
+              href={`/${item.slug}`}
               onMouseEnter={() => setHoveredSlug(item.slug)}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
@@ -172,7 +172,7 @@ function MobileAccordion({ items, open, onNavigate }: { items: ServiceItem[]; op
           <div key={item.id}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Link
-                href={`/services/${item.slug}`}
+                href={`/${item.slug}`}
                 onClick={onNavigate}
                 style={{
                   flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
@@ -228,7 +228,7 @@ export default function Header({ initialServices }: { initialServices?: ServiceI
     setMobileServicesOpen(false);
   };
 
-  const isServicesActive = pathname.startsWith('/services');
+  const isServicesActive = pathname === '/services' || mainServices.some(s => pathname === `/${s.slug}`);
 
   function hoverOpen(setter: (v: boolean) => void, timer: { current: ReturnType<typeof setTimeout> | null }) {
     if (timer.current) clearTimeout(timer.current);

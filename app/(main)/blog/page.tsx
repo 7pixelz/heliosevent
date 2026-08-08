@@ -13,8 +13,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildMeta({ title: seo?.metaTitle, description: seo?.metaDescription, keywords: seo?.metaKeywords, path: '/blog' });
 }
 
-export const dynamic = 'force-dynamic';
-
 const PER_PAGE = 12;
 
 export default async function BlogPage({

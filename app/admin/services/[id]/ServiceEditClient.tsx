@@ -133,11 +133,11 @@ export default function ServiceEditClient({ service, portfolioEvents = [] }: { s
           <button onClick={() => router.push('/admin/services')} style={{ background: 'none', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '8px 14px', fontSize: '13px', fontWeight: 600, color: '#555', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>← Back</button>
           <div>
             <h1 style={{ fontSize: '20px', fontWeight: 800, color: '#111', margin: 0 }}>{service.icon} {service.name}</h1>
-            <div style={{ fontSize: '12px', color: '#aaa', fontFamily: "'Inter',sans-serif", marginTop: '2px' }}>/services/{service.slug}</div>
+            <div style={{ fontSize: '12px', color: '#aaa', fontFamily: "'Inter',sans-serif", marginTop: '2px' }}>/{service.slug}</div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <a href={`/services/${service.slug}`} target="_blank" style={{ padding: '9px 16px', background: '#f5f5f5', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '13px', fontWeight: 600, color: '#555', textDecoration: 'none', fontFamily: "'Inter',sans-serif" }}>View Page ↗</a>
+          <a href={`/${service.slug}`} target="_blank" style={{ padding: '9px 16px', background: '#f5f5f5', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '13px', fontWeight: 600, color: '#555', textDecoration: 'none', fontFamily: "'Inter',sans-serif" }}>View Page ↗</a>
           <button onClick={handleSave} disabled={saving} style={{ padding: '9px 22px', background: saved ? '#16a34a' : '#1a1f2e', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 700, color: '#fff', cursor: saving ? 'not-allowed' : 'pointer', fontFamily: "'Inter',sans-serif", opacity: saving ? 0.7 : 1 }}>
             {saving ? 'Saving…' : saved ? '✓ Saved' : 'Save Changes'}
           </button>
@@ -320,7 +320,7 @@ export default function ServiceEditClient({ service, portfolioEvents = [] }: { s
           {/* Slug */}
           <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '14px' }}>
             <label style={labelSt}>URL Slug</label>
-            <div style={{ fontSize: '12px', color: '#555', fontFamily: "'Inter',sans-serif", wordBreak: 'break-all' }}>/services/<strong>{service.slug}</strong></div>
+            <div style={{ fontSize: '12px', color: '#555', fontFamily: "'Inter',sans-serif", wordBreak: 'break-all' }}>/<strong>{service.slug}</strong></div>
           </div>
         </div>
       </div>

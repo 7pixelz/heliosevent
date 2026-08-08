@@ -7,7 +7,15 @@ import { cleanInternalLinks } from '../../../../lib/content';
 export const revalidate = 3600;
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
+export async function generateStaticParams() {
+  const posts = await prisma.blogPost.findMany({
+    where: { isPublished: true },
+    orderBy: { publishedAt: 'desc' },
+    take: 30,
+    select: { slug: true },
+  });
+  return posts.map((p) => ({ slug: p.slug }));
+}
 
 interface Props { params: Promise<{ slug: string }> }
 

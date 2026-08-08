@@ -210,7 +210,7 @@ export default function ServicesAdminClient({ services: initial }: Props) {
               <div>
                 <div style={{ fontSize: '15px', fontWeight: 700, color: '#111', fontFamily: "'Inter',sans-serif", marginBottom: '3px' }}>{svc.name}</div>
                 <div style={{ fontSize: '12px', color: '#888', fontFamily: "'Inter',sans-serif" }}>{svc.description.slice(0, 80)}{svc.description.length > 80 ? '…' : ''}</div>
-                <div style={{ fontSize: '11px', color: '#bbb', marginTop: '4px', fontFamily: "'Inter',sans-serif" }}>/services/{svc.slug}</div>
+                <div style={{ fontSize: '11px', color: '#bbb', marginTop: '4px', fontFamily: "'Inter',sans-serif" }}>/{svc.slug}</div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                 <button onClick={() => router.push(`/admin/services/${svc.id}`)} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '6px 14px', fontSize: '12px', fontWeight: 700, borderRadius: '7px', border: '1px solid #e5e7eb', cursor: 'pointer', background: '#f0f4ff', color: '#2563eb', fontFamily: "'Inter',sans-serif" }}>
@@ -226,7 +226,7 @@ export default function ServicesAdminClient({ services: initial }: Props) {
                 <button onClick={() => moveOrder(svc.id, 'down')} disabled={idx === filtered.length - 1} style={{ padding: '6px 9px', background: '#f5f5f5', border: '1px solid #e5e7eb', borderRadius: '7px', cursor: idx === filtered.length - 1 ? 'not-allowed' : 'pointer', opacity: idx === filtered.length - 1 ? 0.4 : 1 }}>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
                 </button>
-                <a href={`/services/${svc.slug}`} target="_blank" style={{ padding: '6px 9px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '7px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                <a href={`/${svc.slug}`} target="_blank" style={{ padding: '6px 9px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '7px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
                 </a>
                 <button onClick={() => setDeleteConfirm(svc.id)} style={{ padding: '6px 9px', background: '#fff1f1', border: '1px solid #fca5a5', borderRadius: '7px', cursor: 'pointer' }}>

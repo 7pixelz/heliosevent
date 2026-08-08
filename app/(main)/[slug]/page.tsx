@@ -1,11 +1,19 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import { prisma } from '../../../../lib/prisma';
-import { buildMeta } from '../../../../lib/seo';
+import { prisma } from '../../../lib/prisma';
+import { buildMeta } from '../../../lib/seo';
 import ServiceDetailClient from './ServiceDetailClient';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const services = await prisma.service.findMany({
+    where: { isActive: true },
+    select: { slug: true },
+  });
+  return services.map((s) => ({ slug: s.slug }));
+}
 
 interface Props { params: Promise<{ slug: string }> }
 
@@ -21,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: svc.metaTitle || `${svc.name} | Helios Event Productions`,
       description: svc.metaDescription || svc.description,
       keywords: svc.metaKeywords,
-      path: `/services/${slug}`,
+      path: `/${slug}`,
       image: svc.coverImageUrl,
     });
   } catch {
@@ -35,7 +43,7 @@ const SERVICE_SCHEMA: Record<string, object> = {
   'corporate-event-management-in-chennai': {
     '@context': 'https://schema.org/',
     '@type': 'Article',
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/services/corporate-event-management-in-chennai` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/corporate-event-management-in-chennai` },
     headline: 'Corporate Event Management Company in Chennai',
     description: 'Looking for corporate event organisers? Helios Event provide complete corporate event planning services for product launches, conferences, and business events.',
     image: { '@type': 'ImageObject', url: '', width: '', height: '' },
@@ -46,7 +54,7 @@ const SERVICE_SCHEMA: Record<string, object> = {
   'government-events-planner-in-chennai': {
     '@context': 'https://schema.org/',
     '@type': 'BlogPosting',
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/services/government-events-planner-in-chennai` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/government-events-planner-in-chennai` },
     headline: 'Government & Protocol Events Management Company in Chennai',
     description: 'Helios Event is a leading government event management company in India offering professional protocol management, official ceremony planning, VIP coordination, and government summit organizing services.',
     image: { '@type': 'ImageObject', url: '', width: '', height: '' },
@@ -58,7 +66,7 @@ const SERVICE_SCHEMA: Record<string, object> = {
   'sports-event-management-company-in-chennai': {
     '@context': 'https://schema.org/',
     '@type': 'BlogPosting',
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/services/sports-event-management-company-in-chennai` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/sports-event-management-company-in-chennai` },
     headline: 'Sports Events Management in Chennai',
     description: 'Choose a professional sports event management company in Chennai for strategic planning, event coordination, sponsorship management, and successful sporting event execution.',
     image: { '@type': 'ImageObject', url: '', width: '', height: '' },

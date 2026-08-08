@@ -4,12 +4,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-const LeadForm = dynamic(() => import('../../../../components/sections/LeadForm'), { ssr: false });
-import VideoGrid from '../../../../components/sections/VideoGrid';
-import Clients from '../../../../components/sections/Clients';
-import { highlightExp } from '../../../../lib/highlight';
-import { cleanInternalLinks } from '../../../../lib/content';
-import Breadcrumbs from '../../../../components/Breadcrumbs';
+const LeadForm = dynamic(() => import('../../../components/sections/LeadForm'), { ssr: false });
+import VideoGrid from '../../../components/sections/VideoGrid';
+import Clients from '../../../components/sections/Clients';
+import { highlightExp } from '../../../lib/highlight';
+import { cleanInternalLinks } from '../../../lib/content';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 interface SignatureEvent { icon: string; title: string; desc: string }
 interface Differentiator { title: string; desc: string }

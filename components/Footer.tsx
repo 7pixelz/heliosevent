@@ -39,15 +39,15 @@ export default function Footer() {
         <div>
           <div className="fc-title">Our Services</div>
           <ul className="flinks">
-            <li><Link href="/services/corporate-event-management-in-chennai">Corporate Events</Link></li>
-            <li><Link href="/services/entertainment-event-organizer-in-chennai">Entertainment Events</Link></li>
-            <li><Link href="/services/exhibition-organizer-in-chennai">Exhibitions</Link></li>
-            <li><Link href="/services/government-events-planner-in-chennai">Government Protocol Events</Link></li>
-            <li><Link href="/services/business-meeting-organizer-in-chennai">MICE Events</Link></li>
-            <li><Link href="/services/sports-event-management-company-in-chennai">Sports Events</Link></li>
+            <li><Link href="/corporate-event-management-in-chennai">Corporate Events</Link></li>
+            <li><Link href="/entertainment-event-organizer-in-chennai">Entertainment Events</Link></li>
+            <li><Link href="/exhibition-organizer-in-chennai">Exhibitions</Link></li>
+            <li><Link href="/government-events-planner-in-chennai">Government Protocol Events</Link></li>
+            <li><Link href="/business-meeting-organizer-in-chennai">MICE Events</Link></li>
+            <li><Link href="/sports-event-management-company-in-chennai">Sports Events</Link></li>
             <li><a href="https://www.nakshatrawedding.com/" target="_blank" rel="noopener noreferrer">Wedding &amp; Social Events</a></li>
-            <li><Link href="/services/virtual-hybrid-event-management-in-chennai">Virtual &amp; Hybrid Events</Link></li>
-            <li><Link href="/services/gen-z-centric-event-management-in-chennai">Gen Z-Centric Events</Link></li>
+            <li><Link href="/virtual-hybrid-event-management-in-chennai">Virtual &amp; Hybrid Events</Link></li>
+            <li><Link href="/gen-z-centric-event-management-in-chennai">Gen Z-Centric Events</Link></li>
           </ul>
         </div>
         <div>

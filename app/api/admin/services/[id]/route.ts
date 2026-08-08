@@ -68,6 +68,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     });
     revalidatePath('/');
     revalidatePath('/services', 'layout');
+    revalidatePath(`/${service.slug}`);
     return NextResponse.json(service);
   }
 
@@ -79,6 +80,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   });
   revalidatePath('/');
   revalidatePath('/services', 'layout');
+  revalidatePath(`/${service.slug}`);
   return NextResponse.json(service);
 }
 
@@ -96,5 +98,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   await prisma.service.delete({ where: { id } });
   revalidatePath('/');
   revalidatePath('/services', 'layout');
+  revalidatePath(`/${service.slug}`);
   return NextResponse.json({ ok: true });
 }
