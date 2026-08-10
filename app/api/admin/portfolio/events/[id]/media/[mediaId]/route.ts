@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../../../../lib/auth';
@@ -18,7 +19,10 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { mediaId } = await params;
 
-  const media = await prisma.portfolioMedia.findUnique({ where: { id: mediaId } });
+  const media = await prisma.portfolioMedia.findUnique({
+    where: { id: mediaId },
+    include: { event: { select: { slug: true } } },
+  });
   if (!media) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
   if (media.storagePath) {
@@ -26,5 +30,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   }
 
   await prisma.portfolioMedia.delete({ where: { id: mediaId } });
+  revalidatePath(`/portfolio/${media.event.slug}`);
+  revalidatePath(`/api/portfolio/${media.event.slug}`);
   return NextResponse.json({ ok: true });
 }

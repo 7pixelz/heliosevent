@@ -62,6 +62,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     const event = await prisma.portfolioEvent.update({ where: { id }, data: updateData });
     revalidatePath('/');
     revalidatePath('/portfolio', 'layout');
+    revalidatePath(`/portfolio/${event.slug}`);
+    revalidatePath(`/api/portfolio/${event.slug}`);
     return NextResponse.json(event);
   }
 
@@ -69,6 +71,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const event = await prisma.portfolioEvent.update({ where: { id }, data: { ...body, updatedAt: new Date() } });
   revalidatePath('/');
   revalidatePath('/portfolio', 'layout');
+  revalidatePath(`/portfolio/${event.slug}`);
+  revalidatePath(`/api/portfolio/${event.slug}`);
   return NextResponse.json(event);
 }
 
@@ -88,5 +92,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   await prisma.portfolioEvent.delete({ where: { id } });
   revalidatePath('/');
   revalidatePath('/portfolio', 'layout');
+  if (event) {
+    revalidatePath(`/portfolio/${event.slug}`);
+    revalidatePath(`/api/portfolio/${event.slug}`);
+  }
   return NextResponse.json({ ok: true });
 }

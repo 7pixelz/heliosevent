@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { prisma } from '../../../../../../../lib/prisma';
 import { verifyToken, COOKIE_NAME } from '../../../../../../../lib/auth';
@@ -33,6 +34,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     const media = await prisma.portfolioMedia.create({
       data: { eventId, type: 'VIDEO', url, displayOrder: (maxOrder._max.displayOrder ?? 0) + 1 },
     });
+    revalidatePath(`/portfolio/${event.slug}`);
+    revalidatePath(`/api/portfolio/${event.slug}`);
     return NextResponse.json(media, { status: 201 });
   }
 
@@ -62,5 +65,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     await prisma.portfolioEvent.update({ where: { id: eventId }, data: { coverImageUrl: created[0].url } });
   }
 
+  revalidatePath(`/portfolio/${event.slug}`);
+  revalidatePath(`/api/portfolio/${event.slug}`);
   return NextResponse.json(created, { status: 201 });
 }
