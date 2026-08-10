@@ -12,21 +12,6 @@ const NON_INDEPENDENT_SERVICE_SLUGS = new Set([
   'wedding-event-planner-in-chennai',
 ]);
 
-const CHENNAI_SLUGS = [
-  'event-planner-in-taramani',
-  'event-management-in-omr',
-  'event-management-in-oragadam',
-  'event-management-in-vallam-chengalpattu',
-  'event-management-in-sriperumbudur',
-  'event-management-in-ambattur',
-  'event-management-in-ekkatuthangal',
-  'event-management-in-guindy',
-  'event-management-in-sri-city',
-  'event-management-in-siruseri',
-  'event-planner-in-anna-salai',
-  'event-management-in-porur',
-];
-
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -42,13 +27,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/blog`,        lastModified: now, changeFrequency: 'weekly',  priority: 1.0 },
     { url: `${BASE}/careers`,     lastModified: now, changeFrequency: 'monthly', priority: 1.0 },
   ];
-
-  const chennaiPages: MetadataRoute.Sitemap = CHENNAI_SLUGS.map(slug => ({
-    url: `${BASE}/chennai/${slug}`,
-    lastModified: now,
-    changeFrequency: 'monthly',
-    priority: 0.7,
-  }));
 
   let servicePages: MetadataRoute.Sitemap = [];
   try {
@@ -94,5 +72,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch { /* skip */ }
 
-  return [...staticPages, ...chennaiPages, ...servicePages, ...portfolioPages, ...blogPages];
+  return [...staticPages, ...servicePages, ...portfolioPages, ...blogPages];
 }
