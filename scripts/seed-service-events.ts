@@ -36,7 +36,7 @@ const SERVICES = [
     differentiators: [
       diff('End-to-End Execution', 'From concept to close, we manage every detail so you don\'t have to.'),
       diff('Brand-First Design', 'Every element is aligned with your brand identity and company culture.'),
-      diff('Experienced Team', '15+ years of delivering corporate events across India and globally.'),
+      diff('Experienced Team', '25+ years of delivering corporate events across India and globally.'),
       diff('Scalable Formats', 'From 50-person offsites to 5,000-person townhalls — we scale seamlessly.'),
       diff('Post-Event Analytics', 'We provide engagement reports and feedback summaries after every event.'),
     ],
