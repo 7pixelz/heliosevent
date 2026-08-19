@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -43,7 +43,30 @@ function parseJSON<T>(val: string | null | undefined, fallback: T): T {
   try { return JSON.parse(val) as T; } catch { return fallback; }
 }
 
-function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
+// Per-service FAQ answer links: keyed by service slug + exact question text,
+// linkifies one phrase in the answer to a specific internal URL.
+const FAQ_LINKS: Record<string, Record<string, { phrase: string; href: string }>> = {
+  'corporate-event-management-in-chennai': {
+    'Why should I hire a corporate event planner in Chennai?': {
+      phrase: 'professional corporate event planner in Chennai',
+      href: '/blog/benefits-of-hiring-a-corporate-event-planner-a-guide-for-chennai-businesses',
+    },
+  },
+};
+
+function linkifyPhrase(text: string, phrase: string, href: string): ReactNode {
+  const idx = text.indexOf(phrase);
+  if (idx === -1) return highlightExp(text);
+  return (
+    <>
+      {highlightExp(text.slice(0, idx))}
+      <Link href={href} style={{ color: '#adc905', fontWeight: 600, textDecoration: 'underline' }}>{phrase}</Link>
+      {highlightExp(text.slice(idx + phrase.length))}
+    </>
+  );
+}
+
+function FAQAccordion({ faqs, slug }: { faqs: FAQ[]; slug: string }) {
   const [open, setOpen] = useState<number | null>(null);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -86,7 +109,10 @@ function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
               fontSize: '14px', color: '#555',
               lineHeight: 1.8, fontFamily: "'Inter', sans-serif",
             }}>
-              {highlightExp(faq.answer)}
+              {(() => {
+                const link = FAQ_LINKS[slug]?.[faq.question];
+                return link ? linkifyPhrase(faq.answer, link.phrase, link.href) : highlightExp(faq.answer);
+              })()}
             </div>
           )}
         </div>
@@ -522,7 +548,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 {h.faq}
               </h2>
             </div>
-            <FAQAccordion faqs={faqs} />
+            <FAQAccordion faqs={faqs} slug={service.slug} />
           </div>
         </section>
       )}
