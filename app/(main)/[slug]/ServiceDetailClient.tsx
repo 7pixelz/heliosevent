@@ -537,13 +537,6 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
         <section style={{ background: '#fff', padding: 'clamp(40px, 8vw, 96px) 0' }}>
           <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 24px' }}>
             <div style={{ textAlign: 'center', marginBottom: '52px' }}>
-              <div style={{
-                fontSize: '11px', fontWeight: 700, letterSpacing: '3px',
-                textTransform: 'uppercase', color: '#adc905',
-                marginBottom: '12px', fontFamily: "'Inter', sans-serif",
-              }}>
-                FAQs
-              </div>
               <h2 className="svc-section-h2">
                 {h.faq}
               </h2>
@@ -577,7 +570,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
             Let&apos;s Work Together
           </div>
           <h2 className="svc-cta-h2">
-            Ready to plan your {service.name}?
+            Ready To Plan Your {service.name}?
           </h2>
           <p style={{
             fontSize: '16px', color: 'rgba(0,0,0,0.55)',
