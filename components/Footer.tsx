@@ -45,7 +45,7 @@ export default function Footer() {
             <li><Link href="/government-events-planner-in-chennai">Government Protocol Events</Link></li>
             <li><Link href="/business-meeting-organizer-in-chennai">MICE Events</Link></li>
             <li><Link href="/sports-event-management-company-in-chennai">Sports Events</Link></li>
-            <li><a href="https://www.nakshatrawedding.com/" target="_blank" rel="noopener noreferrer">Wedding &amp; Social Events</a></li>
+            <li><a href="https://www.nakshatrawedding.com/" target="_blank" rel="noopener noreferrer nofollow">Wedding &amp; Social Events</a></li>
             <li><Link href="/virtual-hybrid-event-management-in-chennai">Virtual &amp; Hybrid Events</Link></li>
             <li><Link href="/gen-z-centric-event-management-in-chennai">Gen Z-Centric Events</Link></li>
           </ul>
