@@ -77,7 +77,29 @@ const SERVICE_SCHEMA: Record<string, object> = {
   },
 };
 
-const faq = (name: string, text: string) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } });
+const SERVICE_BREADCRUMB_SCHEMA: Record<string, object> = {
+  'corporate-event-management-in-chennai': {
+    '@context': 'https://schema.org/',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${BASE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${BASE_URL}/services` },
+      { '@type': 'ListItem', position: 3, name: 'Corporate Events', item: `${BASE_URL}/corporate-event-management-in-chennai` },
+    ],
+  },
+};
+
+const SERVICE_WEBPAGE_SCHEMA: Record<string, object> = {
+  'corporate-event-management-in-chennai': {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Corporate Event Management Services in Chennai',
+    url: `${BASE_URL}/corporate-event-management-in-chennai`,
+    description: 'Helios Event is one of the best Corporate Event Management Services in Chennai who are specialized in the full spectrum of corporate event management — from intimate leadership retreats to large-scale town halls and innovation hackathons.',
+  },
+};
+
+const faq =(name: string, text: string) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } });
 
 const SERVICE_FAQ_SCHEMA: Record<string, object> = {
   'corporate-event-management-in-chennai': {
@@ -161,6 +183,8 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   const jsonLd = SERVICE_SCHEMA[slug];
   const faqLd = SERVICE_FAQ_SCHEMA[slug];
+  const breadcrumbLd = SERVICE_BREADCRUMB_SCHEMA[slug];
+  const webPageLd = SERVICE_WEBPAGE_SCHEMA[slug];
 
   return (
     <>
@@ -176,6 +200,20 @@ export default async function ServiceDetailPage({ params }: Props) {
           id="service-faq-json-ld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
+      {breadcrumbLd && (
+        <Script
+          id="service-breadcrumb-json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        />
+      )}
+      {webPageLd && (
+        <Script
+          id="service-webpage-json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }}
         />
       )}
       <ServiceDetailClient service={service} videos={videos} portfolioEvents={portfolioEvents} logos={logos} />

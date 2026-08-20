@@ -131,14 +131,18 @@ interface Logo { id: string; name: string; imageUrl: string; }
 interface SectionHeadings {
   events: string; about: string; signature: string;
   whyChoose: string; numbers: string; faq: string;
+  eventsSubtitle?: string; signatureSubtitle?: string; whyChooseSubtitle?: string;
 }
 
 const SERVICE_HEADINGS: Record<string, SectionHeadings> = {
   'corporate-event-management-in-chennai': {
-    events: 'Our Corporate Event Management Services in Chennai',
+    events: 'Our Services in Chennai',
+    eventsSubtitle: 'Trusted best corporate event planner and organizer in Chennai.',
     about: 'About Corporate Event Services',
     signature: 'Signature Corporate Event Planning Services',
+    signatureSubtitle: 'Corporate event management services cover a curated portfolio of event formats.',
     whyChoose: 'Why Choose Us For Corporate Events in Chennai?',
+    whyChooseSubtitle: 'As experienced Corporate Event Planners in Chennai, we create engaging events tailored to your business goals.',
     numbers: 'Corporate Event Management Excellence in Numbers',
     faq: 'FAQ for Corporate Event Planning',
   },
@@ -295,6 +299,15 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               <h2 className="svc-section-h2">
                 {h.events}
               </h2>
+              {h.eventsSubtitle && (
+                <p style={{
+                  fontSize: '15px', color: '#666', margin: '12px 0 0',
+                  fontFamily: "'Inter', sans-serif", maxWidth: '560px',
+                  marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.7,
+                }}>
+                  {h.eventsSubtitle}
+                </p>
+              )}
             </div>
             <div style={{
               display: 'grid',
@@ -402,7 +415,7 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
                 margin: 0, fontFamily: "'Inter', sans-serif",
                 maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.7,
               }}>
-                A curated portfolio of formats we execute under {service.name}.
+                {h.signatureSubtitle || `A curated portfolio of formats we execute under ${service.name}.`}
               </p>
             </div>
 
@@ -463,6 +476,15 @@ export default function ServiceDetailPage({ service, videos = [], portfolioEvent
               <h2 className="svc-section-h2">
                 {h.whyChoose}
               </h2>
+              {h.whyChooseSubtitle && (
+                <p style={{
+                  fontSize: '15px', color: '#666', margin: '12px 0 0',
+                  fontFamily: "'Inter', sans-serif", maxWidth: '560px',
+                  marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.7,
+                }}>
+                  {h.whyChooseSubtitle}
+                </p>
+              )}
             </div>
 
             <div style={{
