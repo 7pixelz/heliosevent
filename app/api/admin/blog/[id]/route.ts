@@ -21,6 +21,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
 
+  try {
+    return await handlePatch(req, id);
+  } catch (e) {
+    console.error('Blog update failed:', e);
+    return NextResponse.json({ error: e instanceof Error ? e.message : 'Update failed' }, { status: 500 });
+  }
+}
+
+async function handlePatch(req: NextRequest, id: string) {
   const ct = req.headers.get('content-type') || '';
 
   if (ct.includes('multipart/form-data')) {
@@ -103,15 +112,20 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
 
-  const post = await prisma.blogPost.findUnique({ where: { id } });
-  if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  try {
+    const post = await prisma.blogPost.findUnique({ where: { id } });
+    if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  if (post.storagePath && !post.storagePath.startsWith('wp-import/')) {
-    await removeObjects(BUCKET, [post.storagePath]);
+    if (post.storagePath && !post.storagePath.startsWith('wp-import/')) {
+      await removeObjects(BUCKET, [post.storagePath]);
+    }
+
+    await prisma.blogPost.delete({ where: { id } });
+    revalidatePath('/blog', 'layout');
+    revalidatePath(`/blog/${post.slug}`);
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error('Blog delete failed:', e);
+    return NextResponse.json({ error: e instanceof Error ? e.message : 'Delete failed' }, { status: 500 });
   }
-
-  await prisma.blogPost.delete({ where: { id } });
-  revalidatePath('/blog', 'layout');
-  revalidatePath(`/blog/${post.slug}`);
-  return NextResponse.json({ ok: true });
 }
