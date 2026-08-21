@@ -35,6 +35,69 @@ const labelSt: React.CSSProperties = {
   letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px',
 };
 
+function toggleSlug(slug: string, current: string[], set: (v: string[]) => void) {
+  set(current.includes(slug) ? current.filter(s => s !== slug) : [...current, slug]);
+}
+
+function FormFields({ services, input, setInput, title, setTitle, slugs, setSlugs, onHome, setOnHome, order, setOrder, active, setActive, showActive, error }: {
+  services: Service[];
+  input: string; setInput: (v: string) => void;
+  title: string; setTitle: (v: string) => void;
+  slugs: string[]; setSlugs: (v: string[]) => void;
+  onHome: boolean; setOnHome: (v: boolean) => void;
+  order: number; setOrder: (v: number) => void;
+  active?: boolean; setActive?: (v: boolean) => void;
+  showActive?: boolean; error: string;
+}) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      <div>
+        <label style={labelSt}>YouTube URL or Video ID *</label>
+        <input style={inputSt} placeholder="https://youtu.be/xxxxx or video ID" value={input} onChange={e => setInput(e.target.value)} />
+        <div style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>Paste a full YouTube URL or just the 11-character video ID</div>
+      </div>
+      <div>
+        <label style={labelSt}>Title *</label>
+        <input style={inputSt} placeholder="Video title" value={title} onChange={e => setTitle(e.target.value)} />
+      </div>
+      <div>
+        <label style={labelSt}>Service Categories (select multiple)</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '180px', overflowY: 'auto', padding: '10px 12px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+          {services.map(s => (
+            <label key={s.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
+              <input
+                type="checkbox"
+                checked={slugs.includes(s.slug)}
+                onChange={() => toggleSlug(s.slug, slugs, setSlugs)}
+                style={{ width: '15px', height: '15px', accentColor: '#adc905' }}
+              />
+              {s.name}
+            </label>
+          ))}
+        </div>
+        {slugs.length > 0 && <div style={{ fontSize: '11px', color: '#adc905', marginTop: '4px', fontWeight: 600 }}>{slugs.length} categor{slugs.length === 1 ? 'y' : 'ies'} selected</div>}
+      </div>
+      <div style={{ display: 'flex', gap: '20px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
+          <input type="checkbox" checked={onHome} onChange={e => setOnHome(e.target.checked)} />
+          Show on Homepage
+        </label>
+        {showActive && setActive && (
+          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
+            <input type="checkbox" checked={active} onChange={e => setActive(e.target.checked)} />
+            Active
+          </label>
+        )}
+      </div>
+      <div>
+        <label style={labelSt}>Display Order</label>
+        <input type="number" style={inputSt} value={order} onChange={e => setOrder(Number(e.target.value))} />
+      </div>
+      {error && <div style={{ color: '#e53e3e', fontSize: '13px' }}>{error}</div>}
+    </div>
+  );
+}
+
 export default function VideoAdminClient({ videos: initial, services }: Props) {
   const [videos, setVideos] = useState(initial);
   const [loading, setLoading] = useState(false);
@@ -61,10 +124,6 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
 
   function parseSlugs(v: Video): string[] {
     try { return JSON.parse(v.serviceSlugs || '[]'); } catch { return v.serviceSlug ? [v.serviceSlug] : []; }
-  }
-
-  function toggleSlug(slug: string, current: string[], set: (v: string[]) => void) {
-    set(current.includes(slug) ? current.filter(s => s !== slug) : [...current, slug]);
   }
 
   async function refresh() {
@@ -148,64 +207,6 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
     fontFamily: "'Inter',sans-serif",
   };
 
-  function FormFields({ input, setInput, title, setTitle, slugs, setSlugs, onHome, setOnHome, order, setOrder, active, setActive, showActive, error }: {
-    input: string; setInput: (v: string) => void;
-    title: string; setTitle: (v: string) => void;
-    slugs: string[]; setSlugs: (v: string[]) => void;
-    onHome: boolean; setOnHome: (v: boolean) => void;
-    order: number; setOrder: (v: number) => void;
-    active?: boolean; setActive?: (v: boolean) => void;
-    showActive?: boolean; error: string;
-  }) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-        <div>
-          <label style={labelSt}>YouTube URL or Video ID *</label>
-          <input style={inputSt} placeholder="https://youtu.be/xxxxx or video ID" value={input} onChange={e => setInput(e.target.value)} />
-          <div style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>Paste a full YouTube URL or just the 11-character video ID</div>
-        </div>
-        <div>
-          <label style={labelSt}>Title *</label>
-          <input style={inputSt} placeholder="Video title" value={title} onChange={e => setTitle(e.target.value)} />
-        </div>
-        <div>
-          <label style={labelSt}>Service Categories (select multiple)</label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '180px', overflowY: 'auto', padding: '10px 12px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
-            {services.map(s => (
-              <label key={s.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
-                <input
-                  type="checkbox"
-                  checked={slugs.includes(s.slug)}
-                  onChange={() => toggleSlug(s.slug, slugs, setSlugs)}
-                  style={{ width: '15px', height: '15px', accentColor: '#adc905' }}
-                />
-                {s.name}
-              </label>
-            ))}
-          </div>
-          {slugs.length > 0 && <div style={{ fontSize: '11px', color: '#adc905', marginTop: '4px', fontWeight: 600 }}>{slugs.length} categor{slugs.length === 1 ? 'y' : 'ies'} selected</div>}
-        </div>
-        <div style={{ display: 'flex', gap: '20px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
-            <input type="checkbox" checked={onHome} onChange={e => setOnHome(e.target.checked)} />
-            Show on Homepage
-          </label>
-          {showActive && setActive && (
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
-              <input type="checkbox" checked={active} onChange={e => setActive(e.target.checked)} />
-              Active
-            </label>
-          )}
-        </div>
-        <div>
-          <label style={labelSt}>Display Order</label>
-          <input type="number" style={inputSt} value={order} onChange={e => setOrder(Number(e.target.value))} />
-        </div>
-        {error && <div style={{ color: '#e53e3e', fontSize: '13px' }}>{error}</div>}
-      </div>
-    );
-  }
-
   return (
     <div style={{ fontFamily: "'Inter', sans-serif", color: '#111' }}>
 
@@ -224,6 +225,7 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
           <div style={{ background: '#fff', borderRadius: '16px', padding: '28px', width: '100%', maxWidth: '520px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
             <h2 style={{ margin: '0 0 20px', fontSize: '18px', fontWeight: 700 }}>Add Video</h2>
             <FormFields
+              services={services}
               input={addInput} setInput={setAddInput}
               title={addTitle} setTitle={setAddTitle}
               slugs={addSlugs} setSlugs={setAddSlugs}
@@ -245,6 +247,7 @@ export default function VideoAdminClient({ videos: initial, services }: Props) {
           <div style={{ background: '#fff', borderRadius: '16px', padding: '28px', width: '100%', maxWidth: '520px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
             <h2 style={{ margin: '0 0 20px', fontSize: '18px', fontWeight: 700 }}>Edit Video</h2>
             <FormFields
+              services={services}
               input={editInput} setInput={setEditInput}
               title={editTitle} setTitle={setEditTitle}
               slugs={editSlugs} setSlugs={setEditSlugs}

@@ -34,6 +34,82 @@ const card: React.CSSProperties = {
 
 const emptyForm = { title: '', excerpt: '', content: '', category: '', tags: '', isPublished: false };
 
+const CloseBtn = ({ onClick }: { onClick: () => void }) => (
+  <button onClick={onClick} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', padding: '4px' }}>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+);
+
+function CoverDropZone({ preview, current, fileRef, onChange, onRemove }: {
+  preview: string | null; current: string | null;
+  fileRef: React.RefObject<HTMLInputElement | null>;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: () => void;
+}) {
+  return (
+    <div style={{ marginBottom: '14px' }}>
+      <label style={labelSt}>Cover Image <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#bbb' }}>(optional)</span></label>
+      <div onClick={() => fileRef.current?.click()} style={{ border: '2px dashed #e5e7eb', borderRadius: '10px', padding: '16px', textAlign: 'center', cursor: 'pointer', background: '#f9fafb', minHeight: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {preview || current ? (
+          <img src={preview || current!} alt="" style={{ maxHeight: '80px', maxWidth: '100%', objectFit: 'cover', borderRadius: '6px' }} />
+        ) : (
+          <div style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif" }}>Click to upload cover image</div>
+        )}
+        <input ref={fileRef} type="file" accept="image/*" onChange={onChange} style={{ display: 'none' }} />
+      </div>
+      {preview && <button type="button" onClick={onRemove} style={{ marginTop: '4px', fontSize: '12px', color: '#888', background: 'none', border: 'none', cursor: 'pointer' }}>Remove</button>}
+    </div>
+  );
+}
+
+function PostForm({ form, setForm, fileRef, preview, setFile, setPreview, current, error, onSubmit, loading, submitLabel }: {
+  form: typeof emptyForm; setForm: (f: typeof emptyForm) => void;
+  fileRef: React.RefObject<HTMLInputElement | null>;
+  preview: string | null; setFile: (f: File | null) => void; setPreview: (s: string | null) => void;
+  current: string | null; error: string; onSubmit: (e: React.FormEvent) => void;
+  loading: boolean; submitLabel: string;
+}) {
+  return (
+    <form onSubmit={onSubmit}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+        <div style={{ gridColumn: '1 / -1' }}>
+          <label style={labelSt}>Title *</label>
+          <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="Post title" style={inputSt} />
+        </div>
+        <div>
+          <label style={labelSt}>Category</label>
+          <input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Corporate Events" style={inputSt} />
+        </div>
+        <div>
+          <label style={labelSt}>Tags <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#bbb' }}>(comma separated)</span></label>
+          <input value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} placeholder="team building, awards" style={inputSt} />
+        </div>
+        <div style={{ gridColumn: '1 / -1' }}>
+          <label style={labelSt}>Excerpt</label>
+          <textarea value={form.excerpt} onChange={e => setForm({ ...form, excerpt: e.target.value })} placeholder="Short description shown in listing…" rows={2} style={{ ...inputSt, resize: 'vertical' }} />
+        </div>
+      </div>
+      <CoverDropZone
+        preview={preview} current={current} fileRef={fileRef}
+        onChange={e => { const f = e.target.files?.[0]; if (f) { setFile(f); setPreview(URL.createObjectURL(f)); } }}
+        onRemove={() => { setFile(null); setPreview(null); if (fileRef.current) fileRef.current.value = ''; }}
+      />
+      <div style={{ marginBottom: '14px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '13px', fontWeight: 600, color: '#555', fontFamily: "'Inter',sans-serif" }}>
+          <input type="checkbox" checked={form.isPublished} onChange={e => setForm({ ...form, isPublished: e.target.checked })} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
+          Publish immediately
+        </label>
+      </div>
+      {error && <div style={{ background: '#fff1f1', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: '#dc2626', marginBottom: '12px', fontFamily: "'Inter',sans-serif" }}>{error}</div>}
+      <button type="submit" disabled={loading} style={{ width: '100%', padding: '12px', background: '#1a1f2e', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontFamily: "'Inter',sans-serif", opacity: loading ? 0.7 : 1 }}>
+        {loading ? 'Saving…' : submitLabel}
+      </button>
+    </form>
+  );
+}
+
 export default function BlogAdminClient({ posts: initial }: Props) {
   const router = useRouter();
   const [posts, setPosts] = useState(initial);
@@ -61,6 +137,7 @@ export default function BlogAdminClient({ posts: initial }: Props) {
 
   // Delete
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState('');
 
   const filtered = posts.filter(p => {
     if (filter === 'published' && !p.isPublished) return false;
@@ -80,14 +157,20 @@ export default function BlogAdminClient({ posts: initial }: Props) {
     e.preventDefault();
     if (!createForm.title.trim()) { setCreateError('Title is required'); return; }
     setCreating(true); setCreateError('');
-    const fd = new FormData();
-    Object.entries(createForm).forEach(([k, v]) => fd.append(k, String(v)));
-    if (createFile) fd.append('file', createFile);
-    const res = await fetch('/api/admin/blog', { method: 'POST', body: fd });
-    const data = await res.json();
-    if (!res.ok) { setCreateError(data.error || 'Failed'); setCreating(false); return; }
-    setPosts(p => [data, ...p]);
-    resetCreate(); setCreating(false);
+    try {
+      const fd = new FormData();
+      Object.entries(createForm).forEach(([k, v]) => fd.append(k, String(v)));
+      if (createFile) fd.append('file', createFile);
+      const res = await fetch('/api/admin/blog', { method: 'POST', body: fd });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setCreateError(data.error || 'Failed'); return; }
+      setPosts(p => [data, ...p]);
+      resetCreate();
+    } catch {
+      setCreateError('Network error — please try again');
+    } finally {
+      setCreating(false);
+    }
   }
 
   function resetEdit() {
@@ -99,113 +182,59 @@ export default function BlogAdminClient({ posts: initial }: Props) {
     e.preventDefault();
     if (!editPost) return;
     setSaving(true); setEditError('');
-    const fd = new FormData();
-    Object.entries(editForm).forEach(([k, v]) => fd.append(k, String(v)));
-    if (editFile) fd.append('file', editFile);
-    const res = await fetch(`/api/admin/blog/${editPost.id}`, { method: 'PATCH', body: fd });
-    const data = await res.json();
-    if (!res.ok) { setEditError(data.error || 'Failed'); setSaving(false); return; }
-    setPosts(p => p.map(x => x.id === editPost.id ? { ...x, ...data } : x));
-    resetEdit(); setSaving(false);
+    try {
+      const fd = new FormData();
+      Object.entries(editForm).forEach(([k, v]) => fd.append(k, String(v)));
+      if (editFile) fd.append('file', editFile);
+      const res = await fetch(`/api/admin/blog/${editPost.id}`, { method: 'PATCH', body: fd });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setEditError(data.error || 'Failed'); return; }
+      setPosts(p => p.map(x => x.id === editPost.id ? { ...x, ...data } : x));
+      resetEdit();
+    } catch {
+      setEditError('Network error — please try again');
+    } finally {
+      setSaving(false);
+    }
   }
 
   // ── Toggle publish ──
   async function togglePublish(id: string, current: boolean) {
     setActionLoading(id + '_pub');
-    const res = await fetch(`/api/admin/blog/${id}`, {
-      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ isPublished: !current }),
-    });
-    if (res.ok) {
-      const u = await res.json();
-      setPosts(p => p.map(x => x.id === id ? { ...x, isPublished: u.isPublished, publishedAt: u.publishedAt } : x));
+    try {
+      const res = await fetch(`/api/admin/blog/${id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isPublished: !current }),
+      });
+      if (res.ok) {
+        const u = await res.json();
+        setPosts(p => p.map(x => x.id === id ? { ...x, isPublished: u.isPublished, publishedAt: u.publishedAt } : x));
+      }
+    } catch {
+      // swallow — toggle failure just leaves the badge unchanged
+    } finally {
+      setActionLoading(null);
     }
-    setActionLoading(null);
   }
 
   // ── Delete ──
   async function handleDelete(id: string) {
     setActionLoading(id + '_del');
-    const res = await fetch(`/api/admin/blog/${id}`, { method: 'DELETE' });
-    if (res.ok) setPosts(p => p.filter(x => x.id !== id));
-    setActionLoading(null);
-    setDeleteConfirm(null);
-  }
-
-  const CloseBtn = ({ onClick }: { onClick: () => void }) => (
-    <button onClick={onClick} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', padding: '4px' }}>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-      </svg>
-    </button>
-  );
-
-  function CoverDropZone({ preview, current, fileRef, onChange, onRemove }: {
-    preview: string | null; current: string | null;
-    fileRef: React.RefObject<HTMLInputElement | null>;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onRemove: () => void;
-  }) {
-    return (
-      <div style={{ marginBottom: '14px' }}>
-        <label style={labelSt}>Cover Image <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#bbb' }}>(optional)</span></label>
-        <div onClick={() => fileRef.current?.click()} style={{ border: '2px dashed #e5e7eb', borderRadius: '10px', padding: '16px', textAlign: 'center', cursor: 'pointer', background: '#f9fafb', minHeight: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {preview || current ? (
-            <img src={preview || current!} alt="" style={{ maxHeight: '80px', maxWidth: '100%', objectFit: 'cover', borderRadius: '6px' }} />
-          ) : (
-            <div style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif" }}>Click to upload cover image</div>
-          )}
-          <input ref={fileRef} type="file" accept="image/*" onChange={onChange} style={{ display: 'none' }} />
-        </div>
-        {preview && <button type="button" onClick={onRemove} style={{ marginTop: '4px', fontSize: '12px', color: '#888', background: 'none', border: 'none', cursor: 'pointer' }}>Remove</button>}
-      </div>
-    );
-  }
-
-  function PostForm({ form, setForm, fileRef, preview, setFile, setPreview, current, error, onSubmit, loading, submitLabel }: {
-    form: typeof emptyForm; setForm: (f: typeof emptyForm) => void;
-    fileRef: React.RefObject<HTMLInputElement | null>;
-    preview: string | null; setFile: (f: File | null) => void; setPreview: (s: string | null) => void;
-    current: string | null; error: string; onSubmit: (e: React.FormEvent) => void;
-    loading: boolean; submitLabel: string;
-  }) {
-    return (
-      <form onSubmit={onSubmit}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
-          <div style={{ gridColumn: '1 / -1' }}>
-            <label style={labelSt}>Title *</label>
-            <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="Post title" style={inputSt} />
-          </div>
-          <div>
-            <label style={labelSt}>Category</label>
-            <input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Corporate Events" style={inputSt} />
-          </div>
-          <div>
-            <label style={labelSt}>Tags <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#bbb' }}>(comma separated)</span></label>
-            <input value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} placeholder="team building, awards" style={inputSt} />
-          </div>
-          <div style={{ gridColumn: '1 / -1' }}>
-            <label style={labelSt}>Excerpt</label>
-            <textarea value={form.excerpt} onChange={e => setForm({ ...form, excerpt: e.target.value })} placeholder="Short description shown in listing…" rows={2} style={{ ...inputSt, resize: 'vertical' }} />
-          </div>
-        </div>
-        <CoverDropZone
-          preview={preview} current={current} fileRef={fileRef}
-          onChange={e => { const f = e.target.files?.[0]; if (f) { setFile(f); setPreview(URL.createObjectURL(f)); } }}
-          onRemove={() => { setFile(null); setPreview(null); if (fileRef.current) fileRef.current.value = ''; }}
-        />
-        <div style={{ marginBottom: '14px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '13px', fontWeight: 600, color: '#555', fontFamily: "'Inter',sans-serif" }}>
-            <input type="checkbox" checked={form.isPublished} onChange={e => setForm({ ...form, isPublished: e.target.checked })} style={{ width: '16px', height: '16px', cursor: 'pointer' }} />
-            Publish immediately
-          </label>
-        </div>
-        {error && <div style={{ background: '#fff1f1', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: '#dc2626', marginBottom: '12px', fontFamily: "'Inter',sans-serif" }}>{error}</div>}
-        <button type="submit" disabled={loading} style={{ width: '100%', padding: '12px', background: '#1a1f2e', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontFamily: "'Inter',sans-serif", opacity: loading ? 0.7 : 1 }}>
-          {loading ? 'Saving…' : submitLabel}
-        </button>
-      </form>
-    );
+    setDeleteError('');
+    try {
+      const res = await fetch(`/api/admin/blog/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setPosts(p => p.filter(x => x.id !== id));
+        setDeleteConfirm(null);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setDeleteError(data.error || 'Delete failed');
+      }
+    } catch {
+      setDeleteError('Network error — please try again');
+    } finally {
+      setActionLoading(null);
+    }
   }
 
   const pub = posts.filter(p => p.isPublished).length;
@@ -270,9 +299,12 @@ export default function BlogAdminClient({ posts: initial }: Props) {
           <div style={{ background: '#fff', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '360px', textAlign: 'center' }}>
             <h3 style={{ fontSize: '17px', fontWeight: 800, color: '#111', marginBottom: '8px' }}>Delete Post?</h3>
             <p style={{ fontSize: '13px', color: '#888', marginBottom: '24px', fontFamily: "'Inter',sans-serif" }}>This cannot be undone.</p>
+            {deleteError && <div style={{ background: '#fff1f1', border: '1px solid #fca5a5', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: '#dc2626', marginBottom: '16px', fontFamily: "'Inter',sans-serif" }}>{deleteError}</div>}
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={() => setDeleteConfirm(null)} style={{ flex: 1, padding: '11px', background: '#f5f5f5', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>Cancel</button>
-              <button onClick={() => handleDelete(deleteConfirm)} disabled={!!actionLoading} style={{ flex: 1, padding: '11px', background: '#dc2626', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>Delete</button>
+              <button onClick={() => { setDeleteConfirm(null); setDeleteError(''); }} style={{ flex: 1, padding: '11px', background: '#f5f5f5', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>Cancel</button>
+              <button onClick={() => handleDelete(deleteConfirm)} disabled={!!actionLoading} style={{ flex: 1, padding: '11px', background: '#dc2626', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: actionLoading ? 'not-allowed' : 'pointer', fontFamily: "'Inter',sans-serif", opacity: actionLoading ? 0.7 : 1 }}>
+                {actionLoading === deleteConfirm + '_del' ? 'Deleting…' : 'Delete'}
+              </button>
             </div>
           </div>
         </div>
@@ -322,7 +354,7 @@ export default function BlogAdminClient({ posts: initial }: Props) {
                   <button onClick={() => togglePublish(post.id, post.isPublished)} disabled={actionLoading === post.id + '_pub'} style={{ padding: '5px 12px', fontSize: '12px', fontWeight: 700, borderRadius: '7px', border: '1px solid', cursor: 'pointer', fontFamily: "'Inter',sans-serif", background: post.isPublished ? '#f0fdf4' : '#f9fafb', color: post.isPublished ? '#16a34a' : '#888', borderColor: post.isPublished ? '#bbf7d0' : '#e5e7eb' }}>
                     {post.isPublished ? '● Published' : '○ Draft'}
                   </button>
-                  <button onClick={() => setDeleteConfirm(post.id)} style={{ marginLeft: 'auto', padding: '5px 10px', background: '#fff1f1', border: '1px solid #fca5a5', borderRadius: '7px', cursor: 'pointer' }}>
+                  <button onClick={() => { setDeleteConfirm(post.id); setDeleteError(''); }} style={{ marginLeft: 'auto', padding: '5px 10px', background: '#fff1f1', border: '1px solid #fca5a5', borderRadius: '7px', cursor: 'pointer' }}>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /></svg>
                   </button>
                 </div>

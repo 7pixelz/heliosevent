@@ -36,6 +36,89 @@ const labelSt: React.CSSProperties = {
 
 const emptyForm = { titleWhite: '', titleAccent: '', subtitle: '', ctaText: '', ctaLink: '' };
 
+const CloseBtn = ({ onClick }: { onClick: () => void }) => (
+  <button onClick={onClick} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', padding: '4px' }}>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+);
+
+function DropZone({ preview, isVideo, fileRef, onChange, onRemove, current }: {
+  preview: string | null; isVideo: boolean;
+  fileRef: React.RefObject<HTMLInputElement | null>;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: () => void;
+  current?: { url: string; type: 'IMAGE' | 'VIDEO' } | null;
+}) {
+  return (
+    <div>
+      <div onClick={() => fileRef.current?.click()} style={{ border: '2px dashed #e5e7eb', borderRadius: '12px', padding: '20px', textAlign: 'center', cursor: 'pointer', background: '#f9fafb', minHeight: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {preview ? (
+          isVideo
+            ? <video src={preview} style={{ maxHeight: '80px', maxWidth: '100%', borderRadius: '6px' }} muted />
+            : <img src={preview} alt="preview" style={{ maxHeight: '80px', maxWidth: '100%', objectFit: 'cover', borderRadius: '6px' }} />
+        ) : current ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+            {current.type === 'VIDEO'
+              ? <video src={current.url} style={{ maxHeight: '70px', maxWidth: '100%', borderRadius: '6px' }} muted />
+              : <img src={current.url} alt="current" style={{ maxHeight: '70px', maxWidth: '100%', objectFit: 'cover', borderRadius: '6px' }} />}
+            <span style={{ fontSize: '11px', color: '#aaa', fontFamily: "'Inter',sans-serif" }}>Current — click to replace</span>
+          </div>
+        ) : (
+          <div>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 8px', display: 'block' }}>
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <div style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif" }}>Click to upload image or video</div>
+            <div style={{ fontSize: '11px', color: '#bbb', fontFamily: "'Inter',sans-serif", marginTop: '4px' }}>JPG, PNG, WEBP · MP4, WEBM · Max 50MB</div>
+          </div>
+        )}
+        <input ref={fileRef} type="file" accept="image/*,video/*" onChange={onChange} style={{ display: 'none' }} />
+      </div>
+      {preview && (
+        <button type="button" onClick={onRemove} style={{ marginTop: '6px', fontSize: '12px', color: '#888', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>Remove</button>
+      )}
+    </div>
+  );
+}
+
+function MetaFields({ value, onChange }: { value: typeof emptyForm; onChange: (k: string, v: string) => void }) {
+  return (
+    <>
+      <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '10px', padding: '14px', marginBottom: '12px' }}>
+        <div style={{ fontSize: '11px', fontWeight: 700, color: '#555', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '10px', fontFamily: "'Inter',sans-serif" }}>Hero Heading</div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div>
+            <label style={labelSt}>White Text <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional)</span></label>
+            <input type="text" placeholder="Creating Unforgettable" value={value.titleWhite} onChange={e => onChange('titleWhite', e.target.value)} style={inputSt} />
+          </div>
+          <div>
+            <label style={{ ...labelSt, color: '#adc905' }}>Accent Text <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional, green)</span></label>
+            <input type="text" placeholder="Event Experiences" value={value.titleAccent} onChange={e => onChange('titleAccent', e.target.value)} style={inputSt} />
+          </div>
+        </div>
+        <div style={{ marginTop: '8px', fontSize: '11px', color: '#aaa', fontFamily: "'Inter',sans-serif" }}>Each word appears on its own line. Leave blank to use the defaults.</div>
+      </div>
+      <div style={{ marginBottom: '12px' }}>
+        <label style={labelSt}>Subtitle <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional)</span></label>
+        <input type="text" placeholder="Chennai's premier corporate event management company" value={value.subtitle} onChange={e => onChange('subtitle', e.target.value)} style={inputSt} />
+        <div style={{ marginTop: '4px', fontSize: '11px', color: '#aaa', fontFamily: "'Inter',sans-serif" }}>Short description line shown below the heading with an orange accent bar</div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
+        <div>
+          <label style={labelSt}>CTA Button Text <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional)</span></label>
+          <input type="text" placeholder="Plan Your Event" value={value.ctaText} onChange={e => onChange('ctaText', e.target.value)} style={inputSt} />
+        </div>
+        <div>
+          <label style={labelSt}>CTA Button Link <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional)</span></label>
+          <input type="text" placeholder="/get-quote" value={value.ctaLink} onChange={e => onChange('ctaLink', e.target.value)} style={inputSt} />
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function HeroAdminClient({ slides: initial }: Props) {
   const [slides, setSlides] = useState(initial);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -175,90 +258,6 @@ export default function HeroAdminClient({ slides: initial }: Props) {
     setActionLoading(null);
     setDeleteConfirm(null);
   }
-
-  // ── Shared file drop zone ──
-  function DropZone({ preview, isVideo, fileRef, onChange, onRemove, current }: {
-    preview: string | null; isVideo: boolean;
-    fileRef: React.RefObject<HTMLInputElement | null>;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onRemove: () => void;
-    current?: { url: string; type: 'IMAGE' | 'VIDEO' } | null;
-  }) {
-    return (
-      <div>
-        <div onClick={() => fileRef.current?.click()} style={{ border: '2px dashed #e5e7eb', borderRadius: '12px', padding: '20px', textAlign: 'center', cursor: 'pointer', background: '#f9fafb', minHeight: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {preview ? (
-            isVideo
-              ? <video src={preview} style={{ maxHeight: '80px', maxWidth: '100%', borderRadius: '6px' }} muted />
-              : <img src={preview} alt="preview" style={{ maxHeight: '80px', maxWidth: '100%', objectFit: 'cover', borderRadius: '6px' }} />
-          ) : current ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-              {current.type === 'VIDEO'
-                ? <video src={current.url} style={{ maxHeight: '70px', maxWidth: '100%', borderRadius: '6px' }} muted />
-                : <img src={current.url} alt="current" style={{ maxHeight: '70px', maxWidth: '100%', objectFit: 'cover', borderRadius: '6px' }} />}
-              <span style={{ fontSize: '11px', color: '#aaa', fontFamily: "'Inter',sans-serif" }}>Current — click to replace</span>
-            </div>
-          ) : (
-            <div>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 8px', display: 'block' }}>
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
-              </svg>
-              <div style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif" }}>Click to upload image or video</div>
-              <div style={{ fontSize: '11px', color: '#bbb', fontFamily: "'Inter',sans-serif", marginTop: '4px' }}>JPG, PNG, WEBP · MP4, WEBM · Max 50MB</div>
-            </div>
-          )}
-          <input ref={fileRef} type="file" accept="image/*,video/*" onChange={onChange} style={{ display: 'none' }} />
-        </div>
-        {preview && (
-          <button type="button" onClick={onRemove} style={{ marginTop: '6px', fontSize: '12px', color: '#888', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>Remove</button>
-        )}
-      </div>
-    );
-  }
-
-  function MetaFields({ value, onChange }: { value: typeof emptyForm; onChange: (k: string, v: string) => void }) {
-    return (
-      <>
-        <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '10px', padding: '14px', marginBottom: '12px' }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, color: '#555', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '10px', fontFamily: "'Inter',sans-serif" }}>Hero Heading</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div>
-              <label style={labelSt}>White Text <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional)</span></label>
-              <input type="text" placeholder="Creating Unforgettable" value={value.titleWhite} onChange={e => onChange('titleWhite', e.target.value)} style={inputSt} />
-            </div>
-            <div>
-              <label style={{ ...labelSt, color: '#adc905' }}>Accent Text <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional, green)</span></label>
-              <input type="text" placeholder="Event Experiences" value={value.titleAccent} onChange={e => onChange('titleAccent', e.target.value)} style={inputSt} />
-            </div>
-          </div>
-          <div style={{ marginTop: '8px', fontSize: '11px', color: '#aaa', fontFamily: "'Inter',sans-serif" }}>Each word appears on its own line. Leave blank to use the defaults.</div>
-        </div>
-        <div style={{ marginBottom: '12px' }}>
-          <label style={labelSt}>Subtitle <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional)</span></label>
-          <input type="text" placeholder="Chennai's premier corporate event management company" value={value.subtitle} onChange={e => onChange('subtitle', e.target.value)} style={inputSt} />
-          <div style={{ marginTop: '4px', fontSize: '11px', color: '#aaa', fontFamily: "'Inter',sans-serif" }}>Short description line shown below the heading with an orange accent bar</div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-          <div>
-            <label style={labelSt}>CTA Button Text <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional)</span></label>
-            <input type="text" placeholder="Plan Your Event" value={value.ctaText} onChange={e => onChange('ctaText', e.target.value)} style={inputSt} />
-          </div>
-          <div>
-            <label style={labelSt}>CTA Button Link <span style={{ fontWeight: 400, letterSpacing: 0, textTransform: 'none', color: '#bbb' }}>(optional)</span></label>
-            <input type="text" placeholder="/get-quote" value={value.ctaLink} onChange={e => onChange('ctaLink', e.target.value)} style={inputSt} />
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  const CloseBtn = ({ onClick }: { onClick: () => void }) => (
-    <button onClick={onClick} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', padding: '4px' }}>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-      </svg>
-    </button>
-  );
 
   return (
     <div>

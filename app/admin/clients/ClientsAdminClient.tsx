@@ -37,6 +37,37 @@ function CloseIcon() {
   );
 }
 
+function FileDropZone({ preview, fileRef, onChange, onRemove }: {
+  preview: string | null;
+  fileRef: React.RefObject<HTMLInputElement | null>;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: () => void;
+}) {
+  return (
+    <div>
+      <div onClick={() => fileRef.current?.click()} style={{ border: '2px dashed #e5e7eb', borderRadius: '12px', padding: '24px 20px', textAlign: 'center', cursor: 'pointer', background: '#f9fafb' }}>
+        {preview ? (
+          <img src={preview} alt="preview" style={{ maxHeight: '72px', maxWidth: '150px', objectFit: 'contain', margin: '0 auto', display: 'block' }} />
+        ) : (
+          <>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 8px', display: 'block' }}>
+              <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
+            </svg>
+            <div style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif" }}>Click to choose image</div>
+            <div style={{ fontSize: '11px', color: '#bbb', fontFamily: "'Inter',sans-serif", marginTop: '3px' }}>PNG, JPG, WEBP, SVG · Max 5MB</div>
+          </>
+        )}
+        <input ref={fileRef} type="file" accept="image/*" onChange={onChange} style={{ display: 'none' }} />
+      </div>
+      {preview && (
+        <button type="button" onClick={onRemove} style={{ marginTop: '6px', fontSize: '12px', color: '#888', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
+          Remove image
+        </button>
+      )}
+    </div>
+  );
+}
+
 export default function ClientsAdminClient({ logos: initial }: Props) {
   const [logos, setLogos] = useState(initial);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -181,38 +212,6 @@ export default function ClientsAdminClient({ logos: initial }: Props) {
     if (res.ok) setLogos(l => l.filter(x => x.id !== id));
     setActionLoading(null);
     setDeleteConfirm(null);
-  }
-
-  // ── File drop zone (reusable) ──
-  function FileDropZone({ preview, fileRef, onChange, onRemove }: {
-    preview: string | null;
-    fileRef: React.RefObject<HTMLInputElement | null>;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onRemove: () => void;
-  }) {
-    return (
-      <div>
-        <div onClick={() => fileRef.current?.click()} style={{ border: '2px dashed #e5e7eb', borderRadius: '12px', padding: '24px 20px', textAlign: 'center', cursor: 'pointer', background: '#f9fafb' }}>
-          {preview ? (
-            <img src={preview} alt="preview" style={{ maxHeight: '72px', maxWidth: '150px', objectFit: 'contain', margin: '0 auto', display: 'block' }} />
-          ) : (
-            <>
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 8px', display: 'block' }}>
-                <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
-              </svg>
-              <div style={{ fontSize: '13px', color: '#888', fontFamily: "'Inter',sans-serif" }}>Click to choose image</div>
-              <div style={{ fontSize: '11px', color: '#bbb', fontFamily: "'Inter',sans-serif", marginTop: '3px' }}>PNG, JPG, WEBP, SVG · Max 5MB</div>
-            </>
-          )}
-          <input ref={fileRef} type="file" accept="image/*" onChange={onChange} style={{ display: 'none' }} />
-        </div>
-        {preview && (
-          <button type="button" onClick={onRemove} style={{ marginTop: '6px', fontSize: '12px', color: '#888', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
-            Remove image
-          </button>
-        )}
-      </div>
-    );
   }
 
   return (

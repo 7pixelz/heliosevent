@@ -63,10 +63,17 @@ export function getPublicUrl(bucket: string, key: string): string {
 
 export async function removeObjects(bucket: string, keys: string[]): Promise<void> {
   if (!keys.length) return;
-  await r2Client().send(new DeleteObjectsCommand({
-    Bucket: bucket,
-    Delete: { Objects: keys.map(Key => ({ Key })) },
-  }));
+  try {
+    await r2Client().send(new DeleteObjectsCommand({
+      Bucket: bucket,
+      Delete: { Objects: keys.map(Key => ({ Key })) },
+    }));
+  } catch (e) {
+    // Don't let a storage cleanup failure block the DB delete/update that
+    // called this — a stray file left in R2 is recoverable, a stuck admin
+    // action isn't.
+    console.error(`removeObjects failed for ${bucket}:`, e);
+  }
 }
 
 export async function getSignedDownloadUrl(
