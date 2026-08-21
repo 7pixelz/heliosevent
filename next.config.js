@@ -5,6 +5,10 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
   },
+  // sharp is a native binary — bundling it into the serverless function
+  // (the default) breaks its binary resolution in production even though
+  // it works fine in local dev. Keep it external so Vercel loads it as-is.
+  serverExternalPackages: ['sharp'],
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2560],
