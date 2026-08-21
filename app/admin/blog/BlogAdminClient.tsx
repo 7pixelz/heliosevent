@@ -64,12 +64,46 @@ function CoverDropZone({ preview, current, fileRef, onChange, onRemove }: {
   );
 }
 
-function PostForm({ form, setForm, fileRef, preview, setFile, setPreview, current, error, onSubmit, loading, submitLabel }: {
+function decodeEntities(s: string): string {
+  return s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+}
+
+function CategoryField({ value, onChange, categories }: { value: string; onChange: (v: string) => void; categories: string[] }) {
+  const [customMode, setCustomMode] = useState(() => value !== '' && !categories.includes(value));
+
+  if (customMode) {
+    return (
+      <div>
+        <input value={value} onChange={e => onChange(e.target.value)} placeholder="New category name" style={inputSt} autoFocus />
+        <button type="button" onClick={() => { setCustomMode(false); onChange(''); }} style={{ marginTop: '4px', fontSize: '11px', color: '#888', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Inter',sans-serif" }}>
+          ← Choose from list
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <select
+      value={value}
+      onChange={e => {
+        if (e.target.value === '__new__') { setCustomMode(true); onChange(''); }
+        else onChange(e.target.value);
+      }}
+      style={inputSt}
+    >
+      <option value="">— None —</option>
+      {categories.map(c => <option key={c} value={c}>{decodeEntities(c)}</option>)}
+      <option value="__new__">+ Add new category…</option>
+    </select>
+  );
+}
+
+function PostForm({ form, setForm, fileRef, preview, setFile, setPreview, current, error, onSubmit, loading, submitLabel, categories }: {
   form: typeof emptyForm; setForm: (f: typeof emptyForm) => void;
   fileRef: React.RefObject<HTMLInputElement | null>;
   preview: string | null; setFile: (f: File | null) => void; setPreview: (s: string | null) => void;
   current: string | null; error: string; onSubmit: (e: React.FormEvent) => void;
-  loading: boolean; submitLabel: string;
+  loading: boolean; submitLabel: string; categories: string[];
 }) {
   return (
     <form onSubmit={onSubmit}>
@@ -80,7 +114,7 @@ function PostForm({ form, setForm, fileRef, preview, setFile, setPreview, curren
         </div>
         <div>
           <label style={labelSt}>Category</label>
-          <input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Corporate Events" style={inputSt} />
+          <CategoryField value={form.category} onChange={c => setForm({ ...form, category: c })} categories={categories} />
         </div>
         <div>
           <label style={labelSt}>Tags <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#bbb' }}>(comma separated)</span></label>
@@ -138,6 +172,8 @@ export default function BlogAdminClient({ posts: initial }: Props) {
   // Delete
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState('');
+
+  const categories = Array.from(new Set(posts.map(p => p.category).filter((c): c is string => !!c))).sort();
 
   const filtered = posts.filter(p => {
     if (filter === 'published' && !p.isPublished) return false;
@@ -272,7 +308,7 @@ export default function BlogAdminClient({ posts: initial }: Props) {
               <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#111', margin: 0 }}>New Blog Post</h2>
               <CloseBtn onClick={resetCreate} />
             </div>
-            <PostForm form={createForm} setForm={setCreateForm} fileRef={createFileRef} preview={createPreview} setFile={setCreateFile} setPreview={setCreatePreview} current={null} error={createError} onSubmit={handleCreate} loading={creating} submitLabel="Create Post" />
+            <PostForm form={createForm} setForm={setCreateForm} fileRef={createFileRef} preview={createPreview} setFile={setCreateFile} setPreview={setCreatePreview} current={null} error={createError} onSubmit={handleCreate} loading={creating} submitLabel="Create Post" categories={categories} />
           </div>
         </div>
       )}
@@ -288,7 +324,7 @@ export default function BlogAdminClient({ posts: initial }: Props) {
             <div style={{ marginBottom: '12px', padding: '8px 12px', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '8px', fontSize: '12px', color: '#92400e', fontFamily: "'Inter',sans-serif" }}>
               Slug: <strong>/blog/{editPost.slug}</strong>
             </div>
-            <PostForm form={editForm} setForm={setEditForm} fileRef={editFileRef} preview={editPreview} setFile={setEditFile} setPreview={setEditPreview} current={editPost.coverImageUrl} error={editError} onSubmit={handleEdit} loading={saving} submitLabel="Save Changes" />
+            <PostForm form={editForm} setForm={setEditForm} fileRef={editFileRef} preview={editPreview} setFile={setEditFile} setPreview={setEditPreview} current={editPost.coverImageUrl} error={editError} onSubmit={handleEdit} loading={saving} submitLabel="Save Changes" categories={categories} />
           </div>
         </div>
       )}
